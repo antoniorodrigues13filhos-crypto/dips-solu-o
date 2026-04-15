@@ -49,6 +49,12 @@
             pointer-events: none;
         }
 
+        /* EFEITO DE LEGIBILIDADE NA LOGO */
+        .logo-premium {
+            @apply h-16 md:h-24 object-contain; /* Aumentado significativamente */
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); /* Sombra para legibilidade */
+        }
+
         .headline-container {
             position: fixed;
             top: 40%; 
@@ -92,7 +98,8 @@
     </div>
 
     <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="h-12 md:h-16 object-contain">
+        <img src="logo/LOGO.png" alt="Dips" class="logo-premium">
+        
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
