@@ -20,11 +20,10 @@
         body { 
             background-color: #0D1B2A; 
             color: white; 
-            overflow: hidden; 
+            overflow-x: hidden; 
             font-family: 'Space Grotesk', sans-serif; 
         }
 
-        /* NAVBAR PREMIUM ARREDONDADA (PILULA) */
         .glass-navbar {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px) saturate(180%);
@@ -38,20 +37,30 @@
             will-change: transform;
         }
 
+        .product-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 194, 168, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .product-card:hover {
+            border-color: var(--color-dips-teal);
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(0, 194, 168, 0.05);
+        }
+
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
         
         .cta-button { 
             background: linear-gradient(90deg, #FF6B00 0%, #00C2A8 100%); 
             transition: all 0.3s ease; 
         }
-        
-        .cta-button:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 0 25px rgba(0, 194, 168, 0.4);
-        }
+
+        canvas { will-change: transform, opacity; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased overflow-hidden">
 
     <div id="loader" style="position:fixed;inset:0;background:#0D1B2A;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s;">
         <div style="width:16rem;height:4px;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
@@ -61,13 +70,11 @@
 
     <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 md:px-12 py-3 flex justify-between items-center shadow-2xl">
         <div class="hidden md:block w-32"></div> 
-
         <div class="flex items-center justify-center flex-1">
             <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
         </div>
-        
         <div class="flex items-center justify-end w-32">
-            <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.2em] hover:text-dips-teal transition-colors group">
+            <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.2em] group">
                 <span class="hidden md:inline">Menu</span>
                 <div class="flex flex-col gap-1">
                     <span class="w-6 h-[2px] bg-white group-hover:bg-dips-teal transition-all"></span>
@@ -78,13 +85,12 @@
     </nav>
 
     <section id="scroll-hero" style="height:800vh; position:relative;">
-        <div style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
+        <div id="sticky-engine" style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute; inset:0; width:100%; height:100%;"></canvas>
             
-            <div style="position:absolute; inset:0; background:linear-gradient(to top, #0D1B2A 0%, rgba(13,27,42,0.4) 50%, transparent 100%); z-index:1;"></div>
+            <div id="overlay-dark" style="position:absolute; inset:0; background:linear-gradient(to top, #0D1B2A 0%, rgba(13,27,42,0.4) 50%, transparent 100%); z-index:1;"></div>
             
             <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-top: 80px;">
-                
                 <div id="t1" class="absolute transition-all duration-500">
                     <h1 class="font-display text-5xl md:text-8xl lg:text-9xl uppercase leading-none mb-4">O FUTURO DA</h1>
                     <h1 class="font-display text-5xl md:text-8xl lg:text-9xl uppercase leading-none text-dips-teal text-glow">ENERGIA.</h1>
@@ -94,14 +100,39 @@
                 <div id="t2" class="absolute opacity-0 translate-y-10 transition-all duration-500">
                     <h2 class="font-display text-4xl md:text-7xl uppercase mb-4">TECNOLOGIA</h2>
                     <h2 class="font-display text-4xl md:text-7xl uppercase text-dips-orange">MODULAR.</h2>
-                    <p class="mt-6 text-gray-400 uppercase tracking-widest font-bold max-w-xl">Gerenciamento inteligente para sistemas de alta performance.</p>
                 </div>
 
                 <div id="t3" class="absolute opacity-0 translate-y-10 transition-all duration-500">
-                    <h2 class="font-display text-4xl md:text-7xl uppercase mb-8 text-glow">DIPS SOLUTION</h2>
-                    <button class="cta-button px-12 py-5 rounded-full font-bold uppercase tracking-widest shadow-2xl text-white">Veja Nossas Soluções</button>
+                    <h2 class="font-display text-4xl md:text-7xl uppercase text-glow">DIPS SOLUTION</h2>
+                    <p class="mt-4 text-gray-400 uppercase tracking-widest font-bold">Abaixo, conheça nossos produtos</p>
+                    <div class="mt-8 animate-bounce"><i data-lucide="chevron-down" class="text-dips-teal"></i></div>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="products-area" class="relative z-10 px-8 py-32 bg-dips-navy">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20">
+                <h2 class="font-display text-4xl md:text-6xl uppercase border-l-4 border-dips-teal pl-6">Nossas<br/><span class="text-dips-teal">Soluções</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="product-card p-10 rounded-3xl" id="p1">
+                    <div class="w-12 h-12 bg-dips-teal/10 rounded-full flex items-center justify-center mb-6"><i data-lucide="zap" class="text-dips-teal"></i></div>
+                    <h3 class="font-display text-2xl uppercase mb-4">Módulos HP</h3>
+                    <p class="text-gray-400 leading-relaxed">Painéis monocristalinos de ultra eficiência para projetos industriais.</p>
+                </div>
+                <div class="product-card p-10 rounded-3xl" id="p2">
+                    <div class="w-12 h-12 bg-dips-orange/10 rounded-full flex items-center justify-center mb-6"><i data-lucide="cpu" class="text-dips-orange"></i></div>
+                    <h3 class="font-display text-2xl uppercase mb-4">Inversores</h3>
+                    <p class="text-gray-400 leading-relaxed">Tecnologia de ponta para conversão inteligente e monitoramento real-time.</p>
+                </div>
+                <div class="product-card p-10 rounded-3xl" id="p3">
+                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6"><i data-lucide="box" class="text-white"></i></div>
+                    <h3 class="font-display text-2xl uppercase mb-4">Estruturas</h3>
+                    <p class="text-gray-400 leading-relaxed">Suportes modulares em alumínio anodizado com resistência extrema.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -139,23 +170,41 @@
         function handleScroll() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
             
-            // Efeito Parallax na Navbar
-            const navMove = Math.min(15, scroll * 60); 
-            navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.02)})`;
+            const scrollHero = document.getElementById('scroll-hero');
+            const totalHeight = scrollHero.offsetHeight - window.innerHeight;
+            const scroll = window.scrollY / totalHeight;
+            
+            // 1. Motion de Parallax da Navbar
+            const navMove = Math.min(20, scroll * 80); 
+            navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.05)})`;
 
+            // 2. Renderização de Frames
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
             if (images[idx]) drawImage(images[idx]);
 
-            txt1.style.opacity = scroll < 0.25 ? 1 : 0;
-            txt1.style.transform = scroll < 0.25 ? "translateY(0)" : "translateY(-50px)";
+            // 3. EFEITO SURPRESA: Tunnel Zoom no final do scroll
+            if (scroll > 0.85) {
+                const zoomFactor = 1 + (scroll - 0.85) * 4; // Zoom agressivo
+                const opacityFactor = 1 - (scroll - 0.85) * 6; // Fade out do canvas
+                canvas.style.transform = `scale(${zoomFactor})`;
+                canvas.style.opacity = opacityFactor > 0 ? opacityFactor : 0;
+                document.getElementById('overlay-dark').style.opacity = opacityFactor;
+            } else {
+                canvas.style.transform = `scale(1)`;
+                canvas.style.opacity = 1;
+                document.getElementById('overlay-dark').style.opacity = 1;
+            }
 
-            const inT2 = scroll > 0.35 && scroll < 0.65;
+            // 4. Lógica de Textos
+            txt1.style.opacity = scroll < 0.2 ? 1 : 0;
+            txt1.style.transform = scroll < 0.2 ? "translateY(0)" : "translateY(-40px)";
+
+            const inT2 = scroll > 0.3 && scroll < 0.6;
             txt2.style.opacity = inT2 ? 1 : 0;
             txt2.style.transform = inT2 ? "translateY(0)" : "translateY(20px)";
 
-            const inT3 = scroll > 0.75;
+            const inT3 = scroll > 0.7 && scroll < 0.9;
             txt3.style.opacity = inT3 ? 1 : 0;
             txt3.style.transform = inT3 ? "translateY(0)" : "translateY(20px)";
         }
@@ -170,7 +219,8 @@
                     document.getElementById('loader').style.opacity = '0';
                     setTimeout(() => { 
                         document.getElementById('loader').style.visibility = 'hidden';
-                        document.body.style.overflow = 'auto';
+                        document.body.classList.remove('overflow-hidden');
+                        document.body.style.overflowY = 'auto';
                     }, 500);
                     handleScroll();
                 }
