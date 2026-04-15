@@ -3,150 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | O Futuro da Energia</title>
+    <title>Dips | Hardware Experience</title>
     
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 
     <style type="text/tailwindcss">
         @theme {
-            --color-dips-navy: #0D1B2A;
-            --color-dips-teal: #00C2A8;
+            --color-intel-orange: #FF6B00;
+            --color-intel-green-light: #00C2A8;
+            --color-intel-black: #0D1B2A;
+            --color-intel-white: #FFFFFF;
         }
 
-        body { 
-            background-color: #000; 
-            margin: 0; 
-            overflow-x: hidden; 
-            font-family: 'Space Grotesk', sans-serif; 
-            color: white;
-            scrollbar-width: none; 
-        }
+        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; }
+        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        #hero-scroller { height: 1400vh; position: relative; }
-        
-        .canvas-container {
-            position: fixed; inset: 0;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1;
-        }
+        canvas { filter: saturate(1.1) contrast(1.1) brightness(0.9); }
 
-        canvas { 
-            width: 100vw; 
-            height: 100vh; 
-            object-fit: cover;
-            filter: saturate(1.1) contrast(1.1) brightness(0.85);
-        }
-
-        /* 🖼️ TEXTURA E BORDAS DO HERO (Vignette) */
-        .hero-edges {
-            position: fixed; inset: 0;
-            z-index: 5;
-            pointer-events: none;
-            /* Gradiente que cria bordas texturizadas e profundidade */
-            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.9) 100%);
-            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
-        }
-
-        .header-ui {
-            position: fixed; top: 0; left: 0; width: 100%;
-            z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            /* 📐 SUBI A LOGO: Reduzi o padding superior e aumentei o lateral */
-            padding: 1.5rem 3rem; 
-            pointer-events: none;
-        }
-
-        .logo-premium {
-            @apply h-16 md:h-24 object-contain;
-            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
-            /* Ajuste fino para "colar" mais no canto superior */
-            transform: translateY(-10px); 
-        }
-
-        .headline-container {
-            position: fixed;
-            top: 40%; 
-            left: 8%;
-            transform: translateY(-50%);
-            z-index: 50;
-            pointer-events: none;
-            width: 80%;
-        }
-
-        /* ✨ EFEITO PARALLAX NOS TEXTOS (GSAP vai controlar o movimento) */
-        .parallax-wrapper {
-            will-change: transform;
-        }
-
-        .premium-headline {
-            font-family: 'Outfit', sans-serif;
-            @apply text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9];
-            opacity: 0;
-            filter: blur(20px);
-            transform: translateY(40px);
-            will-change: transform, opacity, filter;
-        }
-
-        .sub-headline {
-            @apply text-lg md:text-2xl font-light tracking-wide mt-8 max-w-xl opacity-0;
-            filter: blur(10px);
-            transform: translateY(30px);
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .text-glow { text-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 194, 168, 0.2); }
-
-        #loader {
-            position: fixed; inset: 0; background: #000; z-index: 200;
-            display: flex; justify-content: center; align-items: center;
+        @keyframes scale-y {
+            0%, 100% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <div id="loader">
-        <div class="w-32 h-[1px] bg-white/10 overflow-hidden">
-            <div id="progress" class="h-full bg-dips-teal w-0 transition-all duration-300"></div>
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[100] flex flex-col justify-center items-center">
+        <img src="logo/LOGO.png" alt="Dips" class="h-12 mb-8 animate-pulse">
+        <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
+            <div id="progress" class="h-full bg-intel-green-light w-0 transition-all duration-300"></div>
         </div>
     </div>
 
-    <div class="hero-edges"></div>
-
-    <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="logo-premium">
-        <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
-            Menu <span class="block w-6 h-[1px] bg-white"></span>
+    <header class="fixed top-0 left-0 w-full z-[100] p-8 flex justify-between items-center pointer-events-none">
+        <img src="logo/LOGO.png" alt="Dips" class="h-12 md:h-16 pointer-events-auto filter drop-shadow-2xl">
+        <div class="hidden md:flex gap-4 items-center text-[10px] tracking-[0.4em] uppercase font-bold text-white/50">
+            System Status <span class="w-2 h-2 bg-intel-green-light rounded-full animate-ping"></span>
         </div>
     </header>
 
-    <div class="headline-container">
-        <div id="block-1" class="absolute parallax-wrapper">
-            <h1 class="premium-headline text-glow">O FUTURO DA</h1>
-            <h1 class="premium-headline text-dips-teal text-glow">ENERGIA.</h1>
-        </div>
+    <section id="scroll-hero" style="height:800vh; position:relative;">
+        <div style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
+            <canvas id="hero-canvas" style="position:absolute; inset:0; width:100%; height:100%;"></canvas>
+            
+            <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.4) 40%, transparent 100%); z-index:1;"></div>
+            
+            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:10vh 5vw;">
+                <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
+                    
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-[2px] bg-intel-orange block"></span>
+                            <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
+                        </div>
+                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
+                            O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
+                        </h1>
+                        <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/70">
+                            Uma arquitetura de hardware revolucionária que transforma cada raio de luz em eficiência máxima.
+                        </p>
+                    </div>
 
-        <div id="block-2" class="absolute parallax-wrapper">
-            <h1 class="premium-headline text-glow">TRANSFORME SOL EM</h1>
-            <h1 class="premium-headline text-dips-teal text-glow">ECONOMIA REAL.</h1>
-            <p class="sub-headline" id="sub-2">E reduza sua conta de energia todos os meses.</p>
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform">
+                        <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
+                            Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
+                        </h2>
+                        <div class="mt-8 flex flex-col md:flex-row gap-6">
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-green-light p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 01</p><p class="font-bold">Captação</p></div>
+                            </div>
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-orange p-3 rounded-full"><i data-lucide="cpu" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 02</p><p class="font-bold">Controle PWM</p></div>
+                            </div>
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-white p-3 rounded-full"><i data-lucide="zap" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 03</p><p class="font-bold">Inversão 1200W</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 opacity-50 mix-blend-difference">
+                <span class="text-xs uppercase tracking-widest rotate-90 origin-right translate-y-8">Scroll</span>
+                <div class="w-[1px] h-16 bg-intel-white relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-intel-orange"></div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <section id="hero-scroller">
-        <div class="canvas-container">
-            <canvas id="video-canvas"></canvas>
+    <section class="relative py-32 px-6 bg-intel-black z-10">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-intel-white">
+                Um sistema.<br>
+                <span class="text-white/40">Três tecnologias.</span><br>
+                <span class="text-intel-orange text-glow">Controle total.</span>
+            </h2>
         </div>
     </section>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        lucide.createIcons();
 
-        const canvas = document.getElementById("video-canvas");
-        const context = canvas.getContext("2d", { alpha: false });
+        const canvas = document.getElementById("hero-canvas");
+        const context = canvas.getContext("2d");
         const frameCount = 71;
         const images = [];
         const airVideo = { frame: 0 };
@@ -157,69 +129,47 @@
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
-                const canvasW = window.innerWidth;
-                const canvasH = window.innerHeight;
-                const scale = Math.max(canvasW / img.width, canvasH / img.height);
-                const x = (canvasW / 2) - (img.width / 2) * scale;
-                const y = (canvasH / 2) - (img.height / 2) * scale;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                const x = (canvas.width / 2) - (img.width / 2) * scale;
+                const y = (canvas.height / 2) - (img.height / 2) * scale;
                 context.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
-            requestAnimationFrame(render);
         }
 
         function init() {
-            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => {
-                document.getElementById("loader").style.display = "none";
-                render();
-            }});
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
 
             const tl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: "#hero-scroller",
+                    trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
                     scrub: 1.2
                 }
             });
 
-            // 🎞️ MOTION VIDEO
+            // Sincronia do Vídeo
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
-                duration: 15 
+                duration: 10,
+                onUpdate: render
             }, 0);
 
-            // ✨ 🎯 PARALLAX NOS TEXTOS (Efeito de profundidade no scroll)
-            // Enquanto o vídeo rola, o texto se move em uma velocidade diferente (Y)
-            tl.to(".parallax-wrapper", { y: -100, ease: "none", duration: 15 }, 0);
+            // Times do Texto 1 (Entrada e Saída)
+            tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
+            tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
 
-            // ATO 1
-            tl.to("#block-1 .premium-headline", { 
-                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
-            }, 0.5);
+            // Times do Texto 2 (Entrada)
+            tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
             
-            tl.to("#block-1", { 
-                opacity: 0, y: -120, filter: "blur(20px)", duration: 2.5 
-            }, 4.5);
-
-            // ATO 2
-            tl.to("#block-2 .premium-headline", { 
-                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
-            }, 6);
-            
-            tl.to("#sub-2", { 
-                opacity: 1, y: 0, filter: "blur(0px)", duration: 1.5 
-            }, 7);
-
-            tl.to("#block-2", { 
-                opacity: 0, y: -120, filter: "blur(20px)", duration: 2.5 
-            }, 12.5);
+            render();
         }
 
+        // Preload
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
@@ -231,10 +181,7 @@
             images.push(img);
         }
 
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener("resize", render);
     </script>
 </body>
 </html>
