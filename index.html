@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPS | Premium UIX Portfolio</title>
+    <title>DIPS | Premium UIX Experience</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
@@ -45,7 +44,6 @@
 
         #hero-canvas { z-index: 2; object-fit: cover; }
         
-        /* GRADIENTE DE FUNDO PARA PRODUTOS (REMOVIDO PRETO PURO) */
         #products-bg {
             position: fixed; inset: 0;
             background: radial-gradient(circle at center, #1B263B 0%, #0D1B2A 100%);
@@ -64,18 +62,13 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            transition: border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .uix-card:hover {
-            border-color: rgba(0, 194, 168, 0.4);
         }
 
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
         
         .btn-premium {
             background: white;
-            color: var(--color-dips-navy);
+            color: #0D1B2A;
             padding: 14px 32px;
             border-radius: 100px;
             font-weight: 700;
@@ -86,14 +79,17 @@
         }
 
         .btn-premium:hover {
-            background: var(--color-dips-teal);
+            background: #00C2A8;
             color: white;
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 194, 168, 0.3);
         }
     </style>
 </head>
 <body class="antialiased">
+
+    <div id="dips-loader" style="position:fixed;inset:0;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
+        <div style="width:16rem;height:2px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
+    </div>
 
     <div id="products-bg"></div>
 
@@ -105,38 +101,43 @@
 
     <div id="main-scroller">
         <div class="viewport-container"><canvas id="hero-canvas"></canvas></div>
-        
         <div class="viewport-container"><canvas id="webgl-canvas"></canvas></div>
 
         <div class="fixed inset-0 flex flex-col justify-center items-center z-10 pointer-events-none">
-            
             <div id="hero-txt" class="opacity-0 text-center">
-                <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter font-display">THE FUTURE</h1>
-                <h1 class="text-7xl md:text-9xl font-black text-dips-teal tracking-tighter uppercase font-display text-glow">ENERGY.</h1>
+                <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter font-display">O FUTURO</h1>
+                <h1 class="text-7xl md:text-9xl font-black text-dips-teal tracking-tighter uppercase font-display text-glow">ENERGIA.</h1>
             </div>
 
             <div id="uix-container" class="opacity-0 translate-y-24 w-full max-w-xl px-6">
                 <div class="uix-card pointer-events-auto">
                     <div class="w-full">
-                        <span class="text-dips-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">Tecnologia Certificada</span>
+                        <span class="text-dips-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">Hardware de Alta Performance</span>
                         <h2 id="p-title" class="text-3xl md:text-5xl font-black uppercase font-display mb-6">PRODUTO</h2>
                         <p id="p-desc" class="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-10 max-w-sm mx-auto">
-                            Carregando especificações técnicas de alta performance...
+                            Carregando especificações...
                         </p>
-                        <button class="btn-premium">
-                            Explorar Hardware
-                        </button>
+                        <button class="btn-premium">Explorar Detalhes</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 🧊 1. SETUP THREE.JS (AMBIENTE PRODUTOS) ---
+        // --- SETUP THREE.JS ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.z = 8;
@@ -144,11 +145,9 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-        // Iluminação de Estúdio
         const studioLight = new THREE.SpotLight(0x00C2A8, 60); studioLight.position.set(5, 5, 5); scene.add(studioLight);
         scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-        // Dados dos Produtos
         const productData = [
             { name: "Painel HP 160W", desc: "Módulo monocristalino de ultra eficiência projetado para máxima captação sob condições de baixa luminosidade.", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
             { name: "Controlador PWM", desc: "Gestão inteligente de carga com proteção total contra surtos e otimização automatizada do ciclo das baterias.", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
@@ -162,12 +161,11 @@
                 new THREE.PlaneGeometry(3.5, 3.5),
                 new THREE.MeshStandardMaterial({ map: texLoader.load(d.img), transparent: true, metalness: 0.5, roughness: 0.3 })
             );
-            mesh.position.y = -i * 12; // Espaçamento vertical para o scroll lerp
+            mesh.position.y = -i * 12;
             scene.add(mesh);
             meshes.push(mesh);
         });
 
-        // --- 🎥 2. HERO CANVAS (VÍDEO) ---
         const heroCanvas = document.getElementById('hero-canvas');
         const ctx = heroCanvas.getContext('2d');
         const frameCount = 71;
@@ -178,37 +176,30 @@
             const idx = Math.floor(prog * (frameCount - 1));
             if (images[idx]) {
                 heroCanvas.width = window.innerWidth; heroCanvas.height = window.innerHeight;
-                const img = images[idx];
-                const ratio = Math.max(heroCanvas.width / img.width, heroCanvas.height / img.height);
-                const w = img.width * ratio; const h = img.height * ratio;
+                const ratio = Math.max(heroCanvas.width / images[idx].width, heroCanvas.height / images[idx].height);
+                const w = images[idx].width * ratio; const h = images[idx].height * ratio;
                 ctx.clearRect(0,0, heroCanvas.width, heroCanvas.height);
-                ctx.drawImage(img, (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
+                ctx.drawImage(images[idx], (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
             }
         }
 
-        // --- ⚡ 3. MASTER TIMELINE (SCROLL CINEMATIC) ---
         const masterTl = gsap.timeline({
             scrollTrigger: { trigger: "#main-scroller", start: "top top", end: "bottom bottom", scrub: 1.5 }
         });
 
-        // Fase 1: Video Hero
         masterTl.to({}, {
             duration: 4,
             onUpdate: function() {
-                const p = this.progress() * 2.5; // Foca no vídeo no início
+                const p = this.progress() * 2.5; 
                 if (p <= 1) updateHero(p);
             }
         }, 0);
 
-        // Fase 2: Hero Text
         masterTl.to("#hero-txt", { opacity: 1, y: -20, duration: 1 }, 0.5);
         masterTl.to("#hero-txt", { opacity: 0, scale: 1.3, duration: 1 }, 2);
-
-        // Fase 3: Transição para Mundo UIX (Crossfade)
         masterTl.to("#hero-canvas", { opacity: 0, duration: 1.5 }, 3.5);
         masterTl.to("#products-bg", { opacity: 1, duration: 1.5 }, 3.5);
 
-        // Fase 4: Camera Morph / Entry Cards
         productData.forEach((p, i) => {
             masterTl.to(camera.position, {
                 y: meshes[i].position.y,
@@ -222,21 +213,22 @@
             }, 4 + (i * 3));
         });
 
-        // Loop de Renderização 3D
         function animate() {
             requestAnimationFrame(animate);
             meshes.forEach(m => { m.rotation.y = Math.sin(Date.now() * 0.001) * 0.12; });
             renderer.render(scene, camera);
         }
 
-        // --- 📦 4. CARREGAMENTO ---
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
             img.onload = () => {
                 loaded++;
+                document.getElementById('progress-bar').style.width = (loaded/frameCount*100) + "%";
                 if (loaded === frameCount) {
-                    gsap.to("#loader", { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display='none' });
+                    gsap.to("#dips-loader", { opacity: 0, duration: 1, onComplete: () => {
+                        document.getElementById('dips-loader').style.display = 'none';
+                    }});
                     gsap.to("#navbar", { opacity: 1, delay: 1 });
                     updateHero(0);
                     animate();
@@ -251,7 +243,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     </script>
 </body>
 </html>
