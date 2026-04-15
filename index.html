@@ -30,6 +30,10 @@
 </head>
 <body class="antialiased">
 
+    <div id="loader" style="position:fixed;inset:0;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
+        <div style="width:16rem;height:1px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
+    </div>
+
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] md:w-[60%] glass-nav px-8 py-4 flex justify-between items-center z-[200]">
         <img src="logo/LOGO.png" alt="DIPS" class="h-8 md:h-12 object-contain">
         <div class="flex gap-4 items-center uppercase text-[10px] tracking-[0.3em] font-bold">
@@ -55,38 +59,53 @@
         </div>
     </div>
 
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+
     <script type="module">
-        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-        import { EffectComposer } from 'https://unpkg.com/three@0.160.0/examples/jsm/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'https://unpkg.com/three@0.160.0/examples/jsm/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'https://unpkg.com/three@0.160.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 🧊 1. ENGINE & SHADER SETUP ---
+        // --- ENGINE SETUP ---
         const scene = new THREE.Scene();
         scene.fog = new THREE.Fog(0x000000, 1, 15);
         
         const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 0, 12);
 
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.getElementById('webgl-canvas'), 
+            antialias: true, 
+            alpha: true 
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.2;
 
-        // --- 🌀 2. POST-PROCESSING (BLUR & BLOOM REAL) ---
-        const renderScene = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-        bloomPass.threshold = 0.21;
-        bloomCount.strength = 1.2;
-        bloomPass.radius = 0.55;
-
+        // --- POST-PROCESSING PIPELINE ---
         const composer = new EffectComposer(renderer);
-        composer.addPass(renderScene);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight), 
+            1.5, 0.4, 0.85
+        );
+        bloomPass.threshold = 0.2;
+        bloomPass.strength = 0.8; // Ajustado para brilho elegante
+        bloomPass.radius = 0.5;
         composer.addPass(bloomPass);
 
-        // --- 🧊 3. LAYERS AVANÇADOS ---
+        // --- LAYERS DE PRODUTOS ---
         const productData = [
             { name: "PAINEL HP 160W", desc: "ULTRA EFICIÊNCIA", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
             { name: "CONTROLADOR PWM", desc: "SMART MANAGEMENT", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
@@ -96,28 +115,24 @@
         const meshes = [];
         const texLoader = new THREE.TextureLoader();
         productData.forEach((data, i) => {
-            const geometry = new THREE.PlaneGeometry(3.5, 4.5);
-            // Shader de Material Premium
             const material = new THREE.MeshStandardMaterial({ 
                 map: texLoader.load(data.img), 
                 transparent: true, 
-                metalness: 0.9, 
-                roughness: 0.1,
-                emissive: new THREE.Color(0x00C2A8),
-                emissiveIntensity: 0.05
+                metalness: 0.8, 
+                roughness: 0.2 
             });
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 4.5), material);
             mesh.position.y = -i * 15;
             scene.add(mesh);
             meshes.push(mesh);
         });
 
-        // Luzes Dinâmicas
-        const topLight = new THREE.DirectionalLight(0xffffff, 2);
-        topLight.position.set(0, 10, 10);
-        scene.add(topLight);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const pointLight = new THREE.PointLight(0x00C2A8, 50);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
 
-        // --- 🎥 4. HERO VIDEO SETUP ---
+        // --- HERO VÍDEO ---
         const heroCanvas = document.getElementById('hero-canvas');
         const ctx = heroCanvas.getContext('2d');
         const frameCount = 71;
@@ -126,13 +141,14 @@
 
         function drawFrame(idx) {
             if (!images[idx]) return;
-            heroCanvas.width = window.innerWidth; heroCanvas.height = window.innerHeight;
+            heroCanvas.width = window.innerWidth;
+            heroCanvas.height = window.innerHeight;
             const img = images[idx];
             const ratio = Math.max(heroCanvas.width/img.width, heroCanvas.height/img.height);
             ctx.drawImage(img, (heroCanvas.width-img.width*ratio)/2, (heroCanvas.height-img.height*ratio)/2, img.width*ratio, img.height*ratio);
         }
 
-        // --- ⚡ 5. CINEMATIC TIMELINE ---
+        // --- TIMELINE ---
         const tl = gsap.timeline({
             scrollTrigger: { trigger: "#scroller", start: "top top", end: "bottom bottom", scrub: 1.5 }
         });
@@ -145,12 +161,9 @@
 
         tl.to("#h-txt", { opacity: 1, y: -40, duration: 1 }, 0.5);
         tl.to("#h-txt", { opacity: 0, scale: 2.5, filter: "blur(20px)", duration: 1 }, 2);
-
-        // Transição Morph (Video -> 3D)
         tl.to("#hero-canvas", { scale: 4, filter: "blur(40px)", opacity: 0, duration: 2 }, 3.5);
         tl.to("#webgl-canvas", { opacity: 1, duration: 1 }, 4.2);
 
-        // Camera Path Cinematográfico (Dolly In/Out)
         productData.forEach((p, i) => {
             tl.to(camera.position, {
                 y: meshes[i].position.y,
@@ -168,10 +181,9 @@
         function animate() {
             requestAnimationFrame(animate);
             meshes.forEach(m => {
-                m.rotation.y = Math.sin(Date.now() * 0.0008) * 0.2;
-                m.rotation.x = Math.cos(Date.now() * 0.0005) * 0.1;
+                m.rotation.y = Math.sin(Date.now() * 0.001) * 0.15;
             });
-            composer.render(); // Renderiza com Post-Processing
+            composer.render();
         }
 
         for (let i = 1; i <= frameCount; i++) {
@@ -179,7 +191,9 @@
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
             img.onload = () => {
                 loaded++;
+                document.getElementById('progress-bar').style.width = (loaded/frameCount*100) + "%";
                 if (loaded === frameCount) {
+                    gsap.to("#loader", { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display='none' });
                     drawFrame(0);
                     animate();
                 }
