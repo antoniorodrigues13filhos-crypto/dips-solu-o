@@ -19,65 +19,42 @@
             --color-intel-black: #0D1B2A;
             --color-intel-white: #FFFFFF;
         }
-        body { 
-            background-color: #0D1B2A; 
-            margin: 0; 
-            overflow-x: hidden; 
-            font-family: 'Space Grotesk', sans-serif; 
-            color: white; 
-            /* Otimização de scroll para iOS */
-            -webkit-overflow-scrolling: touch; 
-        }
-        
+        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* --- 📱 OTIMIZAÇÃO MOBILE CSS --- */
-        #scroll-hero { 
-            z-index: 20; 
-            position: relative; 
-            background-color: #0D1B2A; 
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 85% 98%, 50% 100%, 15% 98%, 0% 100%);
-            /* Força renderização por hardware e evita repaints caros */
-            will-change: transform, clip-path;
-            transform: translateZ(0);
-        }
-
         #hero-canvas { 
+            will-change: transform; 
+            transform: translateZ(0);
             image-rendering: -webkit-optimize-contrast;
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
-            will-change: transform;
         }
 
-        /* Desativa blurs pesados no mobile para manter 60fps */
-        @media (max-width: 768px) {
-            .products-section {
-                filter: none !important; /* Blur em seções grandes mata a performance mobile */
-                will-change: transform;
-            }
-            .product-card {
-                filter: none !important;
-                will-change: transform, opacity;
-            }
-        }
-
+        /* 🎯 CORREÇÃO DEFINITIVA DA LOGO NO MOBILE */
         .header-ui {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 24px; pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Padding fixo em pixels para mobile, escala em desktop */
+            padding: 20px 24px; 
+            pointer-events: none;
         }
 
-        .logo-adaptive { height: clamp(32px, 6vw, 64px); width: auto; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
+        @media (min-width: 768px) {
+            .header-ui { padding: 40px 60px; }
+        }
 
-        .products-section {
-            position: relative;
-            z-index: 10;
-            margin-top: -15vh;
-            background-color: #FFFFFF;
-            color: #0D1B2A;
-            padding: 150px 5vw 100px;
-            transform: translateY(180px);
-            opacity: 0;
+        .logo-adaptive {
+            height: clamp(32px, 6vw, 64px); /* Tamanho otimizado para não "comer" a tela */
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
+            pointer-events: auto;
         }
     </style>
 </head>
@@ -90,52 +67,60 @@
     </div>
 
     <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive pointer-events-auto">
+        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive">
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
     </header>
 
-    <section id="scroll-hero" style="height:850vh;">
-        <div style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
-            <canvas id="hero-canvas" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></canvas>
+    <section id="scroll-hero" style="height:800vh;position:relative;">
+        <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
+            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></canvas>
             
-            <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.4) 40%, transparent 100%); z-index:1;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:1;"></div>
             
-            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:10vh 5vw;">
+            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
                 <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
                     
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full opacity-0">
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform">
                         <div class="flex items-center gap-3 mb-4">
                             <span class="w-8 h-[2px] bg-intel-orange block"></span>
                             <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
                         </div>
-                        <h1 class="font-display text-5xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter uppercase text-intel-white">
-                            O Futuro da <br/> <span class="text-intel-green-light text-glow">Energia™</span>
+                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
+                            O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
                         </h1>
                         <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/70">
-                            Hardware de última geração projetado para eficiência absoluta.
+                            Uma arquitetura de hardware revolucionária que transforma cada raio de luz em eficiência máxima.
                         </p>
                     </div>
 
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12">
-                        <h2 class="font-display text-4xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter uppercase">
-                            Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span>
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform">
+                        <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
+                            Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
                         </h2>
+                        <div class="mt-8 flex flex-col md:flex-row gap-6">
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-green-light p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 01</p><p class="font-bold">Captação</p></div>
+                            </div>
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-orange p-3 rounded-full"><i data-lucide="cpu" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 02</p><p class="font-bold">Controle PWM</p></div>
+                            </div>
+                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
+                                <div class="bg-intel-white p-3 rounded-full"><i data-lucide="zap" class="w-6 h-6 text-intel-black"></i></div>
+                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 03</p><p class="font-bold">Inversão 1200W</p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="products-section">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-12">Hardware de Elite</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="product-card flex flex-col bg-gray-100 p-8 rounded-3xl">
-                    <div class="aspect-square bg-gray-200 rounded-2xl mb-6"></div>
-                    <h3 class="text-xl font-bold uppercase">Módulo Captação</h3>
-                    <p class="text-intel-orange font-bold mt-2">R$ 1.200</p>
+            
+            <div class="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 opacity-50 mix-blend-difference">
+                <span class="text-xs uppercase tracking-widest rotate-90 origin-right translate-y-8">Scroll</span>
+                <div class="w-[1px] h-16 bg-intel-white relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-intel-orange"></div>
                 </div>
             </div>
         </div>
@@ -144,9 +129,6 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
         lucide.createIcons();
-
-        // Configurações globais de performance mobile
-        ScrollTrigger.config({ ignoreMobileResize: true });
 
         const canvas = document.getElementById("hero-canvas");
         const context = canvas.getContext("2d", { alpha: false, desynchronized: true });
@@ -171,7 +153,10 @@
             }
         }
 
-        function tick() { render(); requestAnimationFrame(tick); }
+        function tick() {
+            render();
+            requestAnimationFrame(tick);
+        }
 
         function init() {
             gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
@@ -179,72 +164,26 @@
                 requestAnimationFrame(tick);
             }});
 
-            // --- ⚡ INTERFACE TOUCH RESPONSIVE (MATCHMEDIA) ---
-            const mm = gsap.matchMedia();
-
-            mm.add({
-                isMobile: "(max-width: 768px)",
-                isDesktop: "(min-width: 769px)"
-            }, (context) => {
-                let { isMobile, isDesktop } = context.conditions;
-
-                // 1. Timeline do Vídeo (Sincronia Direta no Mobile)
-                gsap.to(airVideo, {
-                    frame: frameCount - 1,
-                    snap: "frame",
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#scroll-hero",
-                        start: "top top",
-                        end: "bottom bottom",
-                        scrub: isMobile ? true : 0.6, // 'true' no mobile remove o lag de interpolação
-                        invalidateOnRefresh: true
-                    },
-                    onUpdate: render
-                });
-
-                // 2. Animação dos Textos (Acompanhamento direto)
-                const tlText = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: "#scroll-hero",
-                        start: "top top",
-                        end: "bottom bottom",
-                        scrub: isMobile ? true : 0.6
-                    }
-                });
-
-                tlText.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5)
-                      .to("#hero-text-1", { opacity: 0, y: isMobile ? -20 : -50, duration: 2 }, 4)
-                      .to("#hero-text-2", { opacity: 1, y: 0, duration: 2 }, 5.5);
-
-                // 3. Layer Reveal (Recorte simplificado para Mobile)
-                gsap.to("#scroll-hero", {
-                    y: isMobile ? -30 : -80,
-                    scale: isMobile ? 0.98 : 0.96,
-                    clipPath: isMobile ? 
-                        "polygon(0% 0%, 100% 0%, 100% 85%, 50% 90%, 0% 85%)" : 
-                        "polygon(0% 0%, 100% 0%, 100% 65%, 85% 82%, 50% 72%, 15% 82%, 0% 65%)",
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#scroll-hero",
-                        start: "85% top",
-                        end: "bottom top",
-                        scrub: isMobile ? true : 1.2
-                    }
-                });
-
-                // 4. Produtos (Sem blur no mobile para performance)
-                gsap.to(".products-section", {
-                    y: 0,
-                    opacity: 1,
-                    scrollTrigger: {
-                        trigger: "#scroll-hero",
-                        start: "85% top",
-                        end: "bottom top",
-                        scrub: isMobile ? true : 1.2
-                    }
-                });
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#scroll-hero",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.5, 
+                    invalidateOnRefresh: true
+                }
             });
+
+            tl.to(airVideo, {
+                frame: frameCount - 1,
+                snap: "frame",
+                ease: "none",
+                duration: 10
+            }, 0);
+
+            tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
+            tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
+            tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
         }
 
         for (let i = 1; i <= frameCount; i++) {
@@ -257,6 +196,11 @@
             };
             images.push(img);
         }
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
