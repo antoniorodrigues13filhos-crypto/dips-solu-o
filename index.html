@@ -37,43 +37,48 @@
         
         .cta-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 194, 168, 0.4);
+            box-shadow: 0 0 25px rgba(0, 194, 168, 0.5);
         }
 
-        .text-glow { text-shadow: 0 0 20px rgba(0, 194, 168, 0.4); }
+        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="loader" style="position:fixed;inset:0;background:var(--color-dips-navy);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
         <i data-lucide="sun" class="w-16 h-16 text-dips-teal mb-4 animate-pulse"></i>
-        <h2 class="text-2xl font-display font-bold text-white mb-4 uppercase tracking-widest">Iniciando Dips</h2>
         <div style="width:16rem;height:4px;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
             <div id="progress-bar" style="height:100%;background:var(--color-dips-teal);width:0%;"></div>
         </div>
-        <p id="loading-text" class="text-dips-grey mt-4 text-xs tracking-widest uppercase">Sincronizando Hardware 0%</p>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 bg-white shadow-md px-8 py-4 flex justify-between items-center pointer-events-auto">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm shadow-lg px-8 py-6 md:py-8 flex justify-between items-center pointer-events-auto">
         <div class="flex items-center gap-2">
-            <img src="logo/LOGO.png" alt="Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+            <img src="logo/LOGO.png" alt="Logo" class="h-14 md:h-20 w-auto object-contain" onerror="this.style.opacity='0'">
         </div>
-        <button class="flex gap-3 items-center text-sm uppercase tracking-widest font-bold text-dips-navy">
-            Menu <i data-lucide="menu" class="w-6 h-6"></i>
+        <button class="flex gap-4 items-center text-base uppercase tracking-widest font-black text-dips-navy hover:text-dips-teal transition-colors">
+            MENU <i data-lucide="menu" class="w-8 h-8"></i>
         </button>
     </nav>
 
     <section id="scroll-hero" style="height:500vh;position:relative;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.5) 50%, transparent 100%);z-index:1;"></div>
             
-            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 6vw;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.4) 50%, transparent 100%);z-index:1;"></div>
+            
+            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:15vh 6vw 0 6vw;">
                 <div id="hero-text-1" class="transition-all duration-300">
-                    <h1 class="font-display text-7xl md:text-9xl font-extrabold leading-[0.85] uppercase text-white text-glow mb-2">O FUTURO DA</h1>
-                    <h1 class="font-display text-7xl md:text-9xl font-extrabold leading-[0.85] uppercase text-dips-teal text-glow mb-6">ENERGIA.</h1>
-                    <p class="text-dips-grey uppercase tracking-widest font-medium max-w-2xl">Soluções técnicas e serviços em distribuição de energia.</p>
-                    <button class="cta-button mt-12 px-12 py-5 rounded-full font-bold uppercase tracking-widest text-white">Veja Nossas Soluções</button>
+                    <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-black leading-[0.8] uppercase text-white text-glow mb-2">O FUTURO DA</h1>
+                    <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-black leading-[0.8] uppercase text-dips-teal text-glow mb-10">ENERGIA.</h1>
+                    
+                    <p class="text-dips-grey uppercase tracking-[0.2em] font-bold max-w-3xl text-sm md:text-lg mb-12">
+                        Soluções técnicas e serviços em distribuição de energia.
+                    </p>
+                    
+                    <button class="cta-button px-16 py-6 rounded-full font-black uppercase tracking-widest text-white text-sm md:text-base shadow-xl">
+                        Veja Nossas Soluções
+                    </button>
                 </div>
             </div>
         </div>
@@ -85,15 +90,12 @@
 
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
-        const frameCount = 71; // CORRIGIDO PARA A QUANTIDADE QUE VOCÊ TEM NO GIT
+        const frameCount = 71; 
         const images = [];
         let loadedImages = 0;
 
         const loader = document.getElementById('loader');
         const progressBar = document.getElementById('progress-bar');
-        const loadingText = document.getElementById('loading-text');
-
-        // CAMINHO DA PASTA NO GIT
         const baseUrl = "frame/ezgif-frame-"; 
 
         function drawImageProp(img) {
@@ -124,9 +126,7 @@
             img.src = `${baseUrl}${i.toString().padStart(3, '0')}.jpg`;
             img.onload = () => {
                 loadedImages++;
-                const p = Math.floor((loadedImages / frameCount) * 100);
-                progressBar.style.width = p + "%";
-                loadingText.innerText = `Sincronizando Hardware ${p}%`;
+                progressBar.style.width = Math.floor((loadedImages / frameCount) * 100) + "%";
                 if (loadedImages === frameCount) {
                     setTimeout(() => {
                         loader.style.opacity = '0';
@@ -136,7 +136,7 @@
                     }, 500);
                 }
             };
-            img.onerror = () => { loadedImages++; if(loadedImages === frameCount) loader.style.display='none'; };
+            img.onerror = () => { loadedImages++; if(loadedImages === frameCount) update(); };
             images.push(img);
         }
 
