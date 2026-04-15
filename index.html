@@ -26,7 +26,8 @@
             scrollbar-width: none; 
         }
         
-        #hero-scroller { height: 1000vh; position: relative; }
+        /* Aumentei para 1400vh para acomodar os novos textos sem pressa */
+        #hero-scroller { height: 1400vh; position: relative; }
         
         .canvas-container {
             position: fixed; inset: 0;
@@ -38,11 +39,9 @@
             width: 100vw; 
             height: 100vh; 
             object-fit: cover;
-            /* Filtros para bater com a estética da foto (contraste e azulado) */
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
         }
 
-        /* 🟢 HEADER IGUAL À FOTO */
         .header-ui {
             position: fixed; top: 0; left: 0; width: 100%;
             z-index: 100;
@@ -51,22 +50,29 @@
             pointer-events: none;
         }
 
-        /* ⚪ TEXTO IGUAL À FOTO (RITMO FLUIDO) */
+        /* CONTAINER DE TEXTOS */
         .headline-container {
             position: fixed;
             bottom: 12%;
             left: 8%;
             z-index: 50;
             pointer-events: none;
+            width: 80%;
         }
 
         .premium-headline {
             font-family: 'Outfit', sans-serif;
-            @apply text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85];
+            @apply text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.85];
             opacity: 0;
             filter: blur(20px);
             transform: translateY(30px);
             will-change: transform, opacity, filter;
+        }
+
+        .sub-headline {
+            @apply text-lg md:text-2xl font-light tracking-wide mt-6 max-w-xl opacity-0;
+            filter: blur(10px);
+            transform: translateY(20px);
         }
 
         .text-glow { text-shadow: 0 0 50px rgba(0, 194, 168, 0.4); }
@@ -93,9 +99,15 @@
     </header>
 
     <div class="headline-container">
-        <div id="hero-txt">
+        <div id="block-1" class="absolute inset-0">
             <h1 class="premium-headline">O FUTURO DA</h1>
             <h1 class="premium-headline text-dips-teal text-glow">ENERGIA.</h1>
+        </div>
+
+        <div id="block-2" class="absolute inset-0">
+            <h1 class="premium-headline">TRANFORME SOL EM</h1>
+            <h1 class="premium-headline text-dips-teal text-glow">ECONOMIA REAL.</h1>
+            <p class="sub-headline" id="sub-2">E reduza sua conta de energia todos os meses.</p>
         </div>
     </div>
 
@@ -117,7 +129,6 @@
 
         const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
 
-        // Loop de Renderização de Alta Performance (RTX Ready)
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
@@ -126,7 +137,6 @@
                 const scale = Math.max(canvasW / img.width, canvasH / img.height);
                 const x = (canvasW / 2) - (img.width / 2) * scale;
                 const y = (canvasH / 2) - (img.height / 2) * scale;
-                
                 context.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
             requestAnimationFrame(render);
@@ -141,7 +151,6 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            // TIMELINE MESTRE - MOTION + TEXTO
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#hero-scroller",
@@ -151,36 +160,34 @@
                 }
             });
 
-            // 🎞️ MOTION DOS FRAMES
+            // 🎞️ MOTION DOS FRAMES (0 a 70)
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
-                duration: 10
+                duration: 15 // Aumentei a duração interna para o scroll ser mais "lento"
             }, 0);
 
-            // ✍️ TEXTO NO RITMO (Igual à foto)
-            // Surge quando o motion está ganhando forma (frame ~20)
-            tl.to("#hero-txt .premium-headline", { 
-                opacity: 1, 
-                y: 0, 
-                filter: "blur(0px)", 
-                duration: 2, 
-                stagger: 0.15 
+            // ✍️ ATO 1: O Futuro da Energia
+            tl.to("#block-1 .premium-headline", { 
+                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.1 
             }, 0.5);
+            tl.to("#block-1", { 
+                opacity: 0, y: -40, filter: "blur(20px)", duration: 2 
+            }, 4);
 
-            // Mantém o texto fixo enquanto o motion finaliza
-            tl.to("#hero-txt", { 
-                scale: 1.05, 
-                duration: 5, 
-                ease: "none" 
-            }, 1);
+            // ✍️ ATO 2: Transforme sol em economia
+            tl.to("#block-2 .premium-headline", { 
+                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.1 
+            }, 5.5);
+            tl.to("#sub-2", { 
+                opacity: 0.8, y: 0, filter: "blur(0px)", duration: 1.5 
+            }, 6.5);
 
-            // Opcional: Desfaz o texto se o usuário continuar o scroll infinito
-            tl.to("#hero-txt", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 8.5);
+            // Final: Mantém a cena limpa ou faz fade out
+            tl.to("#block-2", { opacity: 0, y: -40, filter: "blur(20px)", duration: 2 }, 13);
         }
 
-        // Preload Otimizado
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
