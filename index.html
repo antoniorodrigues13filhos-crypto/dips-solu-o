@@ -37,17 +37,35 @@
             will-change: transform;
         }
 
+        /* CARD DE PRODUTO PREMIUM */
         .product-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 194, 168, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            will-change: transform, opacity;
         }
 
         .product-card:hover {
-            border-color: var(--color-dips-teal);
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(0, 194, 168, 0.05);
+            border-color: rgba(0, 194, 168, 0.3);
+            transform: translateY(-15px) scale(1.03);
+            background: rgba(0, 194, 168, 0.04);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ESTILO PARA AS IMAGENS DOS PRODUTOS (HP-REF) */
+        .product-image {
+            width: 100%;
+            height: 240px;
+            object-contain: contain; /* Garante que a imagem inteira apareça sem cortes */
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.05)); /* Leve brilho de fundo */
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1) rotate(-3deg); /* Micro-movimento no hover */
+            filter: drop-shadow(0 0 20px rgba(0, 194, 168, 0.2));
         }
 
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
@@ -104,7 +122,7 @@
 
                 <div id="t3" class="absolute opacity-0 translate-y-10 transition-all duration-500">
                     <h2 class="font-display text-4xl md:text-7xl uppercase text-glow">DIPS SOLUTION</h2>
-                    <p class="mt-4 text-gray-400 uppercase tracking-widest font-bold">Abaixo, conheça nossos produtos</p>
+                    <p class="mt-4 text-gray-400 uppercase tracking-widest font-bold">Conheça nossa linha de produtos abaixo</p>
                     <div class="mt-8 animate-bounce"><i data-lucide="chevron-down" class="text-dips-teal"></i></div>
                 </div>
             </div>
@@ -113,25 +131,43 @@
 
     <section id="products-area" class="relative z-10 px-8 py-32 bg-dips-navy">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-20">
-                <h2 class="font-display text-4xl md:text-6xl uppercase border-l-4 border-dips-teal pl-6">Nossas<br/><span class="text-dips-teal">Soluções</span></h2>
+            <div class="mb-24 text-center">
+                <h2 class="font-display text-4xl md:text-6xl uppercase tracking-tighter">Nosso<br/><span class="text-dips-teal text-glow">Portfolio</span></h2>
+                <div class="w-24 h-1 bg-dips-orange mx-auto mt-6"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="product-card p-10 rounded-3xl" id="p1">
-                    <div class="w-12 h-12 bg-dips-teal/10 rounded-full flex items-center justify-center mb-6"><i data-lucide="zap" class="text-dips-teal"></i></div>
-                    <h3 class="font-display text-2xl uppercase mb-4">Módulos HP</h3>
-                    <p class="text-gray-400 leading-relaxed">Painéis monocristalinos de ultra eficiência para projetos industriais.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
+                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" alt="Placa Solar Polocristalino 160W" class="product-image">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-8 h-[1px] bg-dips-teal"></span>
+                        <span class="uppercase tracking-widest text-xs font-bold text-dips-teal">Captação</span>
+                        <span class="w-8 h-[1px] bg-dips-teal"></span>
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-3">Painel HP 160W</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Módulo monocristalino de ultra eficiência para máxima geração de energia em projetos residenciais e industriais.</p>
                 </div>
-                <div class="product-card p-10 rounded-3xl" id="p2">
-                    <div class="w-12 h-12 bg-dips-orange/10 rounded-full flex items-center justify-center mb-6"><i data-lucide="cpu" class="text-dips-orange"></i></div>
-                    <h3 class="font-display text-2xl uppercase mb-4">Inversores</h3>
-                    <p class="text-gray-400 leading-relaxed">Tecnologia de ponta para conversão inteligente e monitoramento real-time.</p>
+
+                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
+                    <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" alt="Controlador de Carga PWM ECP 1024" class="product-image">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-8 h-[1px] bg-dips-orange"></span>
+                        <span class="uppercase tracking-widest text-xs font-bold text-dips-orange">Gerenciamento</span>
+                        <span class="w-8 h-[1px] bg-dips-orange"></span>
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-3">Controlador PWM</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Gestão inteligente de carga e descarga para baterias, garantindo vida útil longa e segurança absoluta.</p>
                 </div>
-                <div class="product-card p-10 rounded-3xl" id="p3">
-                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-6"><i data-lucide="box" class="text-white"></i></div>
-                    <h3 class="font-display text-2xl uppercase mb-4">Estruturas</h3>
-                    <p class="text-gray-400 leading-relaxed">Suportes modulares em alumínio anodizado com resistência extrema.</p>
+
+                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
+                    <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" alt="Microinversor 1200W EGT 1200" class="product-image">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-8 h-[1px] bg-white"></span>
+                        <span class="uppercase tracking-widest text-xs font-bold text-white">Conversão</span>
+                        <span class="w-8 h-[1px] bg-white"></span>
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-3">Microinversor 1.2kW</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Conversão de alta fidelidade e monitoramento módulo a módulo para otimizar o desempenho do seu sistema.</p>
                 </div>
             </div>
         </div>
@@ -175,18 +211,18 @@
             const totalHeight = scrollHero.offsetHeight - window.innerHeight;
             const scroll = window.scrollY / totalHeight;
             
-            // 1. Motion de Parallax da Navbar
+            // Motion de Parallax da Navbar
             const navMove = Math.min(20, scroll * 80); 
             navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.05)})`;
 
-            // 2. Renderização de Frames
+            // Renderização de Frames
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
             if (images[idx]) drawImage(images[idx]);
 
-            // 3. EFEITO SURPRESA: Tunnel Zoom no final do scroll
+            // EFEITO SURPRESA: Tunnel Zoom no final do scroll
             if (scroll > 0.85) {
-                const zoomFactor = 1 + (scroll - 0.85) * 4; // Zoom agressivo
-                const opacityFactor = 1 - (scroll - 0.85) * 6; // Fade out do canvas
+                const zoomFactor = 1 + (scroll - 0.85) * 4; 
+                const opacityFactor = 1 - (scroll - 0.85) * 6; 
                 canvas.style.transform = `scale(${zoomFactor})`;
                 canvas.style.opacity = opacityFactor > 0 ? opacityFactor : 0;
                 document.getElementById('overlay-dark').style.opacity = opacityFactor;
@@ -196,7 +232,7 @@
                 document.getElementById('overlay-dark').style.opacity = 1;
             }
 
-            // 4. Lógica de Textos
+            // Lógica de Textos
             txt1.style.opacity = scroll < 0.2 ? 1 : 0;
             txt1.style.transform = scroll < 0.2 ? "translateY(0)" : "translateY(-40px)";
 
