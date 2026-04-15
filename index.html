@@ -21,7 +21,6 @@
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
-        /* 💎 NAVBAR PILL PREMIUM - FONTES PRETAS */
         .header-ui {
             position: fixed !important;
             top: 20px !important;
@@ -41,34 +40,21 @@
             z-index: 1000 !important;
         }
 
-        .nav-links-container {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .nav-item {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #000000 !important;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
+        .nav-links-container { display: flex; gap: 20px; align-items: center; }
+        .nav-item { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #000000 !important; text-decoration: none; transition: opacity 0.3s ease; }
         .nav-item:hover { opacity: 0.6; }
 
-        @media (max-width: 1024px) {
-            .nav-links-container { display: none; }
-        }
+        @media (max-width: 1024px) { .nav-links-container { display: none; } }
 
         #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; }
         #scroll-hero { position: relative; z-index: 10; }
         .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
+        
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
         .benefit-number { font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
+        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 8px; display: block; }
+        
         .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
         .product-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease; }
         .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
@@ -78,7 +64,6 @@
 
     <header class="header-ui">
         <img src="logo/LOGO.png" alt="Dips" class="h-6 md:h-7">
-        
         <nav class="nav-links-container">
             <a href="#" class="nav-item">Produtos</a>
             <a href="#" class="nav-item">Inovação e Tecnologia</a>
@@ -86,7 +71,6 @@
             <a href="#" class="nav-item">Catálogo</a>
             <a href="#" class="nav-item">Dúvidas</a>
         </nav>
-
         <div class="nav-item cursor-pointer">Menu</div>
     </header>
 
@@ -101,11 +85,11 @@
             <canvas id="hero-canvas"></canvas>
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:5;"></div>
             <div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;padding:15vh 8vw;pointer-events:none;">
-                <div id="hero-text-1" class="opacity-0 translate-y-20 will-change-transform">
+                <div id="hero-text-1" class="opacity-0 translate-y-20">
                     <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">O Futuro da <br/> <span class="text-intel-green-light">Energia.</span></h1>
                     <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Uma arquitetura de hardware revolucionária para eficiência máxima.</p>
                 </div>
-                <div id="hero-text-2" class="absolute opacity-0 translate-y-20 will-change-transform">
+                <div id="hero-text-2" class="absolute opacity-0 translate-y-20">
                     <h2 class="text-5xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span></h2>
                     <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza sua conta todos os meses com tecnologia modular.</p>
                 </div>
@@ -122,9 +106,21 @@
             <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto mt-20">
-            <div><span class="benefit-number text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-xs uppercase">Economia</p></div>
-            <div><span class="benefit-number text-intel-orange" data-target="25">+0</span><p class="font-bold text-xs uppercase">Anos</p></div>
-            <div><span class="benefit-number text-intel-black" data-target="24">0h</span><p class="font-bold text-xs uppercase">Controle</p></div>
+            <div>
+                <span class="benefit-number text-intel-green-light" data-target="95">-0%</span>
+                <p class="font-bold text-xs uppercase tracking-widest">Economia</p>
+                <span class="benefit-context">na conta de energia</span>
+            </div>
+            <div>
+                <span class="benefit-number text-intel-orange" data-target="25">+0</span>
+                <p class="font-bold text-xs uppercase tracking-widest">Anos</p>
+                <span class="benefit-context">de vida útil média</span>
+            </div>
+            <div>
+                <span class="benefit-number text-intel-black" data-target="24">0h</span>
+                <p class="font-bold text-xs uppercase tracking-widest">Controle</p>
+                <span class="benefit-context">de monitoramento inteligente</span>
+            </div>
         </div>
     </section>
 
