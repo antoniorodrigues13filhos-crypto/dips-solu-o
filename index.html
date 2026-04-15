@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | Tecnologia em Energia</title>
+    <title>Dips | High-End Energy</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -17,182 +17,184 @@
         @theme {
             --color-dips-navy: #0D1B2A;
             --color-dips-teal: #00C2A8;
-            --color-dips-orange: #FF6B00;
         }
-        
         body { background-color: #000; color: white; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
-
+        
+        /* Navbar */
         .glass-navbar {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px) saturate(180%);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 999px;
-            margin-top: 20px;
-            width: 90%; left: 5%;
+            margin-top: 20px; width: 90%; left: 5%;
         }
 
-        /* Hero Section */
-        #hero-container { height: 600vh; position: relative; z-index: 2; background: #000; }
-        #hero-canvas { position: sticky; top: 0; width: 100vw; height: 100vh; object-fit: cover; }
+        /* Container Principal de Scroll */
+        #main-scroller { height: 1200vh; position: relative; }
 
-        /* Three.js Section */
-        #webgl-section { height: 400vh; position: relative; z-index: 1; background: #000; }
-        #webgl-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
-
-        .product-label {
-            position: fixed; bottom: 10%; width: 100%; text-align: center;
-            z-index: 50; font-family: 'Outfit'; pointer-events: none;
+        /* Canvas Fixo - Ocupa a tela toda */
+        .canvas-container {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
         }
 
-        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
+        #hero-canvas { z-index: 2; object-fit: cover; }
+        #webgl-canvas { z-index: 1; opacity: 0; }
+
+        /* Overlays de Texto */
+        .overlay-content {
+            position: fixed; inset: 0;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 10; pointer-events: none;
+            text-align: center;
+        }
+
+        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <div id="loader" style="position:fixed;inset:0;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
         <div style="width:16rem;height:2px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
     </div>
 
-    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 md:px-12 py-3 flex justify-between items-center shadow-2xl">
-        <div class="hidden md:block w-32"></div> 
-        <div class="flex items-center justify-center flex-1">
-            <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
-        </div>
-        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white cursor-pointer"></i></div>
+    <nav class="fixed top-0 z-50 glass-navbar px-8 py-3 flex justify-between items-center">
+        <div class="w-32"></div> 
+        <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
+        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white"></i></div>
     </nav>
 
-    <div id="hero-container">
-        <canvas id="hero-canvas"></canvas>
-        <div id="hero-texts" style="position:fixed; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; pointer-events:none;">
-            
-            <div id="t1" class="absolute text-center opacity-0 translate-y-10">
-                <h1 class="font-display text-6xl md:text-9xl uppercase leading-none tracking-tighter">O FUTURO DA</h1>
-                <h1 class="font-display text-6xl md:text-9xl uppercase leading-none text-dips-teal text-glow tracking-tighter">ENERGIA.</h1>
-                <p class="mt-4 text-gray-400 uppercase tracking-[0.3em] font-bold">Inovação em cada detalhe</p>
-            </div>
-
-            <div id="t2" class="absolute text-center opacity-0 translate-y-10">
-                <h1 class="font-display text-5xl md:text-8xl uppercase leading-none tracking-tighter">TECNOLOGIA</h1>
-                <h1 class="font-display text-5xl md:text-8xl uppercase leading-none text-dips-orange tracking-tighter">MODULAR.</h1>
-                <p class="mt-4 text-gray-400 uppercase tracking-[0.3em] font-bold">Sistemas de alta performance</p>
-            </div>
-
+    <div id="main-scroller">
+        <div class="canvas-container">
+            <canvas id="hero-canvas"></canvas>
         </div>
-    </div>
 
-    <div id="webgl-section">
-        <canvas id="webgl-canvas"></canvas>
-        <div id="product-info" class="product-label opacity-0">
-            <h2 id="p-title" class="text-4xl md:text-6xl font-black uppercase text-white">PRODUTO</h2>
-            <p id="p-desc" class="text-dips-teal uppercase tracking-[0.4em] text-xs mt-2">SOLUÇÃO DIPS</p>
+        <div class="canvas-container">
+            <canvas id="webgl-canvas"></canvas>
+        </div>
+
+        <div class="overlay-content">
+            <div id="t1" class="opacity-0 translate-y-10">
+                <h1 class="text-6xl md:text-9xl font-black tracking-tighter uppercase">O FUTURO DA</h1>
+                <h1 class="text-6xl md:text-9xl font-black text-dips-teal text-glow tracking-tighter uppercase">ENERGIA.</h1>
+            </div>
+            <div id="t2" class="absolute opacity-0 translate-y-10">
+                <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase">TECNOLOGIA</h1>
+                <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase">MODULAR.</h1>
+            </div>
+        </div>
+
+        <div class="overlay-content" id="product-info" style="justify-content: flex-end; padding-bottom: 10vh; opacity: 0;">
+            <h2 id="p-title" class="text-4xl md:text-6xl font-black uppercase">PRODUTO</h2>
+            <p id="p-desc" class="text-dips-teal uppercase tracking-[0.4em] text-xs mt-2">ALTA PERFORMANCE</p>
         </div>
     </div>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- SETUP HERO (2D CANVAS) ---
         const heroCanvas = document.getElementById('hero-canvas');
         const heroCtx = heroCanvas.getContext('2d');
         const frameCount = 71;
         const images = [];
         let loadedCount = 0;
 
-        function updateHero(progress) {
-            const idx = Math.min(frameCount - 1, Math.floor(progress * (frameCount - 1)));
-            if (images[idx]) {
-                heroCanvas.width = window.innerWidth;
-                heroCanvas.height = window.innerHeight;
-                const img = images[idx];
-                const ratio = Math.max(heroCanvas.width / img.width, heroCanvas.height / img.height);
-                const w = img.width * ratio; const h = img.height * ratio;
-                heroCtx.drawImage(img, (heroCanvas.width - w)/2, (heroCanvas.height - h)/2, w, h);
-            }
-        }
-
-        // --- SETUP 3D (THREE.JS) ---
+        // Renderizador 3D
         const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0x000000, 2, 10);
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 0.1, 100);
         camera.position.z = 8;
-
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true, alpha: true });
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
+        // Luzes
         const light = new THREE.SpotLight(0x00C2A8, 100); light.position.set(5, 5, 5); scene.add(light);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-        const textureLoader = new THREE.TextureLoader();
+        // Produtos
         const productData = [
             { name: "Painel HP 160W", desc: "Captação Ultra Eficiente", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
-            { name: "Controlador PWM", desc: "Gestão Inteligente de Carga", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
-            { name: "Microinversor", desc: "Conversão Profissional", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
+            { name: "Controlador PWM", desc: "Gestão Inteligente", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
+            { name: "Microinversor", desc: "Conversão Pro", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
         ];
 
         const meshes = [];
+        const texLoader = new THREE.TextureLoader();
         productData.forEach((data, i) => {
-            const geometry = new THREE.PlaneGeometry(3, 3.5);
-            const material = new THREE.MeshStandardMaterial({ map: textureLoader.load(data.img), transparent: true, metalness: 0.6, roughness: 0.2 });
-            const mesh = new THREE.Mesh(geometry, material);
-            mesh.position.y = -i * 10;
+            const mesh = new THREE.Mesh(
+                new THREE.PlaneGeometry(3.2, 3.8),
+                new THREE.MeshStandardMaterial({ map: texLoader.load(data.img), transparent: true, metalness: 0.5, roughness: 0.2 })
+            );
+            mesh.position.y = -i * 12;
             scene.add(mesh);
             meshes.push(mesh);
         });
 
-        // --- GSAP TIMELINE CORRIGIDA ---
-        const mainTl = gsap.timeline({
+        function drawFrame(index) {
+            if (images[index]) {
+                heroCanvas.width = window.innerWidth;
+                heroCanvas.height = window.innerHeight;
+                const img = images[index];
+                const ratio = Math.max(heroCanvas.width / img.width, heroCanvas.height / img.height);
+                const w = img.width * ratio; const h = img.height * ratio;
+                heroCtx.clearRect(0,0, heroCanvas.width, heroCanvas.height);
+                heroCtx.drawImage(img, (heroCanvas.width - w)/2, (heroCanvas.height - h)/2, w, h);
+            }
+        }
+
+        // --- TIMELINE MESTRE (O SEGREDO DO FLUXO) ---
+        const masterTl = gsap.timeline({
             scrollTrigger: {
-                trigger: "body",
+                trigger: "#main-scroller",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1.2
+                scrub: 1.5 // Aumentei o scrub para mais suavidade
             }
         });
 
-        // Animação dos Frames do Hero
-        mainTl.to({}, {
-            duration: 2,
-            onUpdate: function() {
-                const prog = this.progress() * 2; // Foca nos frames na primeira metade do scroll
-                if (prog <= 1) {
-                    updateHero(prog);
-                    gsap.to('#webgl-canvas', { opacity: 0 });
-                    gsap.to('#product-info', { opacity: 0 });
-                }
-            }
+        // 1. Animação de Vídeo (Frames 0 a 70)
+        let frameObj = { frame: 0 };
+        masterTl.to(frameObj, {
+            frame: frameCount - 1,
+            duration: 4,
+            ease: "none",
+            onUpdate: () => drawFrame(Math.floor(frameObj.frame))
         }, 0);
 
-        // Animação Texto 1 (Hero)
-        mainTl.to("#t1", { opacity: 1, y: 0, duration: 0.5 }, 0.1);
-        mainTl.to("#t1", { opacity: 0, y: -50, duration: 0.5 }, 0.8);
+        // 2. Textos Hero (Entra e Sai)
+        masterTl.to("#t1", { opacity: 1, y: 0, duration: 1 }, 0.5);
+        masterTl.to("#t1", { opacity: 0, y: -40, duration: 1 }, 2);
+        
+        masterTl.to("#t2", { opacity: 1, y: 0, duration: 1 }, 2.5);
+        masterTl.to("#t2", { opacity: 0, y: -40, duration: 1 }, 3.5);
 
-        // Animação Texto 2 (Hero)
-        mainTl.to("#t2", { opacity: 1, y: 0, duration: 0.5 }, 1);
-        mainTl.to("#t2", { opacity: 0, y: -50, duration: 0.5 }, 1.8);
+        // 3. TRANSIÇÃO: Desfoque e Fade do Vídeo para o 3D
+        masterTl.to("#hero-canvas", { opacity: 0, scale: 1.1, duration: 1.5, ease: "power2.inOut" }, 3.8);
+        masterTl.to("#webgl-canvas", { opacity: 1, duration: 1.5 }, 3.8);
 
-        // Transição para Produtos 3D
+        // 4. Navegação entre Produtos 3D
         productData.forEach((p, i) => {
-            mainTl.to(camera.position, {
+            masterTl.to(camera.position, {
                 y: meshes[i].position.y,
-                duration: 2,
-                ease: "power2.inOut",
+                duration: 3,
+                ease: "expo.inOut",
                 onStart: () => {
-                    gsap.to('#webgl-canvas', { opacity: 1 });
-                    gsap.to('#product-info', { opacity: 1 });
+                    gsap.to("#product-info", { opacity: 1, duration: 0.5 });
                     document.getElementById('p-title').innerText = p.name;
                     document.getElementById('p-desc').innerText = p.desc;
                 }
-            }, 2 + (i * 1.5));
+            }, 4 + (i * 3));
         });
 
-        // --- LOOP & CARREGAMENTO ---
         function animate() {
             requestAnimationFrame(animate);
-            meshes.forEach(m => m.rotation.y = Math.sin(Date.now()*0.001)*0.1);
+            meshes.forEach(m => m.rotation.y = Math.sin(Date.now()*0.001)*0.15);
             renderer.render(scene, camera);
         }
 
+        // Carregamento
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
@@ -201,10 +203,10 @@
                 document.getElementById('progress-bar').style.width = (loadedCount/frameCount*100) + "%";
                 if(loadedCount === frameCount) {
                     document.getElementById('loader').style.display = 'none';
-                    updateHero(0);
+                    drawFrame(0);
                     animate();
                 }
-            }
+            };
             images.push(img);
         }
 
@@ -214,7 +216,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        if (window.lucide) lucide.createIcons();
+        lucide.createIcons();
     </script>
 </body>
 </html>
