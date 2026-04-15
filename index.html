@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | Sistema Solar</title>
+    <title>Dips | O Futuro da Energia</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -13,12 +13,13 @@
 
     <style type="text/tailwindcss">
         @theme {
-            --color-intel-black: #0D1B2A;       
-            --color-intel-blue-dark: #1B3A5B;  
-            --color-intel-teal: #00C2A8;       
-            --color-intel-orange: #FF6B00;     
-            --color-intel-white: #FFFFFF;      
-            --color-intel-grey: #B0BEC5;       
+            /* PALETA DE CORES ATUALIZADA DA REFERÊNCIA */
+            --color-dips-navy: #0D1B2A;       /* Azul Escuro Profundo */
+            --color-dips-blue-dark: #1B3A5B;  /* Azul Marinho Secundário */
+            --color-dips-teal: #00C2A8;       /* Teal Vibrante (Glow e Destaque) */
+            --color-dips-orange: #FF6B00;     /* Laranja (CTA Primário) */
+            --color-dips-white: #FFFFFF;      /* Texto principal e Navbar */
+            --color-dips-grey: #B0BEC5;       /* Texto secundário */
             
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
@@ -26,76 +27,96 @@
 
         body {
             font-family: var(--font-body);
-            background-color: var(--color-intel-black);
-            color: var(--color-intel-white);
+            background-color: var(--color-dips-navy);
+            color: var(--color-dips-white);
             overflow: hidden; 
         }
 
         h1, h2, h3, h4, h5, .font-display { font-family: var(--font-display); }
 
         .glass-panel {
-            background: rgba(27, 58, 91, 0.4);
+            background: rgba(27, 58, 91, 0.4); 
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 194, 168, 0.1);
+            border: 1px solid rgba(0, 194, 168, 0.1); 
         }
 
         .text-glow { 
-            text-shadow: 0 0 20px rgba(0, 194, 168, 0.4);
+            text-shadow: 0 0 20px rgba(0, 194, 168, 0.4); 
         }
 
+        /* ESTILO DO BOTÃO CTA DA REFERÊNCIA (ORANGE TO TEAL) */
         .cta-button {
-            background-color: var(--color-intel-orange);
+            background: linear-gradient(90deg, var(--color-dips-orange) 0%, var(--color-dips-teal) 100%);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.2);
         }
         
         .cta-button:hover {
-            background-color: #e55a00;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 194, 168, 0.3);
         }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--color-intel-black); }
-        ::-webkit-scrollbar-thumb { background: var(--color-intel-blue-dark); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--color-intel-teal); }
+        ::-webkit-scrollbar-track { background: var(--color-dips-navy); }
+        ::-webkit-scrollbar-thumb { background: var(--color-dips-blue-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-dips-teal); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div id="loader" style="position:fixed;inset:0;background:var(--color-intel-black);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
-        <i data-lucide="sun" class="w-16 h-16 text-intel-teal mb-4 animate-pulse"></i>
-        <h2 class="text-3xl font-display font-bold text-intel-white mb-2 tracking-tight uppercase text-center">Iniciando Hardware</h2>
+    <div id="loader" style="position:fixed;inset:0;background:var(--color-dips-navy);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
+        <i data-lucide="sun" class="w-16 h-16 text-dips-teal mb-4 animate-pulse"></i>
+        <h2 class="text-3xl font-display font-bold text-dips-white mb-2 tracking-tight uppercase">Sistema Solar</h2>
         <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
-            <div id="progress-bar" style="height:100%;background:var(--color-intel-teal);transition:all 100ms ease-out;width:0%;"></div>
+            <div id="progress-bar" style="height:100%;background:var(--color-dips-teal);transition:all 100ms ease-out;width:0%;"></div>
         </div>
-        <p id="loading-text" class="text-intel-grey mt-2 text-sm font-medium uppercase tracking-widest">Sincronizando Sistema 0%...</p>
+        <p id="loading-text" class="text-dips-grey mt-2 text-sm font-medium uppercase tracking-widest">Sincronizando Módulos 0%...</p>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center pointer-events-none">
-        <div class="pointer-events-auto">
-            <img src="logo/LOGO.png" alt="Dips Logo" class="h-12 md:h-16 w-auto object-contain">
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-md px-8 py-4 flex justify-between items-center pointer-events-none">
+        <div class="pointer-events-auto flex items-center gap-2">
+            <img src="logo/LOGO.png" alt="Dips Logo" class="h-10 w-auto object-contain">
         </div>
-        <button class="pointer-events-auto flex gap-2 items-center text-sm uppercase tracking-widest font-semibold hover:text-intel-teal transition-colors text-white">
-            Menu <i data-lucide="menu" class="w-5 h-5"></i>
+        <button class="pointer-events-auto flex gap-3 items-center text-sm uppercase tracking-widest font-bold text-dips-navy hover:text-dips-teal transition-colors">
+            Menu <i data-lucide="menu" class="w-6 h-6"></i>
         </button>
     </nav>
 
     <section id="scroll-hero" style="height:500vh;position:relative;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
-            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;"></canvas>
             
-            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.4) 40%, transparent 100%);z-index:1;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.5) 50%, transparent 100%);z-index:1;"></div>
             
-            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
-                <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full transition-all duration-300">
-                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
-                            O Futuro da <br/> <span class="text-intel-teal">Energia.</span>
+            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-center px-6;">
+                <div id="hero-text-container" class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
+                    
+                    <div id="hero-text-1" class="w-full flex flex-col items-center justify-center transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="w-12 h-[2px] bg-dips-teal block"></span>
+                            <span class="uppercase tracking-widest text-base font-bold text-dips-teal">Dips solutioms</span>
+                            <span class="w-12 h-[2px] bg-dips-teal block"></span>
+                        </div>
+                        <h1 class="font-display text-7xl md:text-9xl font-extrabold leading-[0.85] uppercase text-dips-white text-glow mb-2">
+                            O Futuro da
                         </h1>
+                        <h1 class="font-display text-7xl md:text-9xl font-extrabold leading-[0.85] uppercase text-dips-teal text-glow mb-6">
+                            Energia.
+                        </h1>
+                        <p class="mt-4 text-xl md:text-2xl max-w-2xl text-dips-grey uppercase tracking-wider font-medium">
+                            Soluções técnicas e serviços em distribuição de energia.
+                        </p>
+                        
+                        <div class="mt-12">
+                            <button class="cta-button px-12 py-5 rounded-full font-bold uppercase tracking-widest text-white text-sm">
+                                Veja Nossas Soluções
+                            </button>
+                        </div>
                     </div>
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 transition-all duration-300">
-                        <h2 class="font-display text-4xl md:text-6xl font-bold uppercase tracking-tight text-intel-white">
-                            Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
+
+                    <div id="hero-text-2" class="absolute inset-0 w-full flex flex-col items-center justify-center opacity-0 translate-y-12 transition-all duration-300">
+                        <h2 class="font-display text-5xl md:text-7xl font-bold uppercase tracking-tight text-dips-white">
+                            Três Tecnologias. <br/> <span class="text-dips-orange">Um Ecossistema.</span>
                         </h2>
                     </div>
                 </div>
@@ -103,29 +124,20 @@
         </div>
     </section>
 
-    <section class="relative py-32 px-6 bg-intel-black z-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 glass-panel rounded-2xl hover:border-intel-teal transition-all duration-500">
-                <i data-lucide="sun" class="w-8 h-8 text-intel-teal mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase text-intel-white">Placa 160W</h3>
-                <p class="text-intel-grey mt-2">Distribuição de alta performance.</p>
+    <section class="relative py-32 px-6 bg-dips-navy z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="sun" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Captação Solar</h3>
             </div>
-            <div class="p-8 glass-panel rounded-2xl hover:border-intel-teal transition-all duration-500">
-                <i data-lucide="cpu" class="w-8 h-8 text-intel-teal mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase text-intel-white">Controlador</h3>
-                <p class="text-intel-grey mt-2">Tecnologia avançada integrada.</p>
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="cpu" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Gerenciamento</h3>
             </div>
-            <div class="p-8 glass-panel rounded-2xl hover:border-intel-teal transition-all duration-500">
-                <i data-lucide="zap" class="w-8 h-8 text-intel-teal mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase text-intel-white">Inversor</h3>
-                <p class="text-intel-grey mt-2">Sua solução em energia limpa.</p>
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="refresh-cw" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Distribuição</h3>
             </div>
-        </div>
-        
-        <div class="mt-16 text-center">
-            <button class="cta-button px-10 py-4 rounded-full font-bold uppercase tracking-widest text-white">
-                Falar com Especialista
-            </button>
         </div>
     </section>
 
@@ -133,7 +145,7 @@
         function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
 
-        const frameCount = 71; 
+        const frameCount = 176; 
         const images = [];
         let loadedImages = 0;
         
@@ -187,7 +199,7 @@
                 loadedImages++;
                 const p = Math.floor((loadedImages / frameCount) * 100);
                 progressBar.style.width = p + "%";
-                loadingText.innerText = "Sincronizando Sistema " + p + "%...";
+                loadingText.innerText = "Sincronizando Hardware " + p + "%...";
                 if (loadedImages === frameCount) {
                     setTimeout(() => {
                         loader.style.opacity = '0';
