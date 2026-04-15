@@ -26,7 +26,6 @@
             scrollbar-width: none; 
         }
         
-        /* Aumentei para 1400vh para acomodar os novos textos sem pressa */
         #hero-scroller { height: 1400vh; position: relative; }
         
         .canvas-container {
@@ -39,7 +38,7 @@
             width: 100vw; 
             height: 100vh; 
             object-fit: cover;
-            filter: saturate(1.1) contrast(1.1) brightness(0.9);
+            filter: saturate(1.1) contrast(1.1) brightness(0.85);
         }
 
         .header-ui {
@@ -50,11 +49,12 @@
             pointer-events: none;
         }
 
-        /* CONTAINER DE TEXTOS */
+        /* 🎯 POSICIONAMENTO CORRIGIDO: Mais centralizado e legível */
         .headline-container {
             position: fixed;
-            bottom: 12%;
+            top: 40%; /* Subi o texto para o terço superior/médio */
             left: 8%;
+            transform: translateY(-50%);
             z-index: 50;
             pointer-events: none;
             width: 80%;
@@ -62,20 +62,22 @@
 
         .premium-headline {
             font-family: 'Outfit', sans-serif;
-            @apply text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.85];
+            @apply text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9];
             opacity: 0;
             filter: blur(20px);
-            transform: translateY(30px);
+            transform: translateY(40px);
             will-change: transform, opacity, filter;
         }
 
         .sub-headline {
-            @apply text-lg md:text-2xl font-light tracking-wide mt-6 max-w-xl opacity-0;
+            @apply text-lg md:text-2xl font-light tracking-wide mt-8 max-w-xl opacity-0;
             filter: blur(10px);
-            transform: translateY(20px);
+            transform: translateY(30px);
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .text-glow { text-shadow: 0 0 50px rgba(0, 194, 168, 0.4); }
+        /* Glow sutil para destacar do vídeo */
+        .text-glow { text-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 194, 168, 0.2); }
 
         #loader {
             position: fixed; inset: 0; background: #000; z-index: 200;
@@ -99,13 +101,13 @@
     </header>
 
     <div class="headline-container">
-        <div id="block-1" class="absolute inset-0">
-            <h1 class="premium-headline">O FUTURO DA</h1>
+        <div id="block-1" class="absolute">
+            <h1 class="premium-headline text-glow">O FUTURO DA</h1>
             <h1 class="premium-headline text-dips-teal text-glow">ENERGIA.</h1>
         </div>
 
-        <div id="block-2" class="absolute inset-0">
-            <h1 class="premium-headline">TRANFORME SOL EM</h1>
+        <div id="block-2" class="absolute">
+            <h1 class="premium-headline text-glow">TRANSFORME SOL EM</h1>
             <h1 class="premium-headline text-dips-teal text-glow">ECONOMIA REAL.</h1>
             <p class="sub-headline" id="sub-2">E reduza sua conta de energia todos os meses.</p>
         </div>
@@ -160,34 +162,39 @@
                 }
             });
 
-            // 🎞️ MOTION DOS FRAMES (0 a 70)
+            // 🎞️ MOTION FLOW
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
-                duration: 15 // Aumentei a duração interna para o scroll ser mais "lento"
+                duration: 15 
             }, 0);
 
-            // ✍️ ATO 1: O Futuro da Energia
+            // ✍️ ATO 1: Entrada suave e saída com scroll
             tl.to("#block-1 .premium-headline", { 
-                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.1 
+                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
             }, 0.5);
+            
             tl.to("#block-1", { 
-                opacity: 0, y: -40, filter: "blur(20px)", duration: 2 
-            }, 4);
+                opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
+            }, 4.5);
 
-            // ✍️ ATO 2: Transforme sol em economia
+            // ✍️ ATO 2: Transforme sol
             tl.to("#block-2 .premium-headline", { 
-                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.1 
-            }, 5.5);
+                opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
+            }, 6);
+            
             tl.to("#sub-2", { 
-                opacity: 0.8, y: 0, filter: "blur(0px)", duration: 1.5 
-            }, 6.5);
+                opacity: 1, y: 0, filter: "blur(0px)", duration: 1.5 
+            }, 7);
 
-            // Final: Mantém a cena limpa ou faz fade out
-            tl.to("#block-2", { opacity: 0, y: -40, filter: "blur(20px)", duration: 2 }, 13);
+            // Saída final para próxima seção
+            tl.to("#block-2", { 
+                opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
+            }, 12.5);
         }
 
+        // Preload
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
