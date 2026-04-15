@@ -49,10 +49,9 @@
             pointer-events: none;
         }
 
-        /* 🎯 POSICIONAMENTO CORRIGIDO: Mais centralizado e legível */
         .headline-container {
             position: fixed;
-            top: 40%; /* Subi o texto para o terço superior/médio */
+            top: 40%; 
             left: 8%;
             transform: translateY(-50%);
             z-index: 50;
@@ -76,7 +75,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Glow sutil para destacar do vídeo */
         .text-glow { text-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 194, 168, 0.2); }
 
         #loader {
@@ -94,7 +92,7 @@
     </div>
 
     <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="h-8 md:h-10 object-contain">
+        <img src="logo/LOGO.png" alt="Dips" class="h-12 md:h-16 object-contain">
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
@@ -162,7 +160,6 @@
                 }
             });
 
-            // 🎞️ MOTION FLOW
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
@@ -170,7 +167,6 @@
                 duration: 15 
             }, 0);
 
-            // ✍️ ATO 1: Entrada suave e saída com scroll
             tl.to("#block-1 .premium-headline", { 
                 opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
             }, 0.5);
@@ -179,7 +175,6 @@
                 opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
             }, 4.5);
 
-            // ✍️ ATO 2: Transforme sol
             tl.to("#block-2 .premium-headline", { 
                 opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
             }, 6);
@@ -188,13 +183,11 @@
                 opacity: 1, y: 0, filter: "blur(0px)", duration: 1.5 
             }, 7);
 
-            // Saída final para próxima seção
             tl.to("#block-2", { 
                 opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
             }, 12.5);
         }
 
-        // Preload
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
