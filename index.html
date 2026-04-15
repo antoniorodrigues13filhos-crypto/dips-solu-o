@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Solar | Controle Total</title>
+    <title>Sistema Solar | Intelbras</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -18,7 +18,6 @@
             --color-intel-green: #445231;
             --color-intel-green-light: #5d6c49;
             --color-intel-orange: #dc5000;
-            --color-intel-brown: #382416;
             --color-intel-grey: #6c5f51;
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
@@ -31,8 +30,6 @@
             overflow: hidden; 
         }
 
-        h1, h2, h3, h4, h5, .font-display { font-family: var(--font-display); }
-
         .glass-panel {
             background: rgba(56, 36, 22, 0.4);
             backdrop-filter: blur(12px);
@@ -40,67 +37,69 @@
         }
 
         .text-glow { text-shadow: 0 0 20px rgba(220, 80, 0, 0.5); }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: var(--color-intel-grey); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--color-intel-orange); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div id="loader" style="position:fixed;inset:0;background:linear-gradient(135deg,var(--color-intel-green),var(--color-intel-orange));z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
-        <div class="mb-4"><i data-lucide="sun" class="w-16 h-16 text-white"></i></div>
-        <h2 class="text-3xl font-display font-bold text-white mb-2 tracking-tight uppercase">Sistema Solar</h2>
-        <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.3);border-radius:9999px;overflow:hidden;">
-            <div id="progress-bar" style="height:100%;background:white;transition:all 100ms ease-out;width:0%;"></div>
+    <div id="loader" style="position:fixed;inset:0;background:var(--color-intel-black);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
+        <i data-lucide="sun" class="w-16 h-16 text-intel-orange mb-4 animate-pulse"></i>
+        <h2 class="text-2xl font-display font-bold text-white mb-4 uppercase tracking-widest">Iniciando Sistema</h2>
+        <div style="width:16rem;height:4px;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
+            <div id="progress-bar" style="height:100%;background:var(--color-intel-orange);width:0%;transition: width 0.2s;"></div>
         </div>
-        <p id="loading-text" class="text-white/80 mt-2 text-sm font-medium">Sincronizando Hardware 0%...</p>
+        <p id="loading-text" class="text-white/50 mt-4 text-xs font-medium uppercase tracking-widest">Carregando hardware 0%</p>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center pointer-events-none">
+    <nav class="fixed top-0 w-full z-50 mix-blend-difference px-8 py-8 flex justify-between items-center pointer-events-none">
         <div class="font-display font-bold text-2xl tracking-tighter uppercase text-intel-white pointer-events-auto">
             Intelbras<span class="text-intel-orange">.</span>
         </div>
-        <button class="pointer-events-auto flex gap-2 items-center text-sm uppercase tracking-widest font-semibold hover:text-intel-orange transition-colors">
-            Menu <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
+        <div class="pointer-events-auto flex gap-6 items-center text-xs uppercase tracking-widest font-bold">
+            <span class="text-intel-white/40">Status: <span class="text-intel-green-light">Online</span></span>
+            <i data-lucide="menu" class="w-6 h-6 cursor-pointer"></i>
+        </div>
     </nav>
 
     <section id="scroll-hero" style="height:500vh;position:relative;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
-            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(16,9,4,0.95) 0%,rgba(16,9,4,0.4) 40%, transparent 100%);z-index:1;"></div>
+            <canvas id="hero-canvas"></canvas>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(16,9,4,1) 0%, rgba(16,9,4,0) 50%);z-index:1;"></div>
             
-            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
-                <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full transition-all duration-300">
-                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
-                            O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
-                        </h1>
-                    </div>
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 transition-all duration-300">
-                        <h2 class="font-display text-4xl md:text-6xl font-bold uppercase tracking-tight">
-                            Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
-                        </h2>
-                    </div>
+            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;">
+                <div id="hero-text-1" class="max-w-4xl transition-all duration-700">
+                    <h1 class="font-display text-7xl md:text-9xl font-extrabold leading-[0.85] uppercase text-intel-white text-glow">
+                        Energia <br/> <span class="text-intel-orange">Infinita.</span>
+                    </h1>
+                    <p class="mt-8 text-lg text-intel-white/60 max-w-lg uppercase tracking-widest leading-relaxed">
+                        Sincronização modular de alta performance para o seu ecossistema solar.
+                    </p>
+                </div>
+
+                <div id="hero-text-2" class="max-w-4xl opacity-0 translate-y-20 transition-all duration-700 absolute">
+                    <h2 class="font-display text-6xl md:text-8xl font-extrabold leading-[0.85] uppercase text-intel-white">
+                        Controle <br/> <span class="text-intel-green-light">Total.</span>
+                    </h2>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="relative py-32 px-6 bg-intel-black z-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 glass-panel rounded-2xl">
-                <i data-lucide="sun" class="w-8 h-8 text-intel-orange mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase">Placa 160W</h3>
+    <section class="relative py-32 px-8 bg-intel-black z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="glass-panel p-10 rounded-3xl group hover:border-intel-orange/50 transition-colors">
+                <i data-lucide="zap" class="w-10 h-10 text-intel-orange mb-6"></i>
+                <h3 class="text-2xl font-display font-bold uppercase mb-4">Geração</h3>
+                <p class="text-intel-white/50 leading-relaxed">Captação otimizada com tecnologia monocristalina de última geração.</p>
             </div>
-            <div class="p-8 glass-panel rounded-2xl">
-                <i data-lucide="cpu" class="w-8 h-8 text-intel-green-light mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase">Controlador</h3>
+            <div class="glass-panel p-10 rounded-3xl group hover:border-intel-green-light/50 transition-colors">
+                <i data-lucide="shield-check" class="w-10 h-10 text-intel-green-light mb-6"></i>
+                <h3 class="text-2xl font-display font-bold uppercase mb-4">Segurança</h3>
+                <p class="text-intel-white/50 leading-relaxed">Proteção PWM integrada para máxima durabilidade das suas baterias.</p>
             </div>
-            <div class="p-8 glass-panel rounded-2xl">
-                <i data-lucide="zap" class="w-8 h-8 text-intel-white mb-4"></i>
-                <h3 class="font-display text-2xl font-bold uppercase">Inversor</h3>
+            <div class="glass-panel p-10 rounded-3xl group hover:border-intel-white/50 transition-colors">
+                <i data-lucide="refresh-cw" class="w-10 h-10 text-intel-white mb-6"></i>
+                <h3 class="text-2xl font-display font-bold uppercase mb-4">Eficiência</h3>
+                <p class="text-intel-white/50 leading-relaxed">Conversão pura com microinversores de 1200W para uso imediato.</p>
             </div>
         </div>
     </section>
@@ -109,103 +108,116 @@
         function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
 
+        const canvas = document.getElementById('hero-canvas');
+        const context = canvas.getContext('2d');
         const frameCount = 176;
         const images = [];
         let loadedImages = 0;
-        
+
         const loader = document.getElementById('loader');
         const progressBar = document.getElementById('progress-bar');
         const loadingText = document.getElementById('loading-text');
-        const canvas = document.getElementById('hero-canvas');
-        const context = canvas.getContext('2d');
         const heroEl = document.getElementById('scroll-hero');
         const text1 = document.getElementById('hero-text-1');
         const text2 = document.getElementById('hero-text-2');
 
-        // CAMINHO EXATO DO SEU GIT
-        const baseUrl = "./frame/ezgif-frame-"; 
+        // CAMINHO ABSOLUTO PARA A PASTA FRAME
+        const baseUrl = "/frame/ezgif-frame-"; 
 
         function updateCanvasSize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            renderCurrentFrame();
+            render(0);
         }
 
-        function renderCurrentFrame() {
-            const maxScroll = heroEl.offsetHeight - window.innerHeight;
-            const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-            const frameIndex = Math.min(frameCount - 1, Math.floor(fraction * (frameCount - 1)));
-            
-            if (images[frameIndex] && images[frameIndex].complete) {
-                drawCover(images[frameIndex]);
-            }
-        }
-
-        function drawCover(img) {
+        function drawImageProp(ctx, img) {
             const canvasRatio = canvas.width / canvas.height;
             const imgRatio = img.width / img.height;
-            let rw, rh, ox, oy;
-            
+            let nw, nh, nx, ny;
+
             if (canvasRatio > imgRatio) {
-                rw = canvas.width; rh = img.height * (canvas.width / img.width);
-                ox = 0; oy = (canvas.height - rh) / 2;
+                nw = canvas.width;
+                nh = img.height * (canvas.width / img.width);
+                nx = 0;
+                ny = (canvas.height - nh) / 2;
             } else {
-                rh = canvas.height; rw = img.width * (canvas.height / img.height);
-                ox = (canvas.width - rw) / 2; oy = 0;
+                nh = canvas.height;
+                nw = img.width * (canvas.height / img.height);
+                nx = (canvas.width - nw) / 2;
+                ny = 0;
             }
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, ox, oy, rw, rh);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, nx, ny, nw, nh);
         }
 
-        // CARREGAMENTO DOS FRAMES
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            // PADRÃO 001, 002...
-            const frameNum = i.toString().padStart(3, '0'); 
-            img.src = `${baseUrl}${frameNum}.jpg`; 
-
-            img.onload = () => {
-                loadedImages++;
-                const p = Math.floor((loadedImages / frameCount) * 100);
-                progressBar.style.width = p + "%";
-                loadingText.innerText = `Sincronizando Hardware ${p}%...`;
+        function preloadImages() {
+            for (let i = 1; i <= frameCount; i++) {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                // Padrão 001, 002...
+                const frameNum = i.toString().padStart(3, '0');
+                img.src = `${baseUrl}${frameNum}.jpg`;
                 
-                if (loadedImages === frameCount) {
-                    setTimeout(() => {
-                        loader.style.opacity = '0';
-                        loader.style.visibility = 'hidden';
+                img.onload = () => {
+                    loadedImages++;
+                    const progress = Math.floor((loadedImages / frameCount) * 100);
+                    progressBar.style.width = progress + "%";
+                    loadingText.innerText = `Sincronizando Hardware ${progress}%`;
+                    
+                    if (loadedImages === frameCount) {
+                        setTimeout(() => {
+                            loader.style.opacity = '0';
+                            loader.style.visibility = 'hidden';
+                            document.body.style.overflow = 'auto';
+                            updateCanvasSize();
+                        }, 500);
+                    }
+                };
+                
+                img.onerror = () => {
+                    loadedImages++;
+                    if (loadedImages === frameCount) {
+                        loader.style.display = 'none';
                         document.body.style.overflow = 'auto';
-                        updateCanvasSize();
-                    }, 500);
-                }
-            };
-
-            img.onerror = () => {
-                console.error("Erro no frame:", img.src);
-                loadedImages++; 
-                if (loadedImages === frameCount) {
-                    loader.style.opacity = '0';
-                    loader.style.visibility = 'hidden';
-                    document.body.style.overflow = 'auto';
-                }
-            };
-
-            images[i - 1] = img;
+                    }
+                };
+                images.push(img);
+            }
         }
 
-        window.addEventListener('resize', updateCanvasSize);
+        function render(fraction) {
+            const frameIndex = Math.min(frameCount - 1, Math.floor(fraction * frameCount));
+            if (images[frameIndex] && images[frameIndex].complete) {
+                drawImageProp(context, images[frameIndex]);
+            }
+        }
+
         window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const maxScroll = heroEl.offsetHeight - window.innerHeight;
+            const fraction = Math.max(0, Math.min(1, scrollTop / maxScroll));
+
             requestAnimationFrame(() => {
-                renderCurrentFrame();
-                const max = heroEl.offsetHeight - window.innerHeight;
-                const f = window.scrollY / max;
-                if(text1) text1.style.opacity = f > 0.2 ? 0 : 1;
-                if(text2) {
-                    text2.style.opacity = (f > 0.25 && f < 0.8) ? 1 : 0;
-                    text2.style.transform = f > 0.25 ? 'translateY(0)' : 'translateY(48px)';
+                render(fraction);
+                
+                // Animação de Texto baseada no scroll
+                if (fraction < 0.3) {
+                    text1.style.opacity = 1 - (fraction * 3.3);
+                    text1.style.transform = `translateY(${fraction * -100}px)`;
+                    text2.style.opacity = 0;
+                } else if (fraction >= 0.3 && fraction < 0.7) {
+                    text1.style.opacity = 0;
+                    const t2Progress = (fraction - 0.3) * 2.5;
+                    text2.style.opacity = Math.min(1, t2Progress);
+                    text2.style.transform = `translateY(${(1 - Math.min(1, t2Progress)) * 50}px)`;
+                } else {
+                    text2.style.opacity = 1 - (fraction - 0.7) * 3.3;
                 }
             });
-        }, { passive: true });
+        });
+
+        window.addEventListener('resize', updateCanvasSize);
+        preloadImages();
     </script>
 </body>
 </html>
