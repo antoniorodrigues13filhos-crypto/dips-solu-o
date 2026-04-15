@@ -41,13 +41,19 @@
         
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
         .benefit-number { font-family: 'Outfit', sans-serif; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; display: block; }
-        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 15px; display: block; }
         
         .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
         .product-card { 
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); 
             border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        /* Glass Input Style */
+        .glass-input {
+            background: rgba(13, 27, 42, 0.05); border: 1px solid rgba(13, 27, 42, 0.1);
+            border-radius: 15px; padding: 15px 20px; width: 100%; outline: none; transition: all 0.3s ease;
+        }
+        .glass-input:focus { border-color: #FF6B00; background: rgba(13, 27, 42, 0.08); }
 
         #progress {
             transition: width 0.2s ease-out;
@@ -57,7 +63,6 @@
         
         .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
-        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
     </style>
 </head>
 <body class="antialiased">
@@ -65,13 +70,12 @@
     <header class="header-ui">
         <img src="logo/LOGO.png" alt="Dips" class="h-6 md:h-7">
         <nav class="nav-links-container">
-            <a href="#" class="nav-item">Produtos</a>
-            <a href="#" class="nav-item">Inovação e Tecnologia</a>
+            <a href="#orcamento" class="nav-item">Solicitar Orçamento</a>
+            <a href="#" class="nav-item">Inovação</a>
             <a href="#" class="nav-item">Fornecedores</a>
-            <a href="#" class="nav-item">Catálogo</a>
             <a href="#" class="nav-item">Dúvidas</a>
         </nav>
-        <div class="nav-item cursor-pointer">Menu</div>
+        <div class="nav-item cursor-pointer font-bold text-intel-orange hidden md:block">Anápolis - GO</div>
     </header>
 
     <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
@@ -81,18 +85,24 @@
         <p class="text-[10px] uppercase tracking-[0.4em] mt-4 opacity-40">Carregando Experiência</p>
     </div>
 
+    <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[900] w-max">
+        <div class="bg-intel-orange text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest animate-pulse">
+            ⚡ Condições especiais para as próximas 10 instalações em Goiás
+        </div>
+    </div>
+
     <section id="scroll-hero" style="height:800vh;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas"></canvas>
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:5;"></div>
             <div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;padding:15vh 8vw;pointer-events:none;">
                 <div id="hero-text-1" class="opacity-0 translate-y-20">
-                    <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">O Futuro da <br/> <span class="text-intel-green-light">Energia.</span></h1>
-                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Uma arquitetura de hardware revolucionária para eficiência máxima.</p>
+                    <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">Pague Menos <br/> <span class="text-intel-green-light">Energia.</span></h1>
+                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza até 95% da sua conta mensal com tecnologia alemã modular.</p>
                 </div>
                 <div id="hero-text-2" class="absolute opacity-0 translate-y-20">
-                    <h2 class="text-5xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span></h2>
-                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza sua conta todos os meses com tecnologia modular.</p>
+                    <h2 class="text-5xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">Investimento com <br/> <span class="text-intel-orange">Retorno Real.</span></h2>
+                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Sua casa produzindo lucro. Tecnologia que se paga em tempo recorde.</p>
                 </div>
             </div>
             <div class="wave-container">
@@ -103,44 +113,96 @@
 
     <section class="benefits-impact-section">
         <div class="max-w-4xl mx-auto mb-20">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
-            <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
+            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Sua Liberdade <br/> <span class="text-gray-400">começa aqui.</span></h2>
+            <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Tecnologia de ponta para quem busca inteligência financeira.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-7xl mx-auto">
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Economia</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Anos</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Controle</p></div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Economia na Conta</p></div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Anos de Vida Útil</p></div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Monitoramento AI</p></div>
         </div>
     </section>
 
     <section class="products-section">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 reveal-text tracking-tighter">Hardware <span class="text-intel-orange">Premium.</span></h2>
+            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 tracking-tighter">Hardware <span class="text-intel-orange">Premium.</span></h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="product-card">
-                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                    <h3 class="text-3xl font-black uppercase">Painel HP 160W</h3>
-                    <p class="text-intel-orange font-bold text-2xl mt-4">R$ 1.200</p>
+                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full aspect-square object-cover rounded-2xl mb-8 shadow-xl">
+                    <h3 class="text-3xl font-black uppercase">Painel HP Max</h3>
+                    <p class="text-gray-500 mt-2">Captação ultra-eficiente mesmo em dias nublados.</p>
+                    <p class="text-intel-green-light font-bold text-xl mt-4">Máxima Performance</p>
                 </div>
                 <div class="product-card">
                     <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                    <h3 class="text-3xl font-black uppercase">Controlador PWM</h3>
-                    <p class="text-intel-orange font-bold text-2xl mt-4">R$ 450</p>
+                    <h3 class="text-3xl font-black uppercase">Smart Guard</h3>
+                    <p class="text-gray-500 mt-2">Tecnologia que protege e faz o sistema durar 2x mais.</p>
+                    <p class="text-intel-green-light font-bold text-xl mt-4">Segurança Total</p>
                 </div>
                 <div class="product-card">
                     <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                    <h3 class="text-3xl font-black uppercase">Inversor 1200W</h3>
-                    <p class="text-intel-orange font-bold text-2xl mt-4">R$ 2.800</p>
+                    <h3 class="text-3xl font-black uppercase">Ultra Inversor</h3>
+                    <p class="text-gray-500 mt-2">Converte cada raio de sol em dinheiro no seu bolso.</p>
+                    <p class="text-intel-green-light font-bold text-xl mt-4">Eficiência Alemã</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-40 max-w-7xl mx-auto">
+            <h2 class="text-4xl font-black uppercase mb-12 tracking-tighter border-l-4 border-intel-orange pl-6 text-intel-black">Instalações em <span class="text-intel-orange">Destaque.</span></h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=500" class="w-full h-full object-cover">
+                </div>
+                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1509391366360-fe5bb65830bb?q=80&w=500" class="w-full h-full object-cover">
+                </div>
+                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=500" class="w-full h-full object-cover">
+                </div>
+                <div class="product-card flex flex-col justify-center items-center text-center p-6 bg-intel-black! text-white!">
+                    <p class="text-4xl font-black text-intel-orange">+150</p>
+                    <p class="text-xs font-bold uppercase tracking-widest mt-2">Famílias Economizando em Anápolis</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <section id="orcamento" class="relative z-70 bg-white py-32 px-5">
+        <div class="max-w-xl mx-auto bg-white border border-gray-100 p-10 md:p-16 rounded-[50px] shadow-2xl">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black uppercase text-intel-black leading-tight tracking-tighter">Solicite seu <br/> <span class="text-intel-orange">Orçamento Grátis.</span></h2>
+                <p class="text-gray-400 text-sm mt-4 font-bold uppercase tracking-widest">Resposta em menos de 24 horas</p>
+            </div>
+            <form class="space-y-6">
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">Nome Completo</label>
+                    <input type="text" placeholder="Ex: João Silva" class="glass-input text-intel-black">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">WhatsApp</label>
+                    <input type="tel" placeholder="(62) 9 9999-9999" class="glass-input text-intel-black">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">Valor Médio da Conta (R$)</label>
+                    <input type="number" placeholder="Ex: 450" class="glass-input text-intel-black">
+                </div>
+                <button type="submit" class="w-full bg-intel-black text-white font-black uppercase tracking-widest py-5 rounded-2xl hover:bg-intel-orange transition-colors duration-300 shadow-xl">
+                    Gerar Minha Economia ⚡
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-intel-black py-10 text-center text-[10px] uppercase tracking-[0.5em] text-white/20">
+        Dips Hardware © 2026 - Anápolis, Goiás
+    </footer>
+
     <script>
         gsap.registerPlugin(ScrollTrigger);
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-        // --- ⚙️ CONTROLE DE PRELOAD SUAVE ESTILO TESLA ---
+        // --- ⚙️ CONTROLE DE PRELOAD SUAVE ---
         const frameCount = 71;
         let loadedImages = 0;
         let realProgress = 0;
@@ -162,7 +224,6 @@
 
         animateProgress();
 
-        // --- PRELOAD E RENDERIZADORES ---
         const canvas1 = document.getElementById("hero-canvas");
         const ctx1 = canvas1.getContext("2d");
 
@@ -170,25 +231,20 @@
             const img = imgs[Math.floor(obj.frame)];
             if (img) {
                 const ratio = window.devicePixelRatio || 1;
-
                 canvas.width = window.innerWidth * ratio;
                 canvas.height = window.innerHeight * ratio;
-
                 canvas.style.width = window.innerWidth + "px";
                 canvas.style.height = window.innerHeight + "px";
-
                 ctx.setTransform(1, 0, 0, 1, 0, 0); 
                 ctx.scale(ratio, ratio);
 
                 const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
                 const x = (window.innerWidth / 2) - (img.width / 2) * scale;
                 const y = (window.innerHeight / 2) - (img.height / 2) * scale;
-
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
         }
 
-        // Loops de Preload
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
@@ -200,14 +256,12 @@
             gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
             renderCanvas(canvas1, ctx1, images, airVideo);
 
-            // Animação Hero 1
             gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: () => renderCanvas(canvas1, ctx1, images, airVideo) }})
                 .to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 })
                 .to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1)
                 .to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4)
                 .to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
 
-            // Benefícios
             document.querySelectorAll('[data-target]').forEach(counter => {
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
@@ -215,12 +269,10 @@
                 gsap.to(counter, { innerText: targetValue, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
             });
 
-            // Produtos
             gsap.utils.toArray(".product-card").forEach((card, i) => {
                 gsap.from(card, { opacity: 0, y: 80, rotateX: 10, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
                 gsap.to(card, { y: isMobile ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
             });
-            
         }
 
         window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images, airVideo); });
