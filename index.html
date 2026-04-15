@@ -22,22 +22,12 @@
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
         .header-ui {
-            position: fixed !important;
-            top: 20px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            width: min(95%, 1100px) !important;
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            padding: 12px 28px !important;
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(15px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 999px !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-            z-index: 1000 !important;
+            position: fixed !important; top: 20px !important; left: 50% !important; transform: translateX(-50%) !important;
+            width: min(95%, 1100px) !important; display: flex !important; justify-content: space-between !important;
+            align-items: center !important; padding: 12px 28px !important; background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(15px) saturate(180%) !important; -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; border-radius: 999px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important; z-index: 1000 !important;
         }
 
         .nav-links-container { display: flex; gap: 20px; align-items: center; }
@@ -46,27 +36,23 @@
 
         @media (max-width: 1024px) { .nav-links-container { display: none; } }
 
-        #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; }
+        #hero-canvas, #final-hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; will-change: transform; }
         #scroll-hero { position: relative; z-index: 10; }
-        .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
-        .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
         
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
-        
-        /* ✅ CORREÇÃO: REMOVIDO FONT-SIZE FIXO E !IMPORTANT */
-        .benefit-number { 
-            font-family: 'Outfit', sans-serif; 
-            font-weight: 900; 
-            line-height: 0.8; 
-            letter-spacing: -0.05em;
-            display: block;
-        }
-        
+        .benefit-number { font-family: 'Outfit', sans-serif; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; display: block; }
         .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 15px; display: block; }
         
         .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
-        .product-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease; }
+        .product-card { 
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); 
+            border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover { transform: scale(1.03) translateY(-10px); border-color: rgba(255, 107, 0, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
         .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+
+        .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
+        .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
     </style>
 </head>
 <body class="antialiased">
@@ -83,10 +69,11 @@
         <div class="nav-item cursor-pointer">Menu</div>
     </header>
 
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[10000] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
-            <div id="progress" class="h-full bg-intel-green-light w-0"></div>
+            <div id="progress" class="h-full bg-intel-green-light w-0 transition-all duration-300"></div>
         </div>
+        <p class="text-[10px] uppercase tracking-[0.4em] mt-4 opacity-40">Carregando Experiência</p>
     </div>
 
     <section id="scroll-hero" style="height:800vh;">
@@ -111,32 +98,19 @@
 
     <section class="benefits-impact-section">
         <div class="max-w-4xl mx-auto mb-20">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
+            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
             <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
         </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-7xl mx-auto">
-            <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span>
-                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Economia</p>
-                <span class="benefit-context">na conta de energia</span>
-            </div>
-            <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span>
-                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Anos</p>
-                <span class="benefit-context">de vida útil média</span>
-            </div>
-            <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span>
-                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Controle</p>
-                <span class="benefit-context">de monitoramento inteligente</span>
-            </div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Economia</p></div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Anos</p></div>
+            <div><span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Controle</p></div>
         </div>
     </section>
 
     <section class="products-section">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 reveal-text">Hardware <span class="text-intel-orange">Premium.</span></h2>
+            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 reveal-text tracking-tighter">Hardware <span class="text-intel-orange">Premium.</span></h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="product-card">
                     <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full aspect-square object-cover rounded-2xl mb-8">
@@ -157,57 +131,107 @@
         </div>
     </section>
 
+    <section id="final-hero-section" style="height: 600vh; position: relative; background: #000; z-index: 80;">
+        <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
+            <canvas id="final-hero-canvas" style="opacity: 0;"></canvas>
+            <div id="transition-overlay" style="position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 5; pointer-events: none;"></div>
+            <div id="final-hero-text" style="position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 8vw; pointer-events: none; opacity: 0;">
+                <h2 class="text-5xl md:text-8xl font-black uppercase text-center leading-none tracking-tighter">Engenharia de <br/> <span class="text-intel-orange">Nova Geração.</span></h2>
+            </div>
+        </div>
+    </section>
+
     <script>
         gsap.registerPlugin(ScrollTrigger);
-        const canvas = document.getElementById("hero-canvas");
-        const context = canvas.getContext("2d");
-        const frameCount = 71;
-        const images = [];
-        const airVideo = { frame: 0 };
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+        // Configuração Hero 1
+        const canvas1 = document.getElementById("hero-canvas");
+        const ctx1 = canvas1.getContext("2d");
+        const frameCount1 = 71;
+        const images1 = [];
+        const hero1Data = { frame: 0 };
+
+        // Configuração Hero Final
+        const canvasFinal = document.getElementById("final-hero-canvas");
+        const ctxFinal = canvasFinal.getContext("2d");
+        const frameCountFinal = 52;
+        const imagesFinal = [];
+        const heroFinalData = { frame: 0 };
+
         let loadedCount = 0;
+        const totalFrames = frameCount1 + frameCountFinal;
 
-        const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
+        function updateLoader() {
+            loadedCount++;
+            document.getElementById("progress").style.width = `${(loadedCount / totalFrames) * 100}%`;
+            if (loadedCount === totalFrames) initAll();
+        }
 
-        function render() {
-            const img = images[Math.floor(airVideo.frame)];
+        // Preload Hero 1
+        for (let i = 1; i <= frameCount1; i++) {
+            const img = new Image();
+            img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+            img.onload = updateLoader;
+            images1.push(img);
+        }
+
+        // Preload Hero Final
+        for (let i = 1; i <= frameCountFinal; i++) {
+            const img = new Image();
+            img.src = `herofinal/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+            img.onload = updateLoader;
+            imagesFinal.push(img);
+        }
+
+        function renderCanvas(canvas, ctx, images, obj) {
+            const img = images[Math.floor(obj.frame)];
             if (img) {
-                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-                const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-                const x = (canvas.width / 2) - (img.width / 2) * scale;
-                const y = (canvas.height / 2) - (img.height / 2) * scale;
-                context.drawImage(img, x, y, img.width * scale, img.height * scale);
+                const ratio = window.devicePixelRatio || 1;
+                canvas.width = window.innerWidth * ratio;
+                canvas.height = window.innerHeight * ratio;
+                ctx.scale(ratio, ratio);
+                const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
+                const x = (window.innerWidth / 2) - (img.width / 2) * scale;
+                const y = (window.innerHeight / 2) - (img.height / 2) * scale;
+                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
         }
 
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image(); img.src = currentFrame(i);
-            img.onload = () => {
-                loadedCount++;
-                document.getElementById("progress").style.width = `${(loadedCount/frameCount)*100}%`;
-                if(loadedCount === frameCount) init();
-            };
-            images.push(img);
-        }
+        function initAll() {
+            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
+            renderCanvas(canvas1, ctx1, images1, hero1Data);
 
-        function init() {
-            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => { document.getElementById("loader").style.display = "none"; render(); }});
-            
-            const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: render }});
-            tl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
-            tl.to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1);
-            tl.to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4);
-            tl.to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
+            // Animação Hero 1
+            const tl1 = gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: () => renderCanvas(canvas1, ctx1, images1, hero1Data) }});
+            tl1.to(hero1Data, { frame: frameCount1 - 1, snap: "frame", ease: "none", duration: 10 });
+            tl1.to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1);
+            tl1.to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4);
+            tl1.to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
 
+            // Benefícios
             document.querySelectorAll('[data-target]').forEach(counter => {
-                const targetValue = parseInt(counter.getAttribute('data-target'));
+                const target = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
                 const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
-                gsap.to(counter, { innerText: targetValue, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
+                gsap.to(counter, { innerText: target, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
             });
 
-            gsap.to(".reveal-text", { opacity: 1, y: 0, filter: "blur(0px)", scrollTrigger: { trigger: ".products-section", start: "top 75%" }});
+            // Animação Avançada de Produtos
+            gsap.utils.toArray(".product-card").forEach((card, i) => {
+                gsap.from(card, { opacity: 0, y: 80, rotateX: 15, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
+                gsap.to(card, { y: -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
+            });
+
+            // Transição e Hero Final
+            const finalTl = gsap.timeline({ scrollTrigger: { trigger: "#final-hero-section", start: "top 80%", end: "top top", scrub: true }});
+            finalTl.to("#transition-overlay", { opacity: 1 }).to(".products-section", { scale: 0.9, filter: "blur(10px)" }, 0).to(canvasFinal, { opacity: 1 }).to("#transition-overlay", { opacity: 0 });
+
+            gsap.to(heroFinalData, { frame: frameCountFinal - 1, snap: "frame", ease: "none", scrollTrigger: { trigger: "#final-hero-section", start: "top top", end: "bottom bottom", scrub: isMobile ? 0.3 : 0.8, onUpdate: () => renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData) }});
+            gsap.to("#final-hero-text", { opacity: 1, y: -30, scrollTrigger: { trigger: "#final-hero-section", start: "70% center", scrub: true }});
         }
-        window.addEventListener("resize", render);
+
+        window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images1, hero1Data); renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData); });
     </script>
 </body>
 </html>
