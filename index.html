@@ -36,7 +36,7 @@
 
         @media (max-width: 1024px) { .nav-links-container { display: none; } }
 
-        #hero-canvas, #final-hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; will-change: transform; }
+        #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; }
         #scroll-hero { position: relative; z-index: 10; }
         
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
@@ -48,11 +48,12 @@
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); 
             border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .product-card:hover { transform: scale(1.03) translateY(-10px); border-color: rgba(255, 107, 0, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-
+        
         .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
+
+        /* Estilos Novos */
+        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
     </style>
 </head>
 <body class="antialiased">
@@ -69,11 +70,10 @@
         <div class="nav-item cursor-pointer">Menu</div>
     </header>
 
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[10000] flex flex-col justify-center items-center">
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
-            <div id="progress" class="h-full bg-intel-green-light w-0 transition-all duration-300"></div>
+            <div id="progress" class="h-full bg-intel-green-light w-0"></div>
         </div>
-        <p class="text-[10px] uppercase tracking-[0.4em] mt-4 opacity-40">Carregando Experiência</p>
     </div>
 
     <section id="scroll-hero" style="height:800vh;">
@@ -98,19 +98,31 @@
 
     <section class="benefits-impact-section">
         <div class="max-w-4xl mx-auto mb-20">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
+            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
             <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-7xl mx-auto">
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Economia</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Anos</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Controle</p></div>
+            <div>
+                <span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Economia</p>
+                <span class="benefit-context">na conta de energia</span>
+            </div>
+            <div>
+                <span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Anos</p>
+                <span class="benefit-context">de vida útil média</span>
+            </div>
+            <div>
+                <span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Controle</p>
+                <span class="benefit-context">de monitoramento inteligente</span>
+            </div>
         </div>
     </section>
 
     <section class="products-section">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 reveal-text tracking-tighter">Hardware <span class="text-intel-orange">Premium.</span></h2>
+            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 reveal-text">Hardware <span class="text-intel-orange">Premium.</span></h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="product-card">
                     <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full aspect-square object-cover rounded-2xl mb-8">
@@ -133,10 +145,12 @@
 
     <section id="final-hero-section" style="height: 600vh; position: relative; background: #000; z-index: 80;">
         <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
-            <canvas id="final-hero-canvas" style="opacity: 0;"></canvas>
+            <canvas id="final-hero-canvas" style="display: block; width: 100vw; height: 100vh; object-fit: cover; opacity: 0; position: absolute; top: 0; left: 0; z-index: 1;"></canvas>
             <div id="transition-overlay" style="position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 5; pointer-events: none;"></div>
             <div id="final-hero-text" style="position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 8vw; pointer-events: none; opacity: 0;">
-                <h2 class="text-5xl md:text-8xl font-black uppercase text-center leading-none tracking-tighter">Engenharia de <br/> <span class="text-intel-orange">Nova Geração.</span></h2>
+                <h2 class="text-5xl md:text-9xl font-black uppercase text-center leading-none tracking-tighter text-white">
+                    Engenharia de <br/> <span class="text-intel-orange">Nova Geração.</span>
+                </h2>
             </div>
         </div>
     </section>
@@ -145,93 +159,125 @@
         gsap.registerPlugin(ScrollTrigger);
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-        // Configuração Hero 1
-        const canvas1 = document.getElementById("hero-canvas");
-        const ctx1 = canvas1.getContext("2d");
-        const frameCount1 = 71;
-        const images1 = [];
-        const hero1Data = { frame: 0 };
+        // Configurações Hero 1
+        const canvas = document.getElementById("hero-canvas");
+        const context = canvas.getContext("2d");
+        const frameCount = 71;
+        const images = [];
+        const airVideo = { frame: 0 };
+        let loadedCount = 0;
 
-        // Configuração Hero Final
+        // Configurações Hero Final
         const canvasFinal = document.getElementById("final-hero-canvas");
-        const ctxFinal = canvasFinal.getContext("2d");
-        const frameCountFinal = 52;
+        const ctxFinal = canvasFinal.getContext("2d", { alpha: false });
         const imagesFinal = [];
         const heroFinalData = { frame: 0 };
+        const frameCountFinal = 52; 
 
-        let loadedCount = 0;
-        const totalFrames = frameCount1 + frameCountFinal;
+        function renderHero1() {
+            const img = images[Math.floor(airVideo.frame)];
+            if (img) {
+                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+                const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                const x = (canvas.width / 2) - (img.width / 2) * scale;
+                const y = (canvas.height / 2) - (img.height / 2) * scale;
+                context.drawImage(img, x, y, img.width * scale, img.height * scale);
+            }
+        }
 
-        function updateLoader() {
-            loadedCount++;
-            document.getElementById("progress").style.width = `${(loadedCount / totalFrames) * 100}%`;
-            if (loadedCount === totalFrames) initAll();
+        function renderFinal() {
+            const img = imagesFinal[Math.floor(heroFinalData.frame)];
+            if (img) {
+                const ratio = window.devicePixelRatio || 1;
+                canvasFinal.width = window.innerWidth * ratio;
+                canvasFinal.height = window.innerHeight * ratio;
+                ctxFinal.scale(ratio, ratio);
+                const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
+                const x = (window.innerWidth / 2) - (img.width / 2) * scale;
+                const y = (window.innerHeight / 2) - (img.height / 2) * scale;
+                ctxFinal.drawImage(img, x, y, img.width * scale, img.height * scale);
+            }
         }
 
         // Preload Hero 1
-        for (let i = 1; i <= frameCount1; i++) {
-            const img = new Image();
+        for (let i = 1; i <= frameCount; i++) {
+            const img = new Image(); 
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = updateLoader;
-            images1.push(img);
+            img.onload = () => {
+                loadedCount++;
+                document.getElementById("progress").style.width = `${(loadedCount/(frameCount + frameCountFinal))*100}%`;
+                if(loadedCount === (frameCount + frameCountFinal)) initAll();
+            };
+            images.push(img);
         }
 
         // Preload Hero Final
         for (let i = 1; i <= frameCountFinal; i++) {
             const img = new Image();
             img.src = `herofinal/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = updateLoader;
+            img.onload = () => {
+                loadedCount++;
+                document.getElementById("progress").style.width = `${(loadedCount/(frameCount + frameCountFinal))*100}%`;
+                if(loadedCount === (frameCount + frameCountFinal)) initAll();
+            };
             imagesFinal.push(img);
         }
 
-        function renderCanvas(canvas, ctx, images, obj) {
-            const img = images[Math.floor(obj.frame)];
-            if (img) {
-                const ratio = window.devicePixelRatio || 1;
-                canvas.width = window.innerWidth * ratio;
-                canvas.height = window.innerHeight * ratio;
-                ctx.scale(ratio, ratio);
-                const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
-                const x = (window.innerWidth / 2) - (img.width / 2) * scale;
-                const y = (window.innerHeight / 2) - (img.height / 2) * scale;
-                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-            }
-        }
-
         function initAll() {
-            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
-            renderCanvas(canvas1, ctx1, images1, hero1Data);
-
+            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => { document.getElementById("loader").style.display = "none"; renderHero1(); }});
+            
             // Animação Hero 1
-            const tl1 = gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: () => renderCanvas(canvas1, ctx1, images1, hero1Data) }});
-            tl1.to(hero1Data, { frame: frameCount1 - 1, snap: "frame", ease: "none", duration: 10 });
-            tl1.to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1);
-            tl1.to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4);
-            tl1.to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
+            const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: renderHero1 }});
+            tl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
+            tl.to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1);
+            tl.to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4);
+            tl.to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
 
-            // Benefícios
+            // Animação Benefícios
             document.querySelectorAll('[data-target]').forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-target'));
+                const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
                 const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
-                gsap.to(counter, { innerText: target, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
+                gsap.to(counter, { innerText: targetValue, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
             });
 
-            // Animação Avançada de Produtos
+            // 🎯 Animação dos Cards de Produtos
             gsap.utils.toArray(".product-card").forEach((card, i) => {
-                gsap.from(card, { opacity: 0, y: 80, rotateX: 15, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
-                gsap.to(card, { y: -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
+                gsap.fromTo(card, 
+                    { opacity: 0, y: 80, rotateX: isMobile ? 0 : 10, scale: 0.95 },
+                    { opacity: 1, y: 0, rotateX: 0, scale: 1, duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: card, start: "top 85%" }, delay: i * 0.15 }
+                );
+                gsap.to(card, { y: isMobile ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
             });
 
-            // Transição e Hero Final
-            const finalTl = gsap.timeline({ scrollTrigger: { trigger: "#final-hero-section", start: "top 80%", end: "top top", scrub: true }});
-            finalTl.to("#transition-overlay", { opacity: 1 }).to(".products-section", { scale: 0.9, filter: "blur(10px)" }, 0).to(canvasFinal, { opacity: 1 }).to("#transition-overlay", { opacity: 0 });
+            // 🎬 TRANSIÇÃO & HERO FINAL
+            gsap.timeline({
+                scrollTrigger: { trigger: "#final-hero-section", start: "top 90%", end: "top top", scrub: true }
+            })
+            .to("#transition-overlay", { opacity: 1, duration: 1 })
+            .to(".products-section", { scale: 0.8, filter: "blur(20px)", opacity: 0, duration: 1 }, 0)
+            .to(canvasFinal, { opacity: 1, duration: 1 })
+            .to("#transition-overlay", { opacity: 0, duration: 1 });
 
-            gsap.to(heroFinalData, { frame: frameCountFinal - 1, snap: "frame", ease: "none", scrollTrigger: { trigger: "#final-hero-section", start: "top top", end: "bottom bottom", scrub: isMobile ? 0.3 : 0.8, onUpdate: () => renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData) }});
-            gsap.to("#final-hero-text", { opacity: 1, y: -30, scrollTrigger: { trigger: "#final-hero-section", start: "70% center", scrub: true }});
+            gsap.to(heroFinalData, {
+                frame: frameCountFinal - 1,
+                snap: "frame",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#final-hero-section",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: isMobile ? 0.3 : 0.8,
+                    onUpdate: renderFinal
+                }
+            });
+
+            gsap.to("#final-hero-text", {
+                opacity: 1, scale: 1.1,
+                scrollTrigger: { trigger: "#final-hero-section", start: "60% center", end: "80% center", scrub: true }
+            });
         }
-
-        window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images1, hero1Data); renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData); });
+        window.addEventListener("resize", () => { renderHero1(); renderFinal(); });
     </script>
 </body>
 </html>
