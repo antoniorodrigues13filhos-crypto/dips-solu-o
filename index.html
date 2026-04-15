@@ -21,24 +21,44 @@
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
-        /* 💎 NAVBAR FLOATING GLASS (PILL SHAPE) */
+        /* 💎 NAVBAR FIXA - FONTES PRETAS */
         .header-ui {
             position: fixed !important;
-            top: 20px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            width: min(92%, 1100px) !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 48px !important;
             display: flex !important;
-            justify-content: space-between !important;
+            justify-content: center !important;
             align-items: center !important;
-            padding: 14px 22px !important;
-            background: rgba(255, 255, 255, 0.06) !important;
-            backdrop-filter: blur(18px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 999px !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: saturate(180%) blur(20px) !important;
+            -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
             z-index: 1000 !important;
+        }
+
+        .nav-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 12px;
+            color: #000000 !important; /* FONTES PRETAS SOLICITADAS */
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover { opacity: 0.6; }
+
+        @media (max-width: 768px) {
+            .nav-link:not(.mobile-visible) { display: none; }
         }
 
         #hero-canvas { 
@@ -66,8 +86,7 @@
         }
 
         .product-card {
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease;
         }
         .product-card:hover { border-color: rgba(255, 107, 0, 0.3); }
         .product-card img { transform: translateZ(50px); filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15)); }
@@ -77,8 +96,20 @@
 <body class="antialiased">
 
     <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="h-6 md:h-8">
-        <div class="text-white/70 font-medium text-xs tracking-[0.25em] uppercase hover:text-white transition cursor-pointer">Menu</div>
+        <div class="nav-content">
+            <a href="#" class="mobile-visible"><img src="logo/LOGO.png" alt="Dips" class="h-4"></a>
+            <a href="#" class="nav-link">Quem Somos</a>
+            <a href="#" class="nav-link">Produtos</a>
+            <a href="#" class="nav-link">Inovação e Tecnologia</a>
+            <a href="#" class="nav-link">Fornecedores</a>
+            <a href="#" class="nav-link">Catálogo</a>
+            <a href="#" class="nav-link">Dúvidas</a>
+            <a href="#" class="nav-link">Contato</a>
+            <div class="flex items-center gap-6">
+                <i data-lucide="search" class="w-4 h-4 text-black cursor-pointer"></i>
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-black cursor-pointer mobile-visible"></i>
+            </div>
+        </div>
     </header>
 
     <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
@@ -90,9 +121,7 @@
     <section id="scroll-hero" style="height:800vh;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas"></canvas>
-            
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:5;"></div>
-            
             <div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;padding:15vh 8vw;pointer-events:none;">
                 <div id="hero-text-1" class="opacity-0 translate-y-20 will-change-transform">
                     <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">O Futuro da <br/> <span class="text-intel-green-light">Energia.</span></h1>
@@ -103,7 +132,6 @@
                     <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza sua conta todos os meses com tecnologia modular.</p>
                 </div>
             </div>
-            
             <div class="wave-container">
                 <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,160 C320,300 1120,300 1440,160 L1440,320 L0,320 Z" fill="#FFFFFF"></path></svg>
             </div>
@@ -124,12 +152,9 @@
 
     <section class="products-section">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
-                <div>
-                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
-                    <h3 class="text-xl font-bold uppercase tracking-tight text-intel-black mb-4 reveal-text">Energia inteligente, sob seu controle.</h3>
-                    <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
-                </div>
+            <div class="mb-24">
+                <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
+                <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="product-card flex flex-col">
@@ -153,6 +178,7 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        lucide.createIcons();
         const canvas = document.getElementById("hero-canvas");
         const context = canvas.getContext("2d");
         const frameCount = 71;
