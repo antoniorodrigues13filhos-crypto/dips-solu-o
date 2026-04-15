@@ -33,13 +33,6 @@
 
         h1, h2, h3, h4, h5, .font-display { font-family: var(--font-display); }
 
-        .energy-line-anim {
-            stroke-dasharray: 20;
-            animation: dash 20s linear infinite;
-        }
-
-        @keyframes dash { to { stroke-dashoffset: -1000; } }
-
         .glass-panel {
             background: rgba(56, 36, 22, 0.4);
             backdrop-filter: blur(12px);
@@ -49,7 +42,6 @@
         .text-glow { text-shadow: 0 0 20px rgba(220, 80, 0, 0.5); }
         
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--color-intel-black); }
         ::-webkit-scrollbar-thumb { background: var(--color-intel-grey); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-intel-orange); }
     </style>
@@ -57,14 +49,12 @@
 <body class="antialiased">
 
     <div id="loader" style="position:fixed;inset:0;background:linear-gradient(135deg,var(--color-intel-green),var(--color-intel-orange));z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
-        <div class="mb-4">
-            <i data-lucide="sun" class="w-16 h-16 text-white"></i>
-        </div>
+        <div class="mb-4"><i data-lucide="sun" class="w-16 h-16 text-white"></i></div>
         <h2 class="text-3xl font-display font-bold text-white mb-2 tracking-tight uppercase">Sistema Solar</h2>
         <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.3);border-radius:9999px;overflow:hidden;">
             <div id="progress-bar" style="height:100%;background:white;transition:all 100ms ease-out;width:0%;"></div>
         </div>
-        <p id="loading-text" class="text-white/80 mt-2 text-sm font-medium">Sincronizando Módulos 0%...</p>
+        <p id="loading-text" class="text-white/80 mt-2 text-sm font-medium">Sincronizando Hardware 0%...</p>
     </div>
 
     <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center pointer-events-none">
@@ -83,101 +73,56 @@
             
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
                 <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="w-8 h-[2px] bg-intel-orange block"></span>
-                            <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
-                        </div>
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full transition-all duration-300">
                         <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
                             O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
                         </h1>
-                        <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/70">
-                            Uma arquitetura de hardware revolucionária que transforma cada raio de luz em eficiência máxima.
-                        </p>
                     </div>
-
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12">
-                        <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 transition-all duration-300">
+                        <h2 class="font-display text-4xl md:text-6xl font-bold uppercase tracking-tight">
                             Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
                         </h2>
-                        <div class="mt-8 flex flex-col md:flex-row gap-6">
-                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
-                                <div class="bg-intel-green p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6 text-white"></i></div>
-                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 01</p><p class="font-bold">Captação</p></div>
-                            </div>
-                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
-                                <div class="bg-intel-orange p-3 rounded-full"><i data-lucide="cpu" class="w-6 h-6 text-intel-black"></i></div>
-                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 02</p><p class="font-bold">Controle PWM</p></div>
-                            </div>
-                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
-                                <div class="bg-intel-white p-3 rounded-full"><i data-lucide="zap" class="w-6 h-6 text-intel-black"></i></div>
-                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 03</p><p class="font-bold">Inversão 1200W</p></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="relative py-32 px-6 overflow-hidden bg-intel-black z-10">
-        <div class="max-w-7xl mx-auto relative">
-            <div class="text-center mb-24">
-                <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-intel-white">
-                    Um sistema.<br>
-                    <span class="text-intel-grey">Três tecnologias.</span><br>
-                    <span class="text-intel-orange text-glow">Controle total.</span>
-                </h2>
+    <section class="relative py-32 px-6 bg-intel-black z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="sun" class="w-8 h-8 text-intel-orange mb-4"></i>
+                <h3 class="font-display text-2xl font-bold uppercase">Placa 160W</h3>
             </div>
-
-            <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2">
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
-                        <i data-lucide="sun" class="w-8 h-8 text-intel-orange"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold uppercase mb-2">Placa Solar <br/> 160W</h3>
-                    <p class="text-intel-white/60">Células monocristalinas de altíssima eficiência.</p>
-                </div>
-
-                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2 md:mt-12">
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
-                        <i data-lucide="cpu" class="w-8 h-8 text-intel-green-light"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold uppercase mb-2">Controlador <br/> PWM ECP 1024</h3>
-                    <p class="text-intel-white/60">O cérebro que garante a vida útil das baterias.</p>
-                </div>
-
-                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2">
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
-                        <i data-lucide="zap" class="w-8 h-8 text-intel-white"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold uppercase mb-2">Microinversor <br/> 1200W</h3>
-                    <p class="text-intel-white/60">Energia pronta para uso imediato em sua rede.</p>
-                </div>
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="cpu" class="w-8 h-8 text-intel-green-light mb-4"></i>
+                <h3 class="font-display text-2xl font-bold uppercase">Controlador</h3>
+            </div>
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="zap" class="w-8 h-8 text-intel-white mb-4"></i>
+                <h3 class="font-display text-2xl font-bold uppercase">Inversor</h3>
             </div>
         </div>
     </section>
 
     <script>
-        // Init Lucide
         function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
 
         const frameCount = 100;
         const images = [];
         let loadedImages = 0;
-
         const loader = document.getElementById('loader');
         const progressBar = document.getElementById('progress-bar');
         const loadingText = document.getElementById('loading-text');
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
         const heroEl = document.getElementById('scroll-hero');
-
         const text1 = document.getElementById('hero-text-1');
         const text2 = document.getElementById('hero-text-2');
 
-        const baseUrl = "https://buildix-user-images.s3.us-east-2.amazonaws.com/scroll-animations/temp-1776251160697/5f951e09-2b59-4a27-b187-ec87c6af9940/frame_";
+        // PROXY PARA EVITAR O ERRO DE CORS
+        const baseUrl = "https://images.weserv.nl/?url=https://buildix-user-images.s3.us-east-2.amazonaws.com/scroll-animations/temp-1776251160697/5f951e09-2b59-4a27-b187-ec87c6af9940/frame_";
 
         function updateCanvasSize() {
             canvas.width = window.innerWidth;
@@ -189,7 +134,6 @@
             const maxScroll = heroEl.offsetHeight - window.innerHeight;
             const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
             const frameIndex = Math.min(frameCount - 1, Math.floor(fraction * (frameCount - 1)));
-            
             if (images[frameIndex] && images[frameIndex].complete) {
                 drawCover(images[frameIndex]);
             }
@@ -198,36 +142,27 @@
         function drawCover(img) {
             const canvasRatio = canvas.width / canvas.height;
             const imgRatio = img.width / img.height;
-            let renderWidth, renderHeight, offsetX, offsetY;
-
+            let rw, rh, ox, oy;
             if (canvasRatio > imgRatio) {
-                renderWidth = canvas.width;
-                renderHeight = img.height * (canvas.width / img.width);
-                offsetX = 0;
-                offsetY = (canvas.height - renderHeight) / 2;
+                rw = canvas.width; rh = img.height * (canvas.width / img.width);
+                ox = 0; oy = (canvas.height - rh) / 2;
             } else {
-                renderHeight = canvas.height;
-                renderWidth = img.width * (canvas.height / img.height);
-                offsetX = (canvas.width - renderWidth) / 2;
-                offsetY = 0;
+                rh = canvas.height; rw = img.width * (canvas.height / img.height);
+                ox = (canvas.width - rw) / 2; oy = 0;
             }
             context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
+            context.drawImage(img, ox, oy, rw, rh);
         }
 
-        // Preloading
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
-            img.crossOrigin = "anonymous";
             const frameNum = i.toString().padStart(4, '0');
             img.src = `${baseUrl}${frameNum}.jpg`;
-            
             img.onload = () => {
                 loadedImages++;
-                const percent = Math.floor((loadedImages / frameCount) * 100);
-                progressBar.style.width = `${percent}%`;
-                loadingText.innerText = `Sincronizando Módulos ${percent}%...`;
-                
+                const p = Math.floor((loadedImages / frameCount) * 100);
+                progressBar.style.width = p + "%";
+                loadingText.innerText = "Sincronizando Hardware " + p + "%...";
                 if (loadedImages === frameCount) {
                     setTimeout(() => {
                         loader.style.opacity = '0';
@@ -241,32 +176,15 @@
         }
 
         window.addEventListener('resize', updateCanvasSize);
-
         window.addEventListener('scroll', () => {
-            const maxScroll = heroEl.offsetHeight - window.innerHeight;
-            const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-            
             requestAnimationFrame(() => {
                 renderCurrentFrame();
-
-                // Animation Text 1
-                if (fraction < 0.4) {
-                    const t1Progress = fraction / 0.4;
-                    text1.style.opacity = 1 - Math.pow(t1Progress, 2);
-                    text1.style.transform = `translateY(${t1Progress * -100}px)`;
-                } else {
-                    text1.style.opacity = 0;
-                }
-
-                // Animation Text 2
-                if (fraction > 0.35) {
-                    const t2Progress = Math.min(1, (fraction - 0.35) / 0.25);
-                    const exitProgress = fraction > 0.8 ? (fraction - 0.8) / 0.2 : 0;
-                    text2.style.opacity = exitProgress > 0 ? 1 - exitProgress : t2Progress;
-                    const yPos = exitProgress > 0 ? exitProgress * -50 : 48 * (1 - t2Progress);
-                    text2.style.transform = `translateY(${yPos}px)`;
-                } else {
-                    text2.style.opacity = 0;
+                const max = heroEl.offsetHeight - window.innerHeight;
+                const f = window.scrollY / max;
+                if(text1) text1.style.opacity = f > 0.3 ? 0 : 1;
+                if(text2) {
+                    text2.style.opacity = (f > 0.35 && f < 0.85) ? 1 : 0;
+                    text2.style.transform = f > 0.35 ? 'translateY(0)' : 'translateY(48px)';
                 }
             });
         }, { passive: true });
