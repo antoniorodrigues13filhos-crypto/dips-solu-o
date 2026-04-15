@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | High-End Cinematic</title>
+    <title>Dips | Tecnologia em Energia</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -32,7 +32,7 @@
         }
 
         /* Hero Section */
-        #hero-container { height: 800vh; position: relative; z-index: 2; background: #000; }
+        #hero-container { height: 600vh; position: relative; z-index: 2; background: #000; }
         #hero-canvas { position: sticky; top: 0; width: 100vw; height: 100vh; object-fit: cover; }
 
         /* Three.js Section */
@@ -43,6 +43,8 @@
             position: fixed; bottom: 10%; width: 100%; text-align: center;
             z-index: 50; font-family: 'Outfit'; pointer-events: none;
         }
+
+        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
     </style>
 </head>
 <body class="antialiased">
@@ -56,16 +58,25 @@
         <div class="flex items-center justify-center flex-1">
             <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
         </div>
-        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white"></i></div>
+        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white cursor-pointer"></i></div>
     </nav>
 
     <div id="hero-container">
         <canvas id="hero-canvas"></canvas>
         <div id="hero-texts" style="position:fixed; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; pointer-events:none;">
-            <div id="t1" class="absolute text-center">
-                <h1 class="font-display text-7xl md:text-9xl uppercase leading-none tracking-tighter">THE FUTURE</h1>
-                <h1 class="font-display text-7xl md:text-9xl uppercase leading-none text-dips-teal tracking-tighter">ENERGY.</h1>
+            
+            <div id="t1" class="absolute text-center opacity-0 translate-y-10">
+                <h1 class="font-display text-6xl md:text-9xl uppercase leading-none tracking-tighter">O FUTURO DA</h1>
+                <h1 class="font-display text-6xl md:text-9xl uppercase leading-none text-dips-teal text-glow tracking-tighter">ENERGIA.</h1>
+                <p class="mt-4 text-gray-400 uppercase tracking-[0.3em] font-bold">Inovação em cada detalhe</p>
             </div>
+
+            <div id="t2" class="absolute text-center opacity-0 translate-y-10">
+                <h1 class="font-display text-5xl md:text-8xl uppercase leading-none tracking-tighter">TECNOLOGIA</h1>
+                <h1 class="font-display text-5xl md:text-8xl uppercase leading-none text-dips-orange tracking-tighter">MODULAR.</h1>
+                <p class="mt-4 text-gray-400 uppercase tracking-[0.3em] font-bold">Sistemas de alta performance</p>
+            </div>
+
         </div>
     </div>
 
@@ -87,8 +98,8 @@
         const images = [];
         let loadedCount = 0;
 
-        function updateHero(scroll) {
-            const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
+        function updateHero(progress) {
+            const idx = Math.min(frameCount - 1, Math.floor(progress * (frameCount - 1)));
             if (images[idx]) {
                 heroCanvas.width = window.innerWidth;
                 heroCanvas.height = window.innerHeight;
@@ -114,9 +125,9 @@
 
         const textureLoader = new THREE.TextureLoader();
         const productData = [
-            { name: "Painel HP 160W", desc: "Captação Ultra", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
-            { name: "Controlador PWM", desc: "Gestão Inteligente", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
-            { name: "Microinversor", desc: "Conversão Pro", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
+            { name: "Painel HP 160W", desc: "Captação Ultra Eficiente", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
+            { name: "Controlador PWM", desc: "Gestão Inteligente de Carga", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
+            { name: "Microinversor", desc: "Conversão Profissional", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
         ];
 
         const meshes = [];
@@ -129,7 +140,7 @@
             meshes.push(mesh);
         });
 
-        // --- GSAP TIMELINE UNIFICADA ---
+        // --- GSAP TIMELINE CORRIGIDA ---
         const mainTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "body",
@@ -139,32 +150,40 @@
             }
         });
 
-        // Scroll do Hero (Video)
+        // Animação dos Frames do Hero
         mainTl.to({}, {
             duration: 2,
             onUpdate: function() {
-                const prog = this.progress() * 2; // Normaliza para a primeira parte
+                const prog = this.progress() * 2; // Foca nos frames na primeira metade do scroll
                 if (prog <= 1) {
                     updateHero(prog);
-                    document.getElementById('webgl-canvas').style.opacity = "0";
-                    document.getElementById('product-info').style.opacity = "0";
+                    gsap.to('#webgl-canvas', { opacity: 0 });
+                    gsap.to('#product-info', { opacity: 0 });
                 }
             }
-        });
+        }, 0);
 
-        // Transição e Produtos 3D
+        // Animação Texto 1 (Hero)
+        mainTl.to("#t1", { opacity: 1, y: 0, duration: 0.5 }, 0.1);
+        mainTl.to("#t1", { opacity: 0, y: -50, duration: 0.5 }, 0.8);
+
+        // Animação Texto 2 (Hero)
+        mainTl.to("#t2", { opacity: 1, y: 0, duration: 0.5 }, 1);
+        mainTl.to("#t2", { opacity: 0, y: -50, duration: 0.5 }, 1.8);
+
+        // Transição para Produtos 3D
         productData.forEach((p, i) => {
             mainTl.to(camera.position, {
                 y: meshes[i].position.y,
                 duration: 2,
                 ease: "power2.inOut",
                 onStart: () => {
-                    document.getElementById('webgl-canvas').style.opacity = "1";
-                    document.getElementById('product-info').style.opacity = "1";
+                    gsap.to('#webgl-canvas', { opacity: 1 });
+                    gsap.to('#product-info', { opacity: 1 });
                     document.getElementById('p-title').innerText = p.name;
                     document.getElementById('p-desc').innerText = p.desc;
                 }
-            });
+            }, 2 + (i * 1.5));
         });
 
         // --- LOOP & CARREGAMENTO ---
@@ -195,7 +214,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     </script>
 </body>
 </html>
