@@ -136,35 +136,21 @@
         </div>
     </section>
 
-    <section id="final-hero-section" style="height: 600vh; position: relative; background: #000; z-index: 80;">
-        <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
-            <canvas id="final-hero-canvas" style="display: block; width: 100vw; height: 100vh; object-fit: cover; opacity: 0; position: absolute; top: 0; left: 0; z-index: 1;"></canvas>
-            <div id="transition-overlay" style="position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 5; pointer-events: none;"></div>
-            <div id="final-hero-text" style="position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 8vw; pointer-events: none; opacity: 0;">
-                
-            </div>
-        </div>
-    </section>
-
     <script>
         gsap.registerPlugin(ScrollTrigger);
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
         // --- ⚙️ CONTROLE DE PRELOAD SUAVE ESTILO TESLA ---
         const frameCount = 71;
-        const frameCountFinal = 52;
         let loadedImages = 0;
-        const totalImages = frameCount + frameCountFinal;
         let realProgress = 0;
         let displayedProgress = 0;
 
         const images = [];
-        const imagesFinal = [];
         const airVideo = { frame: 0 };
-        const heroFinalData = { frame: 0 };
 
         function updateProgress() {
-            realProgress = loadedImages / totalImages;
+            realProgress = loadedImages / frameCount;
         }
 
         function animateProgress() {
@@ -179,8 +165,6 @@
         // --- PRELOAD E RENDERIZADORES ---
         const canvas1 = document.getElementById("hero-canvas");
         const ctx1 = canvas1.getContext("2d");
-        const canvasFinal = document.getElementById("final-hero-canvas");
-        const ctxFinal = canvasFinal.getContext("2d", { alpha: false });
 
         function renderCanvas(canvas, ctx, imgs, obj) {
             const img = imgs[Math.floor(obj.frame)];
@@ -208,15 +192,8 @@
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === totalImages) setTimeout(initAll, 1200); };
+            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === frameCount) setTimeout(initAll, 1200); };
             images.push(img);
-        }
-
-        for (let i = 1; i <= frameCountFinal; i++) {
-            const img = new Image();
-            img.src = `herofinal/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === totalImages) setTimeout(initAll, 1200); };
-            imagesFinal.push(img);
         }
 
         function initAll() {
@@ -243,19 +220,10 @@
                 gsap.from(card, { opacity: 0, y: 80, rotateX: 10, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
                 gsap.to(card, { y: isMobile ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
             });
-
-            // Transição & Hero Final
-            gsap.timeline({ scrollTrigger: { trigger: "#final-hero-section", start: "top 95%", end: "top top", scrub: 0.5, ease: "power2.inOut" }})
-                .to("#transition-overlay", { opacity: 1, duration: 1 })
-                .to(".products-section", { scale: 0.85, filter: "blur(15px)", opacity: 0, duration: 1 }, 0)
-                .to(canvasFinal, { opacity: 1, duration: 1, ease: "sine.inOut" })
-                .to("#transition-overlay", { opacity: 0, duration: 1 });
-
-            gsap.to(heroFinalData, { frame: frameCountFinal - 1, snap: "frame", ease: "none", scrollTrigger: { trigger: "#final-hero-section", start: "top top", end: "bottom bottom", scrub: isMobile ? 0.2 : 0.5, onUpdate: () => renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData) }});
             
         }
 
-        window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images, airVideo); renderCanvas(canvasFinal, ctxFinal, imagesFinal, heroFinalData); });
+        window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images, airVideo); });
     </script>
 </body>
 </html>
