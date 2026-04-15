@@ -20,16 +20,18 @@
             --color-intel-white: #FFFFFF;
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
+        
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* 1. EFEITO LAYER REVEAL NO HERO */
+        /* --- 1. CONFIGURAÇÃO DE CAMADAS (DEPTH) --- */
         #scroll-hero { 
             z-index: 20;
             position: relative;
             will-change: transform, clip-path;
-            /* Início com recorte levemente curvo */
+            /* Início com o polígono orgânico */
             clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 85% 98%, 50% 100%, 15% 98%, 0% 100%);
+            background-color: #0D1B2A;
         }
 
         #hero-canvas { 
@@ -56,14 +58,19 @@
             pointer-events: auto;
         }
 
-        /* 2. ESTILO DA SEÇÃO DE PRODUTOS */
+        /* --- 2. SEÇÃO DE PRODUTOS COM PROFUNDIDADE --- */
         .products-section {
             position: relative;
             z-index: 10;
-            margin-top: -15vh; /* Puxa para baixo do recorte do Hero */
+            margin-top: -20vh; /* Sobreposição para o efeito de máscara */
             background-color: #FFFFFF;
             color: #0D1B2A;
-            padding: 150px 5vw 100px;
+            padding: 200px 5vw 100px;
+            /* Estado inicial para animação de profundidade */
+            transform: translateY(180px);
+            filter: blur(10px);
+            opacity: 0.8;
+            will-change: transform, filter, opacity;
         }
 
         .product-card {
@@ -72,8 +79,7 @@
             padding: 24px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .product-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .product-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
     </style>
 </head>
 <body class="antialiased">
@@ -91,7 +97,7 @@
         </div>
     </header>
 
-    <section id="scroll-hero" style="height:850vh; position:relative;">
+    <section id="scroll-hero" style="height:850vh;">
         <div style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"></canvas>
             
@@ -154,7 +160,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="product-card flex flex-col">
                     <div class="aspect-square bg-gray-200 rounded-2xl mb-6 overflow-hidden">
-                        <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel 160W">
+                        <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel">
                     </div>
                     <h3 class="text-xl font-bold uppercase mb-2">Painel HP 160W</h3>
                     <p class="text-gray-500 text-sm mb-6 uppercase tracking-widest">Geração Pura</p>
@@ -166,7 +172,7 @@
 
                 <div class="product-card flex flex-col">
                     <div class="aspect-square bg-gray-200 rounded-2xl mb-6 overflow-hidden">
-                        <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full h-full object-cover" alt="PWM ECP">
+                        <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full h-full object-cover" alt="PWM">
                     </div>
                     <h3 class="text-xl font-bold uppercase mb-2">Controlador PWM</h3>
                     <p class="text-gray-500 text-sm mb-6 uppercase tracking-widest">Gestão Inteligente</p>
@@ -178,10 +184,10 @@
 
                 <div class="product-card flex flex-col">
                     <div class="aspect-square bg-gray-200 rounded-2xl mb-6 overflow-hidden">
-                        <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full h-full object-cover" alt="EGT 1200">
+                        <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full h-full object-cover" alt="Microinversor">
                     </div>
-                    <h3 class="text-xl font-bold uppercase mb-2">Microinversor 1200W</h3>
-                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-widest">Conversão Max</p>
+                    <h3 class="text-xl font-bold uppercase mb-2">Inversor 1200W</h3>
+                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-widest">Conversão Máxima</p>
                     <div class="mt-auto flex items-center justify-between">
                         <span class="text-2xl font-black text-intel-orange">R$ 2.800</span>
                         <button class="bg-intel-black text-white px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-intel-orange transition-colors">Comprar</button>
@@ -226,45 +232,42 @@
                 requestAnimationFrame(tick);
             }});
 
+            // TIMELINE PRINCIPAL (VÍDEO + TEXTOS)
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.6, 
+                    scrub: 0.6,
                     invalidateOnRefresh: true
                 }
             });
 
-            // VÍDEO ROLANDO
-            tl.to(airVideo, {
-                frame: frameCount - 1,
-                snap: "frame",
-                ease: "none",
-                duration: 10
-            }, 0);
-
-            // ANIMAÇÃO DE TEXTOS
+            tl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
             tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
             tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
             tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
 
-            // 🎯 EFEITO LAYER REVEAL ORGÂNICO (FINAL DO HERO)
+            // --- 🎯 LAYER DEPTH INTERACTION (SINCRONIZADO) ---
+
+            // 1. Recorte Orgânico do Hero
             gsap.to("#scroll-hero", {
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 65%, 85% 82%, 50% 72%, 15% 82%, 0% 65%)",
-                scale: 0.98,
+                scale: 0.96, // Recuo de profundidade
                 ease: "none",
                 scrollTrigger: {
                     trigger: "#scroll-hero",
-                    start: "85% top", // Começa no final do vídeo
+                    start: "85% top", // Começa no final do scroll do vídeo
                     end: "bottom top",
                     scrub: 1.2
                 }
             });
 
-            // Parallax na seção de produtos para efeito de profundidade
-            gsap.from(".products-section", {
-                y: 100,
+            // 2. Subida Sincronizada dos Produtos (Parallax + Focus)
+            gsap.to(".products-section", {
+                y: 0,
+                filter: "blur(0px)",
+                opacity: 1,
                 ease: "none",
                 scrollTrigger: {
                     trigger: "#scroll-hero",
@@ -275,6 +278,7 @@
             });
         }
 
+        // CARREGAMENTO DE FRAMES
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
@@ -286,10 +290,7 @@
             images.push(img);
         }
 
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener("resize", render);
     </script>
 </body>
 </html>
