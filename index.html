@@ -3,212 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPS | Ultra Cinematic</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Dips | Hardware Experience</title>
     
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <style type="text/tailwindcss">
-        @theme { --color-dips-teal: #00C2A8; }
-        body { background: #000; color: #fff; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
+    <style>
+        body { background-color: #000; margin: 0; overflow-x: hidden; }
         
-        canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; }
-        #hero-canvas { z-index: 10; }
-        #webgl-canvas { z-index: 5; opacity: 0; }
+        #hero-section { height: 500vh; position: relative; }
+        
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 100px;
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        /* Loader Discreto */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 99;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="loader" style="position:fixed;inset:0;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
-        <div style="width:16rem;height:1px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
-    </div>
-
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] md:w-[60%] glass-nav px-8 py-4 flex justify-between items-center z-[200]">
-        <img src="logo/LOGO.png" alt="DIPS" class="h-8 md:h-12 object-contain">
-        <div class="flex gap-4 items-center uppercase text-[10px] tracking-[0.3em] font-bold">
-            <span class="text-dips-teal">Hardware</span>
-            <i data-lucide="menu"></i>
-        </div>
-    </nav>
-
-    <div id="scroller" class="h-[1500vh]">
-        <canvas id="hero-canvas"></canvas>
-        <canvas id="webgl-canvas"></canvas>
-
-        <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-center">
-            <div id="h-txt" class="opacity-0">
-                <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter">O FUTURO</h1>
-                <h1 class="text-dips-teal text-7xl md:text-9xl font-black uppercase tracking-tighter">ENERGIA.</h1>
-            </div>
-        </div>
-
-        <div id="p-info" class="fixed bottom-20 w-full text-center z-50 opacity-0 pointer-events-none">
-            <h2 id="p-title" class="text-4xl md:text-6xl font-black uppercase font-display tracking-tight">PRODUTO</h2>
-            <p id="p-desc" class="text-dips-teal uppercase tracking-[0.5em] text-xs font-bold mt-2">DIPS ULTRA SERIES</p>
+    <div id="loader">
+        <div class="w-48 h-[1px] bg-white/10 overflow-hidden">
+            <div id="progress" class="h-full bg-[#00C2A8] w-0 transition-all duration-300"></div>
         </div>
     </div>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
-    }
-    </script>
+    <section id="hero-section">
+        <div class="canvas-container">
+            <canvas id="video-canvas"></canvas>
+        </div>
+    </section>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-
+    <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- ENGINE SETUP ---
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0x000000, 1, 15);
-        
-        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 0, 12);
+        const canvas = document.getElementById("video-canvas");
+        const context = canvas.getContext("2d");
+        const progress = document.getElementById("progress");
+        const loader = document.getElementById("loader");
 
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: document.getElementById('webgl-canvas'), 
-            antialias: true, 
-            alpha: true 
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
-
-        // --- POST-PROCESSING PIPELINE ---
-        const composer = new EffectComposer(renderer);
-        composer.addPass(new RenderPass(scene, camera));
-
-        const bloomPass = new UnrealBloomPass(
-            new THREE.Vector2(window.innerWidth, window.innerHeight), 
-            1.5, 0.4, 0.85
-        );
-        bloomPass.threshold = 0.2;
-        bloomPass.strength = 0.8; // Ajustado para brilho elegante
-        bloomPass.radius = 0.5;
-        composer.addPass(bloomPass);
-
-        // --- LAYERS DE PRODUTOS ---
-        const productData = [
-            { name: "PAINEL HP 160W", desc: "ULTRA EFICIÊNCIA", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
-            { name: "CONTROLADOR PWM", desc: "SMART MANAGEMENT", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
-            { name: "MICROINVERSOR", desc: "PRO CONVERSION", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
-        ];
-
-        const meshes = [];
-        const texLoader = new THREE.TextureLoader();
-        productData.forEach((data, i) => {
-            const material = new THREE.MeshStandardMaterial({ 
-                map: texLoader.load(data.img), 
-                transparent: true, 
-                metalness: 0.8, 
-                roughness: 0.2 
-            });
-            const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 4.5), material);
-            mesh.position.y = -i * 15;
-            scene.add(mesh);
-            meshes.push(mesh);
-        });
-
-        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-        const pointLight = new THREE.PointLight(0x00C2A8, 50);
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
-
-        // --- HERO VÍDEO ---
-        const heroCanvas = document.getElementById('hero-canvas');
-        const ctx = heroCanvas.getContext('2d');
         const frameCount = 71;
+        const currentFrame = index => (
+            `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
+        );
+
         const images = [];
-        let loaded = 0;
+        const airVideo = { frame: 0 };
 
-        function drawFrame(idx) {
-            if (!images[idx]) return;
-            heroCanvas.width = window.innerWidth;
-            heroCanvas.height = window.innerHeight;
-            const img = images[idx];
-            const ratio = Math.max(heroCanvas.width/img.width, heroCanvas.height/img.height);
-            ctx.drawImage(img, (heroCanvas.width-img.width*ratio)/2, (heroCanvas.height-img.height*ratio)/2, img.width*ratio, img.height*ratio);
+        // 1. Pré-carregamento de Imagens
+        const preloadImages = () => {
+            for (let i = 1; i <= frameCount; i++) {
+                const img = new Image();
+                img.src = currentFrame(i);
+                img.onload = () => {
+                    loadedImagesCount++;
+                    const percent = (loadedImagesCount / frameCount) * 100;
+                    progress.style.width = `${percent}%`;
+                    
+                    if (loadedImagesCount === frameCount) {
+                        initAnimation();
+                    }
+                };
+                images.push(img);
+            }
+        };
+
+        let loadedImagesCount = 0;
+        preloadImages();
+
+        // 2. Lógica de Desenho (Interpolada para RTX)
+        function render() {
+            const img = images[Math.floor(airVideo.frame)];
+            if (!img) return;
+
+            // Ajuste de Proporção (Cover)
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+            const x = (canvas.width / 2) - (img.width / 2) * scale;
+            const y = (canvas.height / 2) - (img.height / 2) * scale;
+            
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, x, y, img.width * scale, img.height * scale);
         }
 
-        // --- TIMELINE ---
-        const tl = gsap.timeline({
-            scrollTrigger: { trigger: "#scroller", start: "top top", end: "bottom bottom", scrub: 1.5 }
-        });
+        // 3. Inicialização do GSAP
+        function initAnimation() {
+            loader.style.opacity = "0";
+            setTimeout(() => loader.style.display = "none", 800);
 
-        let frameObj = { frame: 0 };
-        tl.to(frameObj, {
-            frame: frameCount-1, duration: 4, ease: "none",
-            onUpdate: () => drawFrame(Math.floor(frameObj.frame))
-        }, 0);
-
-        tl.to("#h-txt", { opacity: 1, y: -40, duration: 1 }, 0.5);
-        tl.to("#h-txt", { opacity: 0, scale: 2.5, filter: "blur(20px)", duration: 1 }, 2);
-        tl.to("#hero-canvas", { scale: 4, filter: "blur(40px)", opacity: 0, duration: 2 }, 3.5);
-        tl.to("#webgl-canvas", { opacity: 1, duration: 1 }, 4.2);
-
-        productData.forEach((p, i) => {
-            tl.to(camera.position, {
-                y: meshes[i].position.y,
-                z: 7,
-                duration: 3,
-                ease: "expo.inOut",
-                onStart: () => {
-                    gsap.to("#p-info", { opacity: 1, y: 0 });
-                    document.getElementById('p-title').innerText = p.name;
-                    document.getElementById('p-desc').innerText = p.desc;
-                }
-            }, 5 + (i * 3));
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            meshes.forEach(m => {
-                m.rotation.y = Math.sin(Date.now() * 0.001) * 0.15;
+            gsap.to(airVideo, {
+                frame: frameCount - 1,
+                snap: "frame",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#hero-section",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1.2, // O "segredo" da suavidade
+                },
+                onUpdate: render // Redesenha a cada frame do GSAP
             });
-            composer.render();
+
+            render(); // Desenha o primeiro frame
         }
 
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => {
-                loaded++;
-                document.getElementById('progress-bar').style.width = (loaded/frameCount*100) + "%";
-                if (loaded === frameCount) {
-                    gsap.to("#loader", { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display='none' });
-                    drawFrame(0);
-                    animate();
-                }
-            };
-            images.push(img);
-        }
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        lucide.createIcons();
+        window.addEventListener("resize", render);
     </script>
 </body>
 </html>
