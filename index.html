@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPS | Premium UIX Experience</title>
+    <title>DIPS | Premium UIX Portfolio</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -27,10 +27,10 @@
             font-family: 'Space Grotesk', sans-serif; 
         }
 
-        /* NAVBAR GLASS */
+        /* NAVBAR PREMIUM */
         .glass-navbar {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 999px;
             margin-top: 20px; width: 90%; left: 5%;
@@ -45,44 +45,62 @@
 
         #hero-canvas { z-index: 2; object-fit: cover; }
         
-        /* NOVO FUNDO DE PRODUTOS (REMOVIDO O PRETO) */
+        /* GRADIENTE DE FUNDO PARA PRODUTOS (REMOVIDO PRETO PURO) */
         #products-bg {
             position: fixed; inset: 0;
             background: radial-gradient(circle at center, #1B263B 0%, #0D1B2A 100%);
-            z-index: 0; opacity: 0; transition: opacity 1s ease;
+            z-index: 0; opacity: 0; 
         }
 
-        /* UIX CARDS GLASSMORPHISM */
+        /* UIX GLASS CARDS */
         .uix-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            padding: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 48px;
+            padding: 50px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            transition: border-color 0.5s ease;
+            transition: border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .uix-card:hover {
-            border-color: var(--color-dips-teal);
+            border-color: rgba(0, 194, 168, 0.4);
         }
 
-        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
+        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
+        
+        .btn-premium {
+            background: white;
+            color: var(--color-dips-navy);
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium:hover {
+            background: var(--color-dips-teal);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 194, 168, 0.3);
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="products-bg"></div>
 
-    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 py-3 flex justify-between items-center opacity-0 transition-opacity duration-1000">
-        <div class="w-32"></div> 
-        <img src="logo/LOGO.png" alt="Logo" class="h-12 w-auto object-contain">
-        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white"></i></div>
+    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 py-3 flex justify-between items-center opacity-0">
+        <div class="hidden md:block w-32"></div> 
+        <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
+        <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white cursor-pointer"></i></div>
     </nav>
 
     <div id="main-scroller">
@@ -97,14 +115,16 @@
                 <h1 class="text-7xl md:text-9xl font-black text-dips-teal tracking-tighter uppercase font-display text-glow">ENERGY.</h1>
             </div>
 
-            <div id="uix-container" class="opacity-0 translate-y-20 w-full max-w-lg px-6">
-                <div class="uix-card">
-                    <div id="card-content" class="w-full">
-                        <h2 id="p-title" class="text-3xl md:text-5xl font-black uppercase font-display mb-4">PRODUTO</h2>
-                        <div class="h-[1px] w-12 bg-dips-teal mx-auto mb-6"></div>
-                        <p id="p-desc" class="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-8">Descrição técnica de alta performance.</p>
-                        <button class="bg-white text-dips-navy px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-dips-teal hover:text-white transition-all">
-                            Ver Detalhes
+            <div id="uix-container" class="opacity-0 translate-y-24 w-full max-w-xl px-6">
+                <div class="uix-card pointer-events-auto">
+                    <div class="w-full">
+                        <span class="text-dips-teal uppercase tracking-[0.4em] text-[10px] font-bold mb-4 block">Tecnologia Certificada</span>
+                        <h2 id="p-title" class="text-3xl md:text-5xl font-black uppercase font-display mb-6">PRODUTO</h2>
+                        <p id="p-desc" class="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-10 max-w-sm mx-auto">
+                            Carregando especificações técnicas de alta performance...
+                        </p>
+                        <button class="btn-premium">
+                            Explorar Hardware
                         </button>
                     </div>
                 </div>
@@ -116,7 +136,7 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 🧊 THREE.JS SETUP ---
+        // --- 🧊 1. SETUP THREE.JS (AMBIENTE PRODUTOS) ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.z = 8;
@@ -124,68 +144,76 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-        // Luzes Premium
-        const light = new THREE.SpotLight(0x00C2A8, 50); light.position.set(5, 5, 5); scene.add(light);
+        // Iluminação de Estúdio
+        const studioLight = new THREE.SpotLight(0x00C2A8, 60); studioLight.position.set(5, 5, 5); scene.add(studioLight);
         scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-        // Dados
+        // Dados dos Produtos
         const productData = [
-            { name: "Painel HP 160W", desc: "Módulo monocristalino de ultra eficiência projetado para máxima captação sob condições extremas.", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
-            { name: "Controlador PWM", desc: "Gestão inteligente de carga com proteção total contra surtos e otimização de vida útil das baterias.", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
-            { name: "Microinversor", desc: "Conversão de energia DC/AC de alta fidelidade com monitoramento individual por módulo.", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
+            { name: "Painel HP 160W", desc: "Módulo monocristalino de ultra eficiência projetado para máxima captação sob condições de baixa luminosidade.", img: 'produtos/produto-8942-placa-solar-policristalino-160w.jpg' },
+            { name: "Controlador PWM", desc: "Gestão inteligente de carga com proteção total contra surtos e otimização automatizada do ciclo das baterias.", img: 'produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png' },
+            { name: "Microinversor", desc: "Conversão de energia de alta fidelidade com monitoramento individual por módulo via Wi-Fi integrado.", img: 'produtos/MICROINVERSOR 1200W EGT 1200.png' }
         ];
 
         const meshes = [];
         const texLoader = new THREE.TextureLoader();
         productData.forEach((d, i) => {
             const mesh = new THREE.Mesh(
-                new THREE.PlaneGeometry(3, 3),
+                new THREE.PlaneGeometry(3.5, 3.5),
                 new THREE.MeshStandardMaterial({ map: texLoader.load(d.img), transparent: true, metalness: 0.5, roughness: 0.3 })
             );
-            mesh.position.y = -i * 12;
+            mesh.position.y = -i * 12; // Espaçamento vertical para o scroll lerp
             scene.add(mesh);
             meshes.push(mesh);
         });
 
-        // --- HERO CANVAS ---
+        // --- 🎥 2. HERO CANVAS (VÍDEO) ---
         const heroCanvas = document.getElementById('hero-canvas');
         const ctx = heroCanvas.getContext('2d');
         const frameCount = 71;
         const images = [];
         let loaded = 0;
 
-        // --- GSAP TIMELINE ---
-        const tl = gsap.timeline({
+        function updateHero(prog) {
+            const idx = Math.floor(prog * (frameCount - 1));
+            if (images[idx]) {
+                heroCanvas.width = window.innerWidth; heroCanvas.height = window.innerHeight;
+                const img = images[idx];
+                const ratio = Math.max(heroCanvas.width / img.width, heroCanvas.height / img.height);
+                const w = img.width * ratio; const h = img.height * ratio;
+                ctx.clearRect(0,0, heroCanvas.width, heroCanvas.height);
+                ctx.drawImage(img, (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
+            }
+        }
+
+        // --- ⚡ 3. MASTER TIMELINE (SCROLL CINEMATIC) ---
+        const masterTl = gsap.timeline({
             scrollTrigger: { trigger: "#main-scroller", start: "top top", end: "bottom bottom", scrub: 1.5 }
         });
 
-        // 1. Video Frames
-        let frameObj = { val: 0 };
-        tl.to(frameObj, {
-            val: frameCount - 1, duration: 4, ease: "none",
-            onUpdate: () => {
-                const idx = Math.floor(frameObj.val);
-                if (images[idx]) {
-                    heroCanvas.width = window.innerWidth; heroCanvas.height = window.innerHeight;
-                    const ratio = Math.max(heroCanvas.width / images[idx].width, heroCanvas.height / images[idx].height);
-                    const w = images[idx].width * ratio; const h = images[idx].height * ratio;
-                    ctx.drawImage(images[idx], (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
-                }
+        // Fase 1: Video Hero
+        masterTl.to({}, {
+            duration: 4,
+            onUpdate: function() {
+                const p = this.progress() * 2.5; // Foca no vídeo no início
+                if (p <= 1) updateHero(p);
             }
         }, 0);
 
-        // 2. Hero Text Animation
-        tl.to("#hero-txt", { opacity: 1, y: -20, duration: 1 }, 0.5);
-        tl.to("#hero-txt", { opacity: 0, scale: 1.2, duration: 1 }, 2);
+        // Fase 2: Hero Text
+        masterTl.to("#hero-txt", { opacity: 1, y: -20, duration: 1 }, 0.5);
+        masterTl.to("#hero-txt", { opacity: 0, scale: 1.3, duration: 1 }, 2);
 
-        // 3. Transição UIX: Fundo Navy + Desfoque do Vídeo
-        tl.to("#hero-canvas", { opacity: 0, duration: 1.5 }, 3.5);
-        tl.to("#products-bg", { opacity: 1, duration: 1.5 }, 3.5);
+        // Fase 3: Transição para Mundo UIX (Crossfade)
+        masterTl.to("#hero-canvas", { opacity: 0, duration: 1.5 }, 3.5);
+        masterTl.to("#products-bg", { opacity: 1, duration: 1.5 }, 3.5);
 
-        // 4. Camera Morph / Cards Entry
+        // Fase 4: Camera Morph / Entry Cards
         productData.forEach((p, i) => {
-            tl.to(camera.position, {
-                y: meshes[i].position.y, duration: 3, ease: "power2.inOut",
+            masterTl.to(camera.position, {
+                y: meshes[i].position.y,
+                duration: 3,
+                ease: "power2.inOut",
                 onStart: () => {
                     gsap.to("#uix-container", { opacity: 1, y: 0, duration: 0.8 });
                     document.getElementById('p-title').innerText = p.name;
@@ -194,20 +222,23 @@
             }, 4 + (i * 3));
         });
 
+        // Loop de Renderização 3D
         function animate() {
             requestAnimationFrame(animate);
-            meshes.forEach(m => { m.rotation.y = Math.sin(Date.now() * 0.001) * 0.15; });
+            meshes.forEach(m => { m.rotation.y = Math.sin(Date.now() * 0.001) * 0.12; });
             renderer.render(scene, camera);
         }
 
-        // --- LOADER & START ---
+        // --- 📦 4. CARREGAMENTO ---
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
             img.onload = () => {
                 loaded++;
                 if (loaded === frameCount) {
+                    gsap.to("#loader", { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display='none' });
                     gsap.to("#navbar", { opacity: 1, delay: 1 });
+                    updateHero(0);
                     animate();
                 }
             };
