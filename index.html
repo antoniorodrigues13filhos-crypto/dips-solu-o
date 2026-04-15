@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | Hardware Experience</title>
+    <title>Dips | Ultra Smooth Hardware</title>
     
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -14,7 +14,6 @@
     <style type="text/tailwindcss">
         @theme {
             --color-dips-navy: #0D1B2A;
-            --color-dips-blue: #1B3A5B;
             --color-dips-teal: #00C2A8;
             --color-dips-orange: #FF6B00;
         }
@@ -24,25 +23,30 @@
             margin: 0; 
             overflow-x: hidden; 
             font-family: 'Space Grotesk', sans-serif; 
-            color: white; 
+            color: white;
+            /* Força renderização suave no scroll do mouse */
+            scrollbar-width: none; 
         }
         
-        #hero-section { height: 1200vh; position: relative; }
+        #hero-section { height: 1000vh; position: relative; }
         
         .canvas-container {
             position: fixed; inset: 0;
             display: flex; justify-content: center; align-items: center;
             z-index: 1;
+            /* Força a criação de uma camada na GPU */
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         canvas { 
             width: 100vw; 
             height: 100vh; 
             object-fit: cover;
-            filter: contrast(1.05) brightness(0.95);
+            /* Suaviza a transição de cores e brilho */
+            image-rendering: auto;
         }
 
-        /* Camadas de Interface UIX */
         .text-layer {
             position: fixed; inset: 0;
             z-index: 10;
@@ -50,72 +54,39 @@
             justify-content: center; align-items: center;
             pointer-events: none;
             text-align: center;
-            padding: 2rem;
         }
 
         .premium-headline {
             font-family: 'Outfit', sans-serif;
             @apply text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none;
-            filter: blur(20px);
-            opacity: 0;
-            transform: translateY(20px);
-            will-change: filter, opacity, transform;
-        }
-
-        .cta-button {
-            @apply bg-dips-orange px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm transition-all;
-            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
-            pointer-events: auto;
             opacity: 0;
             transform: translateY(30px);
-        }
-
-        .cta-button:hover { 
-            @apply scale-105; 
-            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.5); 
-            background-color: #ff7b1a;
+            will-change: opacity, transform, filter;
         }
 
         #loader {
             position: fixed; inset: 0; background: #0D1B2A; z-index: 100;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-
-        /* Textura de Grão Cinematográfico */
-        .overlay-texture {
-            position: fixed; inset: 0;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Static_Noise_Texture.png');
+            display: flex; justify-content: center; align-items: center;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="loader">
-        <div class="mb-4 text-[10px] tracking-[0.5em] text-dips-teal uppercase font-bold">Hardware Syncing</div>
-        <div class="w-48 h-[2px] bg-dips-blue overflow-hidden rounded-full">
-            <div id="progress" class="h-full bg-dips-teal w-0 shadow-[0_0_15px_#00C2A8]"></div>
+        <div class="w-32 h-[1px] bg-white/10 overflow-hidden">
+            <div id="progress" class="h-full bg-dips-teal w-0"></div>
         </div>
     </div>
 
-    <div class="overlay-texture"></div>
-    <div class="fixed inset-0 z-5 pointer-events-none bg-[radial-gradient(circle,transparent_40%,rgba(13,27,42,0.7)_120%)]"></div>
-
     <div class="text-layer">
         <div id="block-1" class="absolute">
-            <h1 class="premium-headline">O Futuro da <br> <span class="text-dips-teal">Energia</span></h1>
+            <h1 class="premium-headline">THE FUTURE OF <br> <span class="text-dips-teal">ENERGY</span></h1>
         </div>
-
         <div id="block-2" class="absolute">
-            <h1 class="premium-headline text-white">Tecnologia <br> <span class="text-dips-teal">Modular</span></h1>
-            <p class="mt-8 text-dips-blue font-bold uppercase tracking-[0.6em] opacity-0 text-sm" id="sub-2">Hardware de Alta Fidelidade</p>
+            <h1 class="premium-headline">MODULAR <br> <span class="text-white">HARDWARE</span></h1>
         </div>
-
         <div id="block-3" class="absolute">
-            <h1 class="premium-headline mb-12">Dips <span class="text-dips-teal">Solution</span></h1>
-            <button class="cta-button">Explorar Hardware</button>
+            <h1 class="premium-headline">DIPS <span class="text-dips-teal">SOLUTION</span></h1>
         </div>
     </div>
 
@@ -129,26 +100,32 @@
         gsap.registerPlugin(ScrollTrigger);
 
         const canvas = document.getElementById("video-canvas");
-        const context = canvas.getContext("2d", { alpha: false });
-        const progress = document.getElementById("progress");
-        const loader = document.getElementById("loader");
+        // Otimização de contexto para RTX 3070
+        const context = canvas.getContext("2d", { 
+            alpha: false, 
+            desynchronized: true,
+            preserveDrawingBuffer: false
+        });
 
         const frameCount = 71;
-        const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
-
         const images = [];
         const airVideo = { frame: 0 };
         let loadedImagesCount = 0;
 
-        // 1. Pré-carregamento Otimizado
+        const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
+
+        // Cache de dimensões para evitar reflows no loop
+        let winW = window.innerWidth;
+        let winH = window.innerHeight;
+
         const preloadImages = () => {
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image();
                 img.src = currentFrame(i);
                 img.onload = () => {
                     loadedImagesCount++;
-                    progress.style.width = `${(loadedImagesCount / frameCount) * 100}%`;
-                    if (loadedImagesCount === frameCount) initAnimation();
+                    document.getElementById("progress").style.width = `${(loadedImagesCount / frameCount) * 100}%`;
+                    if (loadedImagesCount === frameCount) init();
                 };
                 images.push(img);
             }
@@ -156,66 +133,64 @@
 
         function render() {
             const img = images[Math.floor(airVideo.frame)];
-            if (!img) return;
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            context.imageSmoothingEnabled = true;
-            context.imageSmoothingQuality = 'high';
-
-            const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-            const x = (canvas.width / 2) - (img.width / 2) * scale;
-            const y = (canvas.height / 2) - (img.height / 2) * scale;
-            
-            context.drawImage(img, x, y, img.width * scale, img.height * scale);
+            if (img && context) {
+                const scale = Math.max(winW / img.width, winH / img.height);
+                const x = (winW / 2) - (img.width / 2) * scale;
+                const y = (winH / 2) - (img.height / 2) * scale;
+                context.drawImage(img, x, y, img.width * scale, img.height * scale);
+            }
         }
 
-        function initAnimation() {
-            // Fade out do loader
-            gsap.to(loader, { opacity: 0, duration: 1.2, ease: "power2.inOut", onComplete: () => loader.style.display = "none" });
+        // Loop de animação nativo da GPU para fluidez máxima
+        function ticker() {
+            render();
+            requestAnimationFrame(ticker);
+        }
+
+        function init() {
+            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
+                document.getElementById("loader").style.display = "none";
+                requestAnimationFrame(ticker); // Inicia o loop de renderização constante
+            }});
+
+            canvas.width = winW;
+            canvas.height = winH;
 
             const masterTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#hero-section",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 1.5,
+                    scrub: 1, // scrub 1 é mais responsivo que 1.5
+                    immediateRender: false
                 }
             });
 
-            // 1. Sincronia dos Frames (Duration 10 como base de tempo)
             masterTl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
-                duration: 10,
-                onUpdate: render
+                duration: 10
             }, 0);
 
-            // 2. Ato 1: Abertura (Frames iniciais)
-            masterTl.to("#block-1 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 0.5);
-            masterTl.to("#block-1", { opacity: 0, y: -80, filter: "blur(20px)", duration: 2 }, 2.5);
+            // Ajuste de timing para leveza (fade mais rápido e limpo)
+            masterTl.to("#block-1 .premium-headline", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 0.5);
+            masterTl.to("#block-1", { opacity: 0, y: -50, duration: 1.5 }, 2.5);
 
-            // 3. Ato 2: Meio do Vídeo (Detalhes técnicos)
-            masterTl.to("#block-2 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 4.5);
-            masterTl.to("#sub-2", { opacity: 1, y: -10, duration: 1 }, 5);
-            masterTl.to("#block-2", { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 2 }, 7.5);
+            masterTl.to("#block-2 .premium-headline", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 4.5);
+            masterTl.to("#block-2", { opacity: 0, y: -50, duration: 1.5 }, 6.5);
 
-            // 4. Ato 3: Snap Final (Destaque e CTA)
-            masterTl.to("#block-3 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 8.8);
-            masterTl.to("#block-3 .cta-button", { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1.5, 
-                ease: "back.out(1.7)" 
-            }, 9.2);
-
-            render();
+            masterTl.to("#block-3 .premium-headline", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 8.5);
         }
 
+        window.addEventListener("resize", () => {
+            winW = window.innerWidth;
+            winH = window.innerHeight;
+            canvas.width = winW;
+            canvas.height = winH;
+        });
+
         preloadImages();
-        window.addEventListener("resize", render);
     </script>
 </body>
 </html>
