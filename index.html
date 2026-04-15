@@ -75,7 +75,6 @@
             display: block;
         }
 
-        /* 🌌 PREMIUM PRODUCTS SECTION ENHANCEMENTS */
         .products-section {
             position: relative;
             z-index: 60;
@@ -130,6 +129,8 @@
         .card-inner-content {
             transform: translateZ(30px);
         }
+
+        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
     </style>
 </head>
 <body class="antialiased">
@@ -208,10 +209,10 @@
         <div class="max-w-7xl mx-auto">
             <div class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
                 <div>
-                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter">Hardware <br/> de Elite</h2>
-                    <div class="w-32 h-2 bg-intel-orange"></div>
+                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade Energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
+                    <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Investimento inteligente com retorno imediato. Tecnologia modular de alta precisão para sistemas sustentáveis.</p>
                 </div>
-                <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-xs">Tecnologia modular de alta precisão para sistemas sustentáveis.</p>
+                <div class="w-32 h-2 bg-intel-orange reveal-text"></div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -343,18 +344,30 @@
                 });
             });
 
-            // ⚡ APPLE STORE ENTRANCE & PARALLAX
+            gsap.to(".reveal-text", {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 1.2,
+                ease: "power4.out",
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: ".products-section",
+                    start: "top 75%",
+                }
+            });
+
             gsap.from(".product-card", {
-                y: 150,
+                y: 100,
                 opacity: 0,
                 filter: "blur(20px)",
-                scale: 0.9,
+                scale: 0.95,
                 duration: 1.5,
                 ease: "power4.out",
                 stagger: 0.2,
                 scrollTrigger: {
                     trigger: ".products-section",
-                    start: "top 70%",
+                    start: "top 60%",
                 }
             });
 
@@ -371,7 +384,6 @@
                 });
             });
 
-            // 🧊 3D HOVER INTERACTION
             const cards = document.querySelectorAll('.product-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', e => {
