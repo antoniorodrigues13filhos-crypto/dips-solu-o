@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | Soluções em Distribuição</title>
+    <title>Dips | High-End Energy</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -14,7 +14,6 @@
             --color-dips-navy: #0D1B2A;
             --color-dips-teal: #00C2A8;
             --color-dips-orange: #FF6B00;
-            --font-display: 'Outfit', sans-serif;
         }
         
         body { 
@@ -24,159 +23,136 @@
             font-family: 'Space Grotesk', sans-serif; 
         }
 
+        /* 🧊 5. SHADER EFFECTS (GLASS/REFRATION) */
         .glass-navbar {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px) saturate(180%);
-            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 999px;
             margin-top: 20px;
-            width: 90%;
-            left: 5%;
-            transition: transform 0.1s ease-out;
-            will-change: transform;
+            width: 90%; left: 5%;
+            transition: transform 0.2s ease-out;
         }
 
-        /* CARD DE PRODUTO PREMIUM */
+        /* 🌫️ 2. DEPTH OF FIELD + 💡 4. LIGHT BLOOM */
         .product-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            will-change: transform, opacity;
+            backdrop-filter: blur(8px);
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            perspective: 1000px; /* Para efeito 3D vivo */
+            overflow: hidden;
         }
 
+        /* ✨ 3. MORPHING TRANSITION NO HOVER */
         .product-card:hover {
-            border-color: rgba(0, 194, 168, 0.3);
-            transform: translateY(-15px) scale(1.03);
-            background: rgba(0, 194, 168, 0.04);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 194, 168, 0.5);
+            background: rgba(0, 194, 168, 0.02);
+            box-shadow: 0 0 50px rgba(0, 194, 168, 0.15), inset 0 0 20px rgba(0, 194, 168, 0.05);
+            transform: translateY(-20px) rotateX(5deg) rotateY(-5deg);
         }
 
-        /* ESTILO PARA AS IMAGENS DOS PRODUTOS (HP-REF) */
+        /* 💡 4. LUXURY BRAND HIGHLIGHTS */
         .product-image {
             width: 100%;
-            height: 240px;
-            object-contain: contain; /* Garante que a imagem inteira apareça sem cortes */
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.05)); /* Leve brilho de fundo */
-            transition: transform 0.6s ease;
+            height: 280px;
+            object-fit: contain;
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.05)) brightness(1);
+            z-index: 2;
+        }
+
+        /* 🌀 6. PARALLAX DEPTH LAYERS */
+        .parallax-bg-text {
+            position: absolute;
+            font-size: 12rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
         }
 
         .product-card:hover .product-image {
-            transform: scale(1.1) rotate(-3deg); /* Micro-movimento no hover */
-            filter: drop-shadow(0 0 20px rgba(0, 194, 168, 0.2));
+            transform: translateZ(50px) scale(1.15); /* Dolly In */
+            filter: drop-shadow(0 0 30px rgba(0, 194, 168, 0.4)) brightness(1.2); /* Light Bloom */
         }
 
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
-        
-        .cta-button { 
-            background: linear-gradient(90deg, #FF6B00 0%, #00C2A8 100%); 
-            transition: all 0.3s ease; 
-        }
-
         canvas { will-change: transform, opacity; }
     </style>
 </head>
 <body class="antialiased overflow-hidden">
 
-    <div id="loader" style="position:fixed;inset:0;background:#0D1B2A;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s;">
-        <div style="width:16rem;height:4px;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
-            <div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div>
-        </div>
+    <div id="loader" style="position:fixed;inset:0;background:#0D1B2A;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+        <div style="width:16rem;height:2px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
     </div>
 
-    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 md:px-12 py-3 flex justify-between items-center shadow-2xl">
+    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 md:px-12 py-3 flex justify-between items-center">
         <div class="hidden md:block w-32"></div> 
         <div class="flex items-center justify-center flex-1">
             <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
         </div>
-        <div class="flex items-center justify-end w-32">
-            <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.2em] group">
-                <span class="hidden md:inline">Menu</span>
-                <div class="flex flex-col gap-1">
-                    <span class="w-6 h-[2px] bg-white group-hover:bg-dips-teal transition-all"></span>
-                    <span class="w-4 h-[2px] bg-dips-teal self-end"></span>
-                </div>
-            </button>
+        <div class="w-32 flex justify-end">
+            <div class="flex flex-col gap-1 cursor-pointer group">
+                <span class="w-6 h-[2px] bg-white group-hover:bg-dips-teal transition-all"></span>
+                <span class="w-4 h-[2px] bg-dips-teal self-end"></span>
+            </div>
         </div>
     </nav>
 
     <section id="scroll-hero" style="height:800vh; position:relative;">
         <div id="sticky-engine" style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute; inset:0; width:100%; height:100%;"></canvas>
-            
             <div id="overlay-dark" style="position:absolute; inset:0; background:linear-gradient(to top, #0D1B2A 0%, rgba(13,27,42,0.4) 50%, transparent 100%); z-index:1;"></div>
             
-            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-top: 80px;">
-                <div id="t1" class="absolute transition-all duration-500">
-                    <h1 class="font-display text-5xl md:text-8xl lg:text-9xl uppercase leading-none mb-4">O FUTURO DA</h1>
-                    <h1 class="font-display text-5xl md:text-8xl lg:text-9xl uppercase leading-none text-dips-teal text-glow">ENERGIA.</h1>
-                    <p class="mt-6 text-gray-400 uppercase tracking-widest font-bold">Distribuição e Soluções Técnicas</p>
+            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+                <div id="t1" class="absolute transition-all duration-700">
+                    <h1 class="font-display text-7xl md:text-9xl uppercase leading-none mb-4 tracking-tighter">THE FUTURE</h1>
+                    <h1 class="font-display text-7xl md:text-9xl uppercase leading-none text-dips-teal text-glow tracking-tighter">ENERGY.</h1>
                 </div>
-
-                <div id="t2" class="absolute opacity-0 translate-y-10 transition-all duration-500">
-                    <h2 class="font-display text-4xl md:text-7xl uppercase mb-4">TECNOLOGIA</h2>
-                    <h2 class="font-display text-4xl md:text-7xl uppercase text-dips-orange">MODULAR.</h2>
-                </div>
-
-                <div id="t3" class="absolute opacity-0 translate-y-10 transition-all duration-500">
-                    <h2 class="font-display text-4xl md:text-7xl uppercase text-glow">DIPS SOLUTION</h2>
-                    <p class="mt-4 text-gray-400 uppercase tracking-widest font-bold">Conheça nossa linha de produtos abaixo</p>
-                    <div class="mt-8 animate-bounce"><i data-lucide="chevron-down" class="text-dips-teal"></i></div>
+                <div id="t2" class="absolute opacity-0 transition-all duration-700">
+                    <h2 class="font-display text-5xl md:text-8xl uppercase text-dips-orange">MODULAR.</h2>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="products-area" class="relative z-10 px-8 py-32 bg-dips-navy">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-24 text-center">
-                <h2 class="font-display text-4xl md:text-6xl uppercase tracking-tighter">Nosso<br/><span class="text-dips-teal text-glow">Portfolio</span></h2>
-                <div class="w-24 h-1 bg-dips-orange mx-auto mt-6"></div>
+    <section id="products-area" class="relative z-10 px-8 py-40 bg-dips-navy overflow-hidden">
+        <div class="parallax-bg-text" id="bg-text-1" style="top: 10%; left: -10%;">SOLUTIONS</div>
+        <div class="parallax-bg-text" id="bg-text-2" style="bottom: 10%; right: -10%;">TECHNOLOGY</div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="mb-32 text-center">
+                <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tighter">High-End<br/><span class="text-dips-teal text-glow">Portfolio</span></h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
-                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" alt="Placa Solar Polocristalino 160W" class="product-image">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="w-8 h-[1px] bg-dips-teal"></span>
-                        <span class="uppercase tracking-widest text-xs font-bold text-dips-teal">Captação</span>
-                        <span class="w-8 h-[1px] bg-dips-teal"></span>
-                    </div>
-                    <h3 class="font-display text-2xl uppercase mb-3">Painel HP 160W</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Módulo monocristalino de ultra eficiência para máxima geração de energia em projetos residenciais e industriais.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="product-card p-12 rounded-[2.5rem] group" id="card-1">
+                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="product-image" alt="Painel">
+                    <h3 class="font-display text-3xl uppercase mt-8 text-white">Painel 160W</h3>
+                    <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Ultra Efficiency / Mono</p>
                 </div>
 
-                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
-                    <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" alt="Controlador de Carga PWM ECP 1024" class="product-image">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="w-8 h-[1px] bg-dips-orange"></span>
-                        <span class="uppercase tracking-widest text-xs font-bold text-dips-orange">Gerenciamento</span>
-                        <span class="w-8 h-[1px] bg-dips-orange"></span>
-                    </div>
-                    <h3 class="font-display text-2xl uppercase mb-3">Controlador PWM</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Gestão inteligente de carga e descarga para baterias, garantindo vida útil longa e segurança absoluta.</p>
+                <div class="product-card p-12 rounded-[2.5rem] group" id="card-2">
+                    <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="product-image" alt="Controlador">
+                    <h3 class="font-display text-3xl uppercase mt-8 text-white">Control PWM</h3>
+                    <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Smart Management / 10A</p>
                 </div>
 
-                <div class="product-card p-10 rounded-3xl group flex flex-col items-center text-center">
-                    <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" alt="Microinversor 1200W EGT 1200" class="product-image">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="w-8 h-[1px] bg-white"></span>
-                        <span class="uppercase tracking-widest text-xs font-bold text-white">Conversão</span>
-                        <span class="w-8 h-[1px] bg-white"></span>
-                    </div>
-                    <h3 class="font-display text-2xl uppercase mb-3">Microinversor 1.2kW</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">Conversão de alta fidelidade e monitoramento módulo a módulo para otimizar o desempenho do seu sistema.</p>
+                <div class="product-card p-12 rounded-[2.5rem] group" id="card-3">
+                    <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="product-image" alt="Microinversor">
+                    <h3 class="font-display text-3xl uppercase mt-8 text-white">Inverter 1.2kW</h3>
+                    <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Pro Conversion / Real-time</p>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
-
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
         const navbar = document.getElementById('navbar');
@@ -184,65 +160,48 @@
         const images = [];
         let loadedImages = 0;
 
-        const txt1 = document.getElementById('t1');
-        const txt2 = document.getElementById('t2');
-        const txt3 = document.getElementById('t3');
-
-        function drawImage(img) {
-            const canvasRatio = canvas.width / canvas.height;
-            const imgRatio = img.width / img.height;
-            let nw, nh, nx, ny;
-            if (canvasRatio > imgRatio) {
-                nw = canvas.width; nh = img.height * (canvas.width / img.width);
-                nx = 0; ny = (canvas.height - nh) / 2;
-            } else {
-                nh = canvas.height; nw = img.width * (canvas.height / img.height);
-                nx = (canvas.width - nw) / 2; ny = 0;
-            }
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, nx, ny, nw, nh);
-        }
-
         function handleScroll() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
             
-            const scrollHero = document.getElementById('scroll-hero');
-            const totalHeight = scrollHero.offsetHeight - window.innerHeight;
-            const scroll = window.scrollY / totalHeight;
-            
-            // Motion de Parallax da Navbar
-            const navMove = Math.min(20, scroll * 80); 
-            navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.05)})`;
+            // 🌀 6. PARALLAX LAYERS (Background Text)
+            document.getElementById('bg-text-1').style.transform = `translateX(${window.scrollY * 0.2}px)`;
+            document.getElementById('bg-text-2').style.transform = `translateX(${-window.scrollY * 0.2}px)`;
 
-            // Renderização de Frames
+            // 🌫️ 2. CINEMATIC NAV MOTION
+            const navMove = Math.min(25, scroll * 100); 
+            navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.03)})`;
+
+            // CANVAS RENDERING
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
-            if (images[idx]) drawImage(images[idx]);
-
-            // EFEITO SURPRESA: Tunnel Zoom no final do scroll
-            if (scroll > 0.85) {
-                const zoomFactor = 1 + (scroll - 0.85) * 4; 
-                const opacityFactor = 1 - (scroll - 0.85) * 6; 
-                canvas.style.transform = `scale(${zoomFactor})`;
-                canvas.style.opacity = opacityFactor > 0 ? opacityFactor : 0;
-                document.getElementById('overlay-dark').style.opacity = opacityFactor;
-            } else {
-                canvas.style.transform = `scale(1)`;
-                canvas.style.opacity = 1;
-                document.getElementById('overlay-dark').style.opacity = 1;
+            if (images[idx]) {
+                const img = images[idx];
+                const canvasRatio = canvas.width / canvas.height;
+                const imgRatio = img.width / img.height;
+                let nw, nh, nx, ny;
+                if (canvasRatio > imgRatio) {
+                    nw = canvas.width; nh = img.height * (canvas.width / img.width);
+                    nx = 0; ny = (canvas.height - nh) / 2;
+                } else {
+                    nh = canvas.height; nw = img.width * (canvas.height / img.height);
+                    nx = (canvas.width - nw) / 2; ny = 0;
+                }
+                
+                // ✨ 3. MORPHING/SMOOTH TRANSITION (Zoom out suave no final)
+                if (scroll > 0.8) {
+                    const zoom = 1 + (scroll - 0.8) * 3;
+                    context.setTransform(zoom, 0, 0, zoom, canvas.width/2 * (1 - zoom), canvas.height/2 * (1 - zoom));
+                } else {
+                    context.setTransform(1,0,0,1,0,0);
+                }
+                
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, nx, ny, nw, nh);
             }
 
-            // Lógica de Textos
-            txt1.style.opacity = scroll < 0.2 ? 1 : 0;
-            txt1.style.transform = scroll < 0.2 ? "translateY(0)" : "translateY(-40px)";
-
-            const inT2 = scroll > 0.3 && scroll < 0.6;
-            txt2.style.opacity = inT2 ? 1 : 0;
-            txt2.style.transform = inT2 ? "translateY(0)" : "translateY(20px)";
-
-            const inT3 = scroll > 0.7 && scroll < 0.9;
-            txt3.style.opacity = inT3 ? 1 : 0;
-            txt3.style.transform = inT3 ? "translateY(0)" : "translateY(20px)";
+            // TEXT STAGES
+            document.getElementById('t1').style.opacity = scroll < 0.25 ? 1 : 0;
+            document.getElementById('t1').style.transform = `translateY(${scroll * -80}px)`;
+            document.getElementById('t2').style.opacity = (scroll > 0.4 && scroll < 0.7) ? 1 : 0;
         }
 
         for (let i = 1; i <= frameCount; i++) {
@@ -255,9 +214,10 @@
                     document.getElementById('loader').style.opacity = '0';
                     setTimeout(() => { 
                         document.getElementById('loader').style.visibility = 'hidden';
-                        document.body.classList.remove('overflow-hidden');
                         document.body.style.overflowY = 'auto';
                     }, 500);
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
                     handleScroll();
                 }
             };
@@ -265,7 +225,11 @@
         }
 
         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleScroll);
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            handleScroll();
+        });
     </script>
 </body>
 </html>
