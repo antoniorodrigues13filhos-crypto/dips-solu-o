@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dips | Hardware Experience</title>
     
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -19,13 +19,14 @@
             --color-intel-black: #0D1B2A;
             --color-intel-white: #FFFFFF;
         }
-        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; }
+        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Otimização de renderização do Canvas */
+        /* 🚀 OTIMIZAÇÃO DE CAMADA PARA MOBILE */
         #hero-canvas { 
             will-change: transform; 
+            transform: translateZ(0); /* Força aceleração por hardware */
             image-rendering: -webkit-optimize-contrast;
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
         }
@@ -111,7 +112,11 @@
         lucide.createIcons();
 
         const canvas = document.getElementById("hero-canvas");
-        const context = canvas.getContext("2d", { alpha: false, desynchronized: true });
+        const context = canvas.getContext("2d", { 
+            alpha: false, 
+            desynchronized: true // ⚡ LATÊNCIA ZERO: Desenha direto no buffer da tela
+        });
+
         const frameCount = 71;
         const images = [];
         const airVideo = { frame: 0 };
@@ -119,11 +124,11 @@
 
         const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
 
+        // 🎨 RENDERIZADOR OTIMIZADO
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
-                // Sincronia de tamanho para evitar esticamento
-                if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+                if (canvas.width !== window.innerWidth) {
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
                 }
@@ -134,15 +139,24 @@
             }
         }
 
+        // 🔄 TICKER: Mantém a fluidez independente do processamento do scroll
+        function tick() {
+            render();
+            requestAnimationFrame(tick);
+        }
+
         function init() {
-            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
+            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
+                document.getElementById("loader").style.display = "none";
+                requestAnimationFrame(tick); // Inicia o loop de renderização ultra-fluido
+            }});
 
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.8, // Scrub reduzido para resposta imediata (leveza)
+                    scrub: 0.5, // 🚀 RESPOSTA IMEDIATA: Metade do tempo de atraso anterior
                     invalidateOnRefresh: true
                 }
             });
@@ -151,19 +165,14 @@
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
-                duration: 10,
-                onUpdate: render
+                duration: 10
             }, 0);
 
-            // Times de animação preservados
             tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
             tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
             tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
-            
-            render();
         }
 
-        // Preload leve para não travar o mobile
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
@@ -175,7 +184,10 @@
             images.push(img);
         }
 
-        window.addEventListener("resize", render);
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
