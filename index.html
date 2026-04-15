@@ -20,7 +20,6 @@
             --color-intel-orange: #dc5000;
             --color-intel-brown: #382416;
             --color-intel-grey: #6c5f51;
-
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
         }
@@ -29,24 +28,17 @@
             font-family: var(--font-body);
             background-color: var(--color-intel-black);
             color: var(--color-intel-white);
-            /* Prevent scroll until loaded */
             overflow: hidden; 
         }
 
-        h1, h2, h3, h4, h5, .font-display {
-            font-family: var(--font-display);
-        }
+        h1, h2, h3, h4, h5, .font-display { font-family: var(--font-display); }
 
         .energy-line-anim {
             stroke-dasharray: 20;
             animation: dash 20s linear infinite;
         }
 
-        @keyframes dash {
-            to {
-                stroke-dashoffset: -1000;
-            }
-        }
+        @keyframes dash { to { stroke-dashoffset: -1000; } }
 
         .glass-panel {
             background: rgba(56, 36, 22, 0.4);
@@ -54,21 +46,16 @@
             border: 1px solid rgba(255, 237, 215, 0.1);
         }
 
-        .text-glow {
-            text-shadow: 0 0 20px rgba(220, 80, 0, 0.5);
-        }
+        .text-glow { text-shadow: 0 0 20px rgba(220, 80, 0, 0.5); }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--color-intel-black); }
         ::-webkit-scrollbar-thumb { background: var(--color-intel-grey); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-intel-orange); }
-        ::selection { background-color: var(--color-intel-orange); color: var(--color-intel-white); }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- LOADING SCREEN (MANDATORY) -->
     <div id="loader" style="position:fixed;inset:0;background:linear-gradient(135deg,var(--color-intel-green),var(--color-intel-orange));z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
         <div class="mb-4">
             <i data-lucide="sun" class="w-16 h-16 text-white"></i>
@@ -77,10 +64,9 @@
         <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.3);border-radius:9999px;overflow:hidden;">
             <div id="progress-bar" style="height:100%;background:white;transition:all 100ms ease-out;width:0%;"></div>
         </div>
-        <p id="loading-text" class="text-white/80 mt-2 text-sm font-medium">Captando energia solar 0%...</p>
+        <p id="loading-text" class="text-white/80 mt-2 text-sm font-medium">Sincronizando Módulos 0%...</p>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center pointer-events-none">
         <div class="font-display font-bold text-2xl tracking-tighter uppercase text-intel-white pointer-events-auto">
             Intelbras<span class="text-intel-orange">.</span>
@@ -90,20 +76,14 @@
         </button>
     </nav>
 
-    <!-- HERO SECTION HTML (SCROLL ANIMATION) -->
     <section id="scroll-hero" style="height:400vh;position:relative;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-            
-            <!-- overlay gradient for text readability -->
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(16,9,4,0.95) 0%,rgba(16,9,4,0.4) 40%, transparent 100%);z-index:1;"></div>
             
-            <!-- Text Content OVER canvas -->
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
-                
                 <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
-                    <!-- Text Frame 1 -->
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform will-change-opacity">
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full">
                         <div class="flex items-center gap-3 mb-4">
                             <span class="w-8 h-[2px] bg-intel-orange block"></span>
                             <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
@@ -116,14 +96,13 @@
                         </p>
                     </div>
 
-                    <!-- Text Frame 2 -->
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform will-change-opacity">
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12">
                         <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
                             Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
                         </h2>
                         <div class="mt-8 flex flex-col md:flex-row gap-6">
                             <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
-                                <div class="bg-intel-green p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6"></i></div>
+                                <div class="bg-intel-green p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6 text-white"></i></div>
                                 <div><p class="text-xs text-intel-white/50 uppercase">Módulo 01</p><p class="font-bold">Captação</p></div>
                             </div>
                             <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
@@ -137,25 +116,11 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
-            
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 opacity-50 mix-blend-difference">
-                <span class="text-xs uppercase tracking-widest rotate-90 origin-right translate-y-8">Scroll</span>
-                <div class="w-[1px] h-16 bg-intel-white relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-full bg-intel-orange origin-top animate-[scale-y_2s_ease-in-out_infinite]"></div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTENT SECTION: THE SYSTEM (Adapted from user request) -->
     <section class="relative py-32 px-6 overflow-hidden bg-intel-black z-10">
-        <!-- Abstract BG elements -->
-        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-intel-green/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
-        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-intel-orange/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3"></div>
-
         <div class="max-w-7xl mx-auto relative">
             <div class="text-center mb-24">
                 <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-intel-white">
@@ -163,185 +128,97 @@
                     <span class="text-intel-grey">Três tecnologias.</span><br>
                     <span class="text-intel-orange text-glow">Controle total.</span>
                 </h2>
-                <p class="mt-6 text-xl text-intel-white/60 max-w-2xl mx-auto">O design perfeito entre geração, gerenciamento e conversão de energia, projetado para operar em sincronia absoluta.</p>
             </div>
 
-            <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
-                
-                <!-- SVG Energy Line connecting them (Desktop only for visual clarity) -->
-                <svg class="hidden md:block absolute top-1/2 left-0 w-full h-full -translate-y-1/2 pointer-events-none z-0" viewBox="0 0 1000 200" preserveAspectRatio="none">
-                    <path class="energy-line-anim" d="M 150 100 C 300 100, 350 50, 500 100 C 650 150, 700 100, 850 100" fill="none" stroke="var(--color-intel-orange)" stroke-width="2" stroke-dasharray="10 10" opacity="0.3"/>
-                    <circle cx="150" cy="100" r="4" fill="var(--color-intel-orange)" />
-                    <circle cx="500" cy="100" r="4" fill="var(--color-intel-green-light)" />
-                    <circle cx="850" cy="100" r="4" fill="var(--color-intel-white)" />
-                </svg>
-
-                <!-- PLACA SOLAR -->
-                <div class="product group relative z-10 p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2 border border-intel-white/5 hover:border-intel-orange/30">
-                    <div class="absolute inset-0 bg-gradient-to-b from-intel-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"></div>
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+            <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
                         <i data-lucide="sun" class="w-8 h-8 text-intel-orange"></i>
                     </div>
                     <h3 class="font-display text-2xl font-bold uppercase mb-2">Placa Solar <br/> 160W</h3>
-                    <p class="text-intel-white/60">Transforme luz em economia com células monocristalinas de altíssima eficiência.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm text-intel-orange font-bold uppercase tracking-wider">
-                        <span>Descobrir</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </div>
+                    <p class="text-intel-white/60">Células monocristalinas de altíssima eficiência.</p>
                 </div>
 
-                <!-- CONTROLADOR -->
-                <div class="product group relative z-10 p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2 border border-intel-white/5 hover:border-intel-green/30 mt-0 md:mt-12">
-                    <div class="absolute inset-0 bg-gradient-to-b from-intel-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"></div>
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2 md:mt-12">
+                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
                         <i data-lucide="cpu" class="w-8 h-8 text-intel-green-light"></i>
                     </div>
                     <h3 class="font-display text-2xl font-bold uppercase mb-2">Controlador <br/> PWM ECP 1024</h3>
-                    <p class="text-intel-white/60">Controle inteligente. O cérebro do sistema que garante a vida útil das baterias.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm text-intel-green-light font-bold uppercase tracking-wider">
-                        <span>Descobrir</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </div>
+                    <p class="text-intel-white/60">O cérebro que garante a vida útil das baterias.</p>
                 </div>
 
-                <!-- MICROINVERSOR -->
-                <div class="product group relative z-10 p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2 border border-intel-white/5 hover:border-intel-white/30">
-                    <div class="absolute inset-0 bg-gradient-to-b from-intel-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"></div>
-                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                <div class="product group p-8 glass-panel rounded-2xl hover:bg-intel-brown/60 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 rounded-full bg-intel-black border border-intel-white/10 flex items-center justify-center mb-8">
                         <i data-lucide="zap" class="w-8 h-8 text-intel-white"></i>
                     </div>
                     <h3 class="font-display text-2xl font-bold uppercase mb-2">Microinversor <br/> 1200W</h3>
-                    <p class="text-intel-white/60">Energia pronta para uso imediato. Sincronização perfeita com a rede elétrica local.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm text-intel-white font-bold uppercase tracking-wider">
-                        <span>Descobrir</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- TECHNICAL SPECS SECTION -->
-    <section class="py-32 bg-intel-brown relative border-t border-intel-white/10">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col lg:flex-row gap-16 items-center">
-                <div class="w-full lg:w-1/2">
-                    <div class="inline-block border border-intel-orange text-intel-orange px-4 py-1 rounded-full text-sm uppercase tracking-widest font-bold mb-6">Tecnologia PWM</div>
-                    <h2 class="font-display text-4xl md:text-5xl font-bold uppercase leading-tight mb-6">A inteligência por trás da durabilidade.</h2>
-                    <p class="text-xl text-intel-white/70 mb-8">O Controlador ECP 1024 utiliza modulação por largura de pulso (PWM) para garantir um carregamento suave, protegendo contra sobrecargas e descargas profundas.</p>
-                    
-                    <ul class="space-y-6">
-                        <li class="flex items-start gap-4">
-                            <i data-lucide="check-circle" class="w-6 h-6 text-intel-green shrink-0 mt-1"></i>
-                            <div>
-                                <h4 class="font-bold text-lg">Reconhecimento Automático</h4>
-                                <p class="text-intel-white/60 text-sm">Identificação automática de tensão do sistema (12V/24V).</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <i data-lucide="check-circle" class="w-6 h-6 text-intel-green shrink-0 mt-1"></i>
-                            <div>
-                                <h4 class="font-bold text-lg">Display Integrado</h4>
-                                <p class="text-intel-white/60 text-sm">Monitoramento em tempo real do status de carga e descarga.</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="w-full lg:w-1/2 relative">
-                    <div class="aspect-square rounded-3xl overflow-hidden relative glass-panel p-8 flex items-center justify-center">
-                        <!-- Abstract representation of the controller -->
-                        <div class="relative w-full h-full border border-intel-white/10 rounded-xl bg-intel-black/50 overflow-hidden flex flex-col justify-between p-6">
-                            <div class="flex justify-between items-center">
-                                <span class="text-intel-orange font-bold font-display text-2xl tracking-widest">ECP 1024</span>
-                                <div class="flex gap-2">
-                                    <div class="w-2 h-2 rounded-full bg-intel-green animate-pulse"></div>
-                                    <div class="w-2 h-2 rounded-full bg-intel-white/20"></div>
-                                    <div class="w-2 h-2 rounded-full bg-intel-white/20"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="h-32 flex items-end gap-2">
-                                <div class="w-1/6 bg-intel-orange h-[20%] rounded-t-sm"></div>
-                                <div class="w-1/6 bg-intel-orange h-[40%] rounded-t-sm"></div>
-                                <div class="w-1/6 bg-intel-orange h-[60%] rounded-t-sm"></div>
-                                <div class="w-1/6 bg-intel-orange h-[80%] rounded-t-sm"></div>
-                                <div class="w-1/6 bg-intel-green h-[100%] rounded-t-sm shadow-[0_0_15px_var(--color-intel-green)]"></div>
-                                <div class="w-1/6 bg-intel-green h-[100%] rounded-t-sm shadow-[0_0_15px_var(--color-intel-green)]"></div>
-                            </div>
-                            
-                            <div class="font-display text-5xl font-bold text-right text-intel-white">24.5<span class="text-2xl text-intel-white/50">V</span></div>
-                        </div>
-                        
-                        <!-- Floating spec badges -->
-                        <div class="absolute top-12 -left-6 glass-panel px-6 py-3 rounded-xl border border-intel-white/10 shadow-2xl">
-                            <span class="block text-xs uppercase text-intel-white/50">Corrente Nominal</span>
-                            <span class="font-bold text-xl">20A</span>
-                        </div>
-                        <div class="absolute bottom-12 -right-6 glass-panel px-6 py-3 rounded-xl border border-intel-white/10 shadow-2xl">
-                            <span class="block text-xs uppercase text-intel-white/50">Eficiência</span>
-                            <span class="font-bold text-xl text-intel-green-light">> 99%</span>
-                        </div>
-                    </div>
+                    <p class="text-intel-white/60">Energia pronta para uso imediato em sua rede.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER CTA -->
-    <footer class="bg-intel-black py-24 relative overflow-hidden border-t border-intel-white/5">
-        <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-            <h2 class="font-display text-5xl md:text-7xl font-bold uppercase mb-8">Poder em suas <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-intel-green-light to-intel-orange">Mãos</span>.</h2>
-            <button class="bg-intel-white text-intel-black hover:bg-intel-orange hover:text-intel-white px-10 py-5 rounded-full font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group">
-                Simule seu Sistema
-                <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-            </button>
-            
-            <div class="mt-24 pt-8 border-t border-intel-white/10 w-full flex flex-col md:flex-row justify-between items-center text-sm text-intel-white/40">
-                <p>&copy; 2024 Intelbras S/A. Todos os direitos reservados.</p>
-                <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-intel-white transition-colors">Especificações</a>
-                    <a href="#" class="hover:text-intel-white transition-colors">Manuais</a>
-                    <a href="#" class="hover:text-intel-white transition-colors">Suporte</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SCRIPTS -->
     <script>
-        // Init Icons
-        function initLucide(){
-            if(window.lucide){
-                lucide.createIcons();
-            } else {
-                setTimeout(initLucide, 200);
-            }
-        }
+        // Init Lucide
+        function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
 
-        // SCROLL ANIMATION LOGIC
         const frameCount = 100;
         const images = [];
         let loadedImages = 0;
-        
+
         const loader = document.getElementById('loader');
         const progressBar = document.getElementById('progress-bar');
         const loadingText = document.getElementById('loading-text');
-        
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
         const heroEl = document.getElementById('scroll-hero');
-        
-        // Text animation elements
+
         const text1 = document.getElementById('hero-text-1');
         const text2 = document.getElementById('hero-text-2');
 
         const baseUrl = "https://buildix-user-images.s3.us-east-2.amazonaws.com/scroll-animations/temp-1776251160697/5f951e09-2b59-4a27-b187-ec87c6af9940/frame_";
 
-        // 1. Preloading
+        function updateCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            renderCurrentFrame();
+        }
+
+        function renderCurrentFrame() {
+            const maxScroll = heroEl.offsetHeight - window.innerHeight;
+            const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+            const frameIndex = Math.min(frameCount - 1, Math.floor(fraction * (frameCount - 1)));
+            
+            if (images[frameIndex] && images[frameIndex].complete) {
+                drawCover(images[frameIndex]);
+            }
+        }
+
+        function drawCover(img) {
+            const canvasRatio = canvas.width / canvas.height;
+            const imgRatio = img.width / img.height;
+            let renderWidth, renderHeight, offsetX, offsetY;
+
+            if (canvasRatio > imgRatio) {
+                renderWidth = canvas.width;
+                renderHeight = img.height * (canvas.width / img.width);
+                offsetX = 0;
+                offsetY = (canvas.height - renderHeight) / 2;
+            } else {
+                renderHeight = canvas.height;
+                renderWidth = img.width * (canvas.height / img.height);
+                offsetX = (canvas.width - renderWidth) / 2;
+                offsetY = 0;
+            }
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
+        }
+
+        // Preloading
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.crossOrigin = "anonymous";
-            
             const frameNum = i.toString().padStart(4, '0');
             img.src = `${baseUrl}${frameNum}.jpg`;
             
@@ -351,111 +228,48 @@
                 progressBar.style.width = `${percent}%`;
                 loadingText.innerText = `Sincronizando Módulos ${percent}%...`;
                 
-                // Draw first frame immediately when it loads
-                if (loadedImages === 1) {
-                    resizeCanvas();
-                    drawCover(images[0]);
-                }
-                
                 if (loadedImages === frameCount) {
                     setTimeout(() => {
                         loader.style.opacity = '0';
                         loader.style.visibility = 'hidden';
-                        document.body.style.overflow = 'auto'; // Enable scrolling
-                    }, 500); // Small delay for UX
+                        document.body.style.overflow = 'auto';
+                        updateCanvasSize();
+                    }, 500);
                 }
             };
-            images.push(img);
+            images[i - 1] = img;
         }
 
-        // 2 & 3. Canvas resize and Draw Cover
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            // Redraw current frame
-            const maxScroll = heroEl.offsetHeight - window.innerHeight;
-            let fraction = window.scrollY / maxScroll;
-            if(fraction < 0) fraction = 0;
-            if(fraction > 1) fraction = 1;
-            
-            const frameIndex = Math.min(frameCount - 1, Math.ceil(fraction * (frameCount - 1)));
-            if (images[frameIndex] && images[frameIndex].complete) {
-                drawCover(images[frameIndex]);
-            }
-        }
+        window.addEventListener('resize', updateCanvasSize);
 
-        function drawCover(img) {
-            if (!img) return;
-            
-            const canvasRatio = canvas.width / canvas.height;
-            const imgRatio = img.width / img.height;
-            
-            let renderWidth, renderHeight, offsetX, offsetY;
-
-            if (canvasRatio > imgRatio) {
-                // Canvas is wider than image
-                renderWidth = canvas.width;
-                renderHeight = img.height * (canvas.width / img.width);
-                offsetX = 0;
-                offsetY = (canvas.height - renderHeight) / 2;
-            } else {
-                // Image is wider than canvas
-                renderHeight = canvas.height;
-                renderWidth = img.width * (canvas.height / img.height);
-                offsetX = (canvas.width - renderWidth) / 2;
-                offsetY = 0;
-            }
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-
-        // 4. Scroll handler
         window.addEventListener('scroll', () => {
             const maxScroll = heroEl.offsetHeight - window.innerHeight;
             const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-            const frameIndex = Math.min(frameCount - 1, Math.ceil(fraction * (frameCount - 1)));
             
-            if (images[frameIndex] && images[frameIndex].complete) {
-                requestAnimationFrame(() => {
-                    drawCover(images[frameIndex]);
-                    
-                    // TEXT ANIMATION LOGIC
-                    
-                    // Text 1: Visible from 0 to 0.4. Fades out and moves up.
-                    if (fraction < 0.4) {
-                        const t1Progress = fraction / 0.4; // 0 to 1
-                        text1.style.opacity = 1 - Math.pow(t1Progress, 2); // Ease out
-                        text1.style.transform = `translateY(${t1Progress * -100}px)`;
-                    } else {
-                        text1.style.opacity = 0;
-                    }
-                    
-                    // Text 2: Fades in from 0.4 to 0.6, stays, moves up slightly.
-                    if (fraction > 0.35) {
-                        const t2Progress = Math.min(1, (fraction - 0.35) / 0.25); // 0 to 1 between 0.35 and 0.6
-                        text2.style.opacity = t2Progress;
-                        // Start 48px down, move to 0
-                        const yPos = 48 * (1 - t2Progress); 
-                        text2.style.transform = `translateY(${yPos}px)`;
-                        
-                        // Optional fade out at very end
-                        if(fraction > 0.8) {
-                            const exitProgress = (fraction - 0.8) / 0.2;
-                            text2.style.opacity = 1 - exitProgress;
-                            text2.style.transform = `translateY(${exitProgress * -50}px)`;
-                        }
-                    } else {
-                        text2.style.opacity = 0;
-                        text2.style.transform = `translateY(48px)`;
-                    }
-                });
-            }
-        }, { passive: true });
+            requestAnimationFrame(() => {
+                renderCurrentFrame();
 
+                // Animation Text 1
+                if (fraction < 0.4) {
+                    const t1Progress = fraction / 0.4;
+                    text1.style.opacity = 1 - Math.pow(t1Progress, 2);
+                    text1.style.transform = `translateY(${t1Progress * -100}px)`;
+                } else {
+                    text1.style.opacity = 0;
+                }
+
+                // Animation Text 2
+                if (fraction > 0.35) {
+                    const t2Progress = Math.min(1, (fraction - 0.35) / 0.25);
+                    const exitProgress = fraction > 0.8 ? (fraction - 0.8) / 0.2 : 0;
+                    text2.style.opacity = exitProgress > 0 ? 1 - exitProgress : t2Progress;
+                    const yPos = exitProgress > 0 ? exitProgress * -50 : 48 * (1 - t2Progress);
+                    text2.style.transform = `translateY(${yPos}px)`;
+                } else {
+                    text2.style.opacity = 0;
+                }
+            });
+        }, { passive: true });
     </script>
 </body>
 </html>
