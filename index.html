@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips Solução em Distribuição | Sistema Solar</title>
+    <title>Dips | Sistema Solar</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -64,18 +64,18 @@
 
     <div id="loader" style="position:fixed;inset:0;background:var(--color-intel-black);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
         <i data-lucide="sun" class="w-16 h-16 text-intel-teal mb-4 animate-pulse"></i>
-        <h2 class="text-3xl font-display font-bold text-intel-white mb-2 tracking-tight uppercase">Dips Solução</h2>
+        <h2 class="text-3xl font-display font-bold text-intel-white mb-2 tracking-tight uppercase text-center">Iniciando Hardware</h2>
         <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
             <div id="progress-bar" style="height:100%;background:var(--color-intel-teal);transition:all 100ms ease-out;width:0%;"></div>
         </div>
-        <p id="loading-text" class="text-intel-grey mt-2 text-sm font-medium uppercase tracking-widest">Sincronizando Hardware 0%...</p>
+        <p id="loading-text" class="text-intel-grey mt-2 text-sm font-medium uppercase tracking-widest">Sincronizando Sistema 0%...</p>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-6 flex justify-between items-center pointer-events-none">
-        <div class="font-display font-bold text-2xl tracking-tighter uppercase text-intel-white pointer-events-auto">
-            Dips Solução em Distribuição<span class="text-intel-teal">.</span>
+    <nav class="fixed top-0 w-full z-50 mix-blend-difference px-6 py-4 flex justify-between items-center pointer-events-none">
+        <div class="pointer-events-auto">
+            <img src="/logo/Whisk_001da2a71aa530b99a6495bd0491de44dr.png" alt="Dips Logo" class="h-12 md:h-16 w-auto object-contain">
         </div>
-        <button class="pointer-events-auto flex gap-2 items-center text-sm uppercase tracking-widest font-semibold hover:text-intel-teal transition-colors">
+        <button class="pointer-events-auto flex gap-2 items-center text-sm uppercase tracking-widest font-semibold hover:text-intel-teal transition-colors text-white">
             Menu <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
     </nav>
@@ -113,12 +113,12 @@
             <div class="p-8 glass-panel rounded-2xl hover:border-intel-teal transition-all duration-500">
                 <i data-lucide="cpu" class="w-8 h-8 text-intel-teal mb-4"></i>
                 <h3 class="font-display text-2xl font-bold uppercase text-intel-white">Controlador</h3>
-                <p class="text-intel-grey mt-2">Tecnologia avançada Dips.</p>
+                <p class="text-intel-grey mt-2">Tecnologia avançada integrada.</p>
             </div>
             <div class="p-8 glass-panel rounded-2xl hover:border-intel-teal transition-all duration-500">
                 <i data-lucide="zap" class="w-8 h-8 text-intel-teal mb-4"></i>
                 <h3 class="font-display text-2xl font-bold uppercase text-intel-white">Inversor</h3>
-                <p class="text-intel-grey mt-2">Sua solução em energia.</p>
+                <p class="text-intel-grey mt-2">Sua solução em energia limpa.</p>
             </div>
         </div>
         
@@ -127,7 +127,7 @@
                 Falar com Especialista
             </button>
         </div>
-    </nav>
+    </section>
 
     <script>
         function initLucide() { window.lucide && lucide.createIcons(); }
