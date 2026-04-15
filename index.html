@@ -22,86 +22,26 @@
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* --- 1. ORGANIC WAVE MASK SETUP --- */
-        #scroll-hero { 
-            z-index: 20;
-            position: relative;
-            background-color: #0D1B2A;
-            overflow: visible !important;
-            /* Removemos o clip-path polygon antigo aqui */
-        }
-
-        /* Container do SVG para garantir que ele cole no fundo */
-        .wave-separator {
-            position: absolute;
-            bottom: -2px; /* Evita fresta de 1px */
-            left: 0;
-            width: 100%;
-            height: 150px;
-            z-index: 30;
-            pointer-events: none;
-            display: block;
-        }
-
-        .wave-separator svg {
-            width: 100%;
-            height: 100%;
-            fill: #FFFFFF; /* Deve ser a cor da seção de produtos */
-        }
-
-        /* Sombra Suave na Curva */
-        .wave-shadow {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3));
-            z-index: 25;
-            pointer-events: none;
-        }
-
-        #hero-canvas { 
-            transform: translateZ(0);
-            image-rendering: -webkit-optimize-contrast;
-            filter: saturate(1.1) contrast(1.1) brightness(0.9);
-        }
-
-        .header-ui {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 24px; pointer-events: none;
-        }
-
-        .logo-adaptive {
-            height: clamp(32px, 6vw, 64px);
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
-            pointer-events: auto;
-        }
-
-        /* --- 2. PRODUTOS SECTION --- */
-        .products-section {
-            position: relative;
-            z-index: 10;
-            background-color: #FFFFFF;
-            color: #0D1B2A;
-            padding: 100px 5vw;
-            /* Ajuste de profundidade inicial */
-            transform: translateY(100px);
+        /* 🎨 ANIMAÇÃO DE TIPOGRAFIA (ESTADO INICIAL) */
+        .char {
+            display: inline-block;
             opacity: 0;
-            will-change: transform, opacity;
+            filter: blur(10px);
+            transform: translateY(20px) translateZ(0);
+            will-change: transform, opacity, filter;
         }
 
-        .product-card {
-            background: #f8f9fa;
-            border-radius: 28px;
-            padding: 28px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        #scroll-hero { z-index: 20; position: relative; background-color: #0D1B2A; overflow: visible !important; }
+
+        .wave-separator {
+            position: absolute; bottom: -2px; left: 0; width: 100%; height: 150px; z-index: 30; pointer-events: none;
         }
+        .wave-separator svg { width: 100%; height: 100%; fill: #FFFFFF; }
+
+        #hero-canvas { transform: translateZ(0); filter: saturate(1.1) contrast(1.1) brightness(0.9); }
+
+        .logo-adaptive { height: clamp(32px, 6vw, 64px); width: auto; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
     </style>
 </head>
 <body class="antialiased">
@@ -112,8 +52,8 @@
         </div>
     </div>
 
-    <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive">
+    <header class="fixed top-0 left-0 w-full z-[100] p-8 flex justify-between items-center pointer-events-none">
+        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive pointer-events-auto">
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
@@ -125,21 +65,29 @@
             
             <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.4) 40%, transparent 100%); z-index:1;"></div>
             
-            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:10vh 5vw;">
-                <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="w-8 h-[2px] bg-intel-orange block"></span>
-                            <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
-                        </div>
-                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
-                            O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
+            <div style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:10vh 8vw;">
+                <div id="hero-text-container" class="relative w-full max-w-6xl mx-auto">
+                    
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full">
+                        <h1 class="font-display text-5xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter uppercase text-intel-white split-text">
+                            O Futuro da <br/> <span class="text-intel-green-light text-glow">Energia™</span>
                         </h1>
+                        <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60 opacity-0 sub-text">
+                            Hardware de última geração projetado para eficiência absoluta.
+                        </p>
+                    </div>
+
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0">
+                        <h2 class="font-display text-4xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter uppercase split-text-2">
+                            Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span>
+                        </h2>
+                        <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60 opacity-0 sub-text-2">
+                            Reduza sua conta todos os meses com tecnologia modular.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="wave-shadow"></div>
             <div class="wave-separator">
                 <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
                     <path id="wave-path" d="M0,192L120,202.7C240,213,480,235,720,234.7C960,235,1200,213,1320,202.7L1440,192L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
@@ -148,33 +96,24 @@
         </div>
     </section>
 
-    <section class="products-section">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-20">
-                <h2 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4 text-intel-black">Hardware de Elite</h2>
-                <div class="w-20 h-1 bg-intel-orange"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="product-card">
-                    <div class="aspect-square bg-gray-200 rounded-2xl mb-6 overflow-hidden">
-                        <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel">
-                    </div>
-                    <h3 class="text-xl font-bold uppercase mb-2">Painel HP 160W</h3>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-black text-intel-orange">R$ 1.200</span>
-                        <button class="bg-intel-black text-white px-6 py-3 rounded-full font-bold text-xs uppercase hover:bg-intel-orange transition-colors">Comprar</button>
-                    </div>
-                </div>
-                </div>
-        </div>
+    <section class="relative bg-white text-black py-20 px-8">
+        <h2 class="text-4xl font-black uppercase">Próxima Seção</h2>
     </section>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-        lucide.createIcons();
+
+        // --- 🛠️ HELPER PARA SPLIT TEXT (ANIMAÇÃO POR LETRA) ---
+        function splitTextIntoChars(selector) {
+            const element = document.querySelector(selector);
+            const text = element.innerText;
+            element.innerHTML = text.split('').map(char => 
+                `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`
+            ).join('');
+        }
 
         const canvas = document.getElementById("hero-canvas");
-        const context = canvas.getContext("2d", { alpha: false, desynchronized: true });
+        const context = canvas.getContext("2d");
         const frameCount = 71;
         const images = [];
         const airVideo = { frame: 0 };
@@ -185,10 +124,8 @@
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
-                if (canvas.width !== window.innerWidth) {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                }
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
                 const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
                 const x = (canvas.width / 2) - (img.width / 2) * scale;
                 const y = (canvas.height / 2) - (img.height / 2) * scale;
@@ -196,67 +133,62 @@
             }
         }
 
-        function tick() { render(); requestAnimationFrame(tick); }
-
         function init() {
             gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
                 document.getElementById("loader").style.display = "none";
-                requestAnimationFrame(tick);
+                render();
             }});
+
+            // Prepara a tipografia
+            splitTextIntoChars('.split-text');
+            splitTextIntoChars('.split-text-2');
 
             const mainTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.6,
-                    invalidateOnRefresh: true
+                    scrub: 0.8
                 }
             });
 
+            // 1. VÍDEO ROLANDO
             mainTl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
-            
-            // --- 🚀 ORGANIC WAVE REVEAL ANIMATION ---
 
-            // 1. Morph & Lift do SVG (A curva sobe e se estica)
-            gsap.to(".wave-separator", {
-                y: -100,
-                scaleY: 1.5,
-                ease: "power2.inOut",
-                scrollTrigger: {
-                    trigger: "#scroll-hero",
-                    start: "85% top",
-                    end: "bottom top",
-                    scrub: 1.2
-                }
-            });
+            // 2. ANIMAÇÃO TIPOGRAFIA ATO 1 (ENTRADA)
+            mainTl.to("#hero-text-1 .char", {
+                opacity: 1,
+                filter: "blur(0px)",
+                y: 0,
+                stagger: 0.05,
+                duration: 2,
+                ease: "power4.out"
+            }, 0.5);
+            mainTl.to("#hero-text-1 .sub-text", { opacity: 1, duration: 1 }, 1.5);
 
-            // 2. Animação do Path (Morphing sutil)
+            // 3. SAÍDA ATO 1
+            mainTl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
+
+            // 4. ENTRADA ATO 2
+            mainTl.to("#hero-text-2", { opacity: 1, duration: 0.1 }, 5.5);
+            mainTl.to("#hero-text-2 .char", {
+                opacity: 1,
+                filter: "blur(0px)",
+                y: 0,
+                stagger: 0.05,
+                duration: 2,
+                ease: "power4.out"
+            }, 5.5);
+            mainTl.to("#hero-text-2 .sub-text-2", { opacity: 1, duration: 1 }, 6.5);
+
+            // 5. WAVE MORPH FINAL
             gsap.to("#wave-path", {
                 attr: { d: "M0,160L120,144C240,128,480,96,720,96C960,96,1200,128,1320,144L1440,160L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z" },
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#scroll-hero",
-                    start: "85% top",
-                    end: "bottom top",
-                    scrub: 1.2
-                }
-            });
-
-            // 3. Revelação Suave dos Produtos
-            gsap.to(".products-section", {
-                y: 0,
-                opacity: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: "#scroll-hero",
-                    start: "88% top",
-                    end: "bottom top",
-                    scrub: 1.5
-                }
+                scrollTrigger: { trigger: "#scroll-hero", start: "85% top", end: "bottom top", scrub: 1.2 }
             });
         }
 
+        // Preload
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
