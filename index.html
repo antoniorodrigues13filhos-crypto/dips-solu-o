@@ -24,7 +24,7 @@
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* --- 1. EFEITO LAYER DEPTH (CAMADAS) --- */
+        /* --- 1. EFEITO LAYER & ELASTIC SETUP --- */
         #scroll-hero { 
             z-index: 20;
             position: relative;
@@ -34,18 +34,18 @@
             overflow: visible !important;
         }
 
-        /* Sombra Dinâmica entre Hero e Produtos */
+        /* Sombra Dinâmica Reativa */
         #scroll-hero::after {
             content: "";
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 180px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            height: 200px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
             pointer-events: none;
             z-index: 25;
-            opacity: 0;
+            opacity: var(--shadow-opacity, 0);
             transform: translateY(100%);
             will-change: opacity;
         }
@@ -74,7 +74,7 @@
             pointer-events: auto;
         }
 
-        /* --- 2. SEÇÃO DE PRODUTOS (PARALLAX SETUP) --- */
+        /* --- 2. SEÇÃO DE PRODUTOS (ORGANIC MOVEMENT) --- */
         .products-section {
             position: relative;
             z-index: 10;
@@ -82,10 +82,10 @@
             background-color: #FFFFFF;
             color: #0D1B2A;
             padding: 250px 5vw 120px;
-            /* Estado inicial para parallax agressivo e foco cinematográfico */
-            transform: translateY(350px);
-            filter: blur(12px) brightness(0.8);
-            opacity: 0.9;
+            /* Estado Inicial: Afastado e Desfocado */
+            transform: translateY(400px) scale(0.97);
+            filter: blur(15px) brightness(0.8);
+            opacity: 0;
             will-change: transform, filter, opacity;
         }
 
@@ -241,7 +241,7 @@
                 requestAnimationFrame(tick);
             }});
 
-            const tl = gsap.timeline({
+            const mainTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "top top",
@@ -251,53 +251,53 @@
                 }
             });
 
-            tl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
-            tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
-            tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
-            tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
+            mainTimeline.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
+            mainTimeline.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
+            mainTimeline.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
+            mainTimeline.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
 
-            // --- 🎯 PARALLAX REAL E SOMBRAS DINÂMICAS ---
+            // --- 🚀 REFINAMENTO ELASTIC & ORGANIC DEPTH ---
 
-            // 1. HERO: Resistência de Movimento e Recuo
+            // 1. HERO: Desaceleração com Easing Power3 (Suave)
             gsap.to("#scroll-hero", {
-                y: -100, // Sobe mais devagar que o scroll
-                scale: 0.96,
+                y: -120,
+                scale: 0.965,
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 65%, 85% 82%, 50% 72%, 15% 82%, 0% 65%)",
-                ease: "none",
+                ease: "power3.inOut",
                 scrollTrigger: {
                     trigger: "#scroll-hero",
-                    start: "82% top",
+                    start: "80% top",
                     end: "bottom top",
-                    scrub: 1.2
+                    scrub: 1.5 // Maior que os produtos para criar atraso orgânico
                 }
             });
 
-            // 2. SOMBRA: Surge no fundo do Hero conforme os produtos entram
+            // 2. SOMBRA: Sincronia com o Recorte
             gsap.to("#scroll-hero", {
-                ease: "none",
+                "--shadow-opacity": 1,
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "85% top",
                     end: "bottom top",
-                    scrub: 1.2,
+                    scrub: true,
                     onUpdate: (self) => {
-                        // Aplica opacidade ao ::after dinamicamente
-                        document.styleSheets[0].addRule('#scroll-hero::after', `opacity: ${self.progress};`);
+                        document.documentElement.style.setProperty('--shadow-opacity', self.progress);
                     }
                 }
             });
 
-            // 3. PRODUTOS: Aceleração e Foco Cinematográfico
+            // 3. PRODUTOS: Efeito Elástico e Micro-Encaixe
             gsap.to(".products-section", {
                 y: 0,
-                filter: "blur(0px) brightness(1)",
+                scale: 1,
                 opacity: 1,
-                ease: "none",
+                filter: "blur(0px) brightness(1)",
+                ease: "back.out(1.2)", // O segredo do micro-bounce premium
                 scrollTrigger: {
                     trigger: "#scroll-hero",
-                    start: "82% top",
+                    start: "80% top",
                     end: "bottom top",
-                    scrub: 1.2
+                    scrub: 1.8 // Scrub maior para suavidade "elástica" extrema
                 }
             });
         }
