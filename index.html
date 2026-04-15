@@ -21,7 +21,7 @@
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
-        /* 🍎 APPLE GLOBAL NAV STANDARDS */
+        /* 🍎 APPLE GLOBAL NAV STANDARDS - REFINED */
         .apple-nav {
             position: fixed;
             top: 0;
@@ -29,10 +29,23 @@
             width: 100%;
             height: 48px;
             z-index: 1000;
-            background: rgba(13, 27, 42, 0.8);
+            
+            /* 1. Base: Vidro Colorido Suave (Não chapado) */
+            background: rgba(18, 33, 49, 0.72); /* Tom azulado profundo e suave */
+            
+            /* 2. Efeito Material: Backdrop-Filter (Vidro Físico) */
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* 3. Brilho Interno (Highlight Superior) + Borda */
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05); /* Highlight sutil */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15); /* Borda inferior escura */
+            
+            /* 4. Micro Textura (Noise Overlay - Quase Invisível) */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3%3Feturbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3%3F/filter%3%3%3Frect width='100%' height='100%' filter='url(%23noiseFilter)'/%3%3F/svg%3%3F");
+            background-blend-mode: soft-light;
+            opacity: 0.98; /* Mantém a transparência, mas com a textura */
+
             display: flex;
             align-items: center;
             justify-content: center;
@@ -47,9 +60,25 @@
             align-items: center;
         }
 
+        /* 📏 CORREÇÃO LOGO SIZE */
+        .nav-logo-link {
+            display: flex;
+            align-items: center;
+            height: 48px; /* Ocupa a altura total da barra */
+        }
+
+        .nav-logo-img {
+            height: 20px; /* Tamanho Standard da logo na barra da Apple */
+            width: auto;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-logo-link:hover .nav-logo-img { opacity: 0.8; }
+
         .nav-link {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.92); /* Quase branco, mas com suavidade */
             text-decoration: none;
             font-weight: 400;
             transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -60,16 +89,14 @@
 
         @media (max-width: 768px) {
             .nav-link:not(.mobile-visible) { display: none; }
+            .nav-content { justify-content: start; gap: 20px; } /* Ajuste mobile */
         }
 
+        /* Outros estilos mantidos */
         #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; }
         #scroll-hero { position: relative; z-index: 10; }
-
-        .wave-container {
-            position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none;
-        }
+        .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
-
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
         .benefit-number { font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
         .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 8px; display: block; }
@@ -81,7 +108,10 @@
 
     <nav class="apple-nav">
         <div class="nav-content">
-            <a href="#" class="mobile-visible"><img src="logo/LOGO.png" alt="Dips" class="h-4"></a>
+            <a href="#" class="nav-logo-link mobile-visible">
+                <img src="logo/LOGO.png" alt="Dips" class="nav-logo-img">
+            </a>
+            
             <a href="#" class="nav-link">Quem Somos</a>
             <a href="#" class="nav-link">Produtos</a>
             <a href="#" class="nav-link">Inovação e Tecnologia</a>
@@ -89,14 +119,15 @@
             <a href="#" class="nav-link">Catálogo</a>
             <a href="#" class="nav-link">Dúvidas</a>
             <a href="#" class="nav-link">Contato</a>
+            
             <div class="flex items-center gap-6">
-                <i data-lucide="search" class="w-4 h-4 text-white/70 cursor-pointer hover:text-white transition-colors"></i>
-                <i data-lucide="shopping-bag" class="w-4 h-4 text-white/70 cursor-pointer hover:text-white transition-colors mobile-visible"></i>
+                <i data-lucide="search" class="w-4 h-4 text-white/90 cursor-pointer hover:text-white transition-colors"></i>
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-white/90 cursor-pointer hover:text-white transition-colors mobile-visible"></i>
             </div>
         </div>
     </nav>
 
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[1100] flex flex-col justify-center items-center">
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
             <div id="progress" class="h-full bg-intel-green-light w-0"></div>
         </div>
@@ -136,23 +167,10 @@
             </h2>
             <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto mt-20">
-            <div>
-                <span class="benefit-number text-intel-green-light" data-target="95">-0%</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Economia</p>
-                <span class="benefit-context">na conta de energia</span>
-            </div>
-            <div>
-                <span class="benefit-number text-intel-orange" data-target="25">+0</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Anos</p>
-                <span class="benefit-context">de vida útil média</span>
-            </div>
-            <div>
-                <span class="benefit-number text-intel-black" data-target="24">0h</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Controle</p>
-                <span class="benefit-context">de monitoramento inteligente</span>
-            </div>
+            <div><span class="benefit-number text-intel-green-light" data-target="95">-0%</span><p class="uppercase tracking-widest font-bold text-xs">Economia</p><span class="benefit-context">na conta de energia</span></div>
+            <div><span class="benefit-number text-intel-orange" data-target="25">+0</span><p class="uppercase tracking-widest font-bold text-xs">Anos</p><span class="benefit-context">de vida útil média</span></div>
+            <div><span class="benefit-number text-intel-black" data-target="24">0h</span><p class="uppercase tracking-widest font-bold text-xs">Controle</p><span class="benefit-context">de monitoramento inteligente</span></div>
         </div>
     </section>
 
@@ -164,23 +182,10 @@
                     <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Energia inteligente, sob seu controle. Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
                 </div>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5">
-                    <div class="aspect-square bg-white rounded-3xl mb-8"></div>
-                    <h3 class="text-2xl font-black uppercase">Módulo HP</h3>
-                    <p class="text-intel-orange font-bold">R$ 1.200</p>
-                </div>
-                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5">
-                    <div class="aspect-square bg-white rounded-3xl mb-8"></div>
-                    <h3 class="text-2xl font-black uppercase">Controle PWM</h3>
-                    <p class="text-intel-orange font-bold">R$ 450</p>
-                </div>
-                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5">
-                    <div class="aspect-square bg-white rounded-3xl mb-8"></div>
-                    <h3 class="text-2xl font-black uppercase">Inversor EGT</h3>
-                    <p class="text-intel-orange font-bold">R$ 2.800</p>
-                </div>
+                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5"><div class="aspect-square bg-white rounded-3xl mb-8"></div><h3 class="text-2xl font-black uppercase">Módulo HP</h3><p class="text-intel-orange font-bold">R$ 1.200</p></div>
+                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5"><div class="aspect-square bg-white rounded-3xl mb-8"></div><h3 class="text-2xl font-black uppercase">Controle PWM</h3><p class="text-intel-orange font-bold">R$ 450</p></div>
+                <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5"><div class="aspect-square bg-white rounded-3xl mb-8"></div><h3 class="text-2xl font-black uppercase">Inversor EGT</h3><p class="text-intel-orange font-bold">R$ 2.800</p></div>
             </div>
         </div>
     </section>
