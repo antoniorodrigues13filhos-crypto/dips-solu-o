@@ -16,10 +16,33 @@
             --color-dips-orange: #FF6B00;
             --font-display: 'Outfit', sans-serif;
         }
-        body { background-color: #0D1B2A; color: white; overflow: hidden; font-family: 'Space Grotesk', sans-serif; }
+        
+        body { 
+            background-color: #0D1B2A; 
+            color: white; 
+            overflow: hidden; 
+            font-family: 'Space Grotesk', sans-serif; 
+        }
+
+        /* EFEITO GLASS PREMIUM */
+        .glass-navbar {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
-        .cta-button { background: linear-gradient(90deg, #FF6B00 0%, #00C2A8 100%); transition: transform 0.3s; }
-        .cta-button:hover { transform: scale(1.05); }
+        
+        .cta-button { 
+            background: linear-gradient(90deg, #FF6B00 0%, #00C2A8 100%); 
+            transition: all 0.3s ease; 
+        }
+        
+        .cta-button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 25px rgba(0, 194, 168, 0.4);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -30,12 +53,17 @@
         </div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 bg-white px-8 py-3 flex justify-between items-center shadow-xl">
+    <nav class="fixed top-0 w-full z-50 glass-navbar px-8 py-3 flex justify-between items-center shadow-2xl">
         <div class="flex items-center">
             <img src="logo/LOGO.png" alt="Logo" class="h-12 md:h-16 w-auto object-contain">
         </div>
-        <button class="flex gap-2 items-center text-sm font-bold text-[#0D1B2A] tracking-tighter">
-            MENU <i data-lucide="menu" class="w-6 h-6"></i>
+        
+        <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.3em] hover:text-dips-teal transition-colors">
+            Menu 
+            <div class="flex flex-col gap-1">
+                <span class="w-6 h-[2px] bg-white"></span>
+                <span class="w-4 h-[2px] bg-dips-teal self-end"></span>
+            </div>
         </button>
     </nav>
 
@@ -56,12 +84,12 @@
                 <div id="t2" class="absolute opacity-0 translate-y-10 transition-all duration-500">
                     <h2 class="font-display text-4xl md:text-7xl uppercase mb-4">TECNOLOGIA</h2>
                     <h2 class="font-display text-4xl md:text-7xl uppercase text-dips-orange">MODULAR.</h2>
-                    <p class="mt-6 text-gray-400 uppercase tracking-widest font-bold max-w-xl">Gerenciamento inteligente para sistemas fotovoltaicos de alta performance.</p>
+                    <p class="mt-6 text-gray-400 uppercase tracking-widest font-bold max-w-xl">Gerenciamento inteligente para sistemas de alta performance.</p>
                 </div>
 
                 <div id="t3" class="absolute opacity-0 translate-y-10 transition-all duration-500">
-                    <h2 class="font-display text-4xl md:text-7xl uppercase mb-8">DIPS SOLUTION</h2>
-                    <button class="cta-button px-12 py-5 rounded-full font-bold uppercase tracking-widest shadow-2xl">Veja Nossas Soluções</button>
+                    <h2 class="font-display text-4xl md:text-7xl uppercase mb-8 text-glow">DIPS SOLUTION</h2>
+                    <button class="cta-button px-12 py-5 rounded-full font-bold uppercase tracking-widest shadow-2xl text-white">Veja Nossas Soluções</button>
                 </div>
 
             </div>
@@ -78,7 +106,6 @@
         const images = [];
         let loadedImages = 0;
 
-        // Elementos de texto
         const txt1 = document.getElementById('t1');
         const txt2 = document.getElementById('t2');
         const txt3 = document.getElementById('t3');
@@ -103,21 +130,16 @@
             canvas.height = window.innerHeight;
             const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
             
-            // Renderiza frame
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
             if (images[idx]) drawImage(images[idx]);
 
-            // Lógica de textos (Fases)
-            // T1: 0 a 30%
             txt1.style.opacity = scroll < 0.25 ? 1 : 0;
             txt1.style.transform = scroll < 0.25 ? "translateY(0)" : "translateY(-50px)";
 
-            // T2: 35% a 65%
             const inT2 = scroll > 0.35 && scroll < 0.65;
             txt2.style.opacity = inT2 ? 1 : 0;
             txt2.style.transform = inT2 ? "translateY(0)" : "translateY(20px)";
 
-            // T3: 75% em diante
             const inT3 = scroll > 0.75;
             txt3.style.opacity = inT3 ? 1 : 0;
             txt3.style.transform = inT3 ? "translateY(0)" : "translateY(20px)";
