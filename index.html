@@ -49,7 +49,6 @@
             border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ✨ PROGRESS BAR TESLA STYLE */
         #progress {
             transition: width 0.2s ease-out;
             box-shadow: 0 0 15px rgba(0, 194, 168, 0.8), 0 0 5px rgba(0, 194, 168, 0.4);
@@ -169,7 +168,8 @@
         }
 
         function animateProgress() {
-            displayedProgress += (realProgress - displayedProgress) * 0.08;
+            // ⚡ AJUSTE EXTRA: Interpolação de 0.04 para suavidade premium
+            displayedProgress += (realProgress - displayedProgress) * 0.04;
             const progressBar = document.getElementById("progress");
             if (progressBar) progressBar.style.width = `${displayedProgress * 100}%`;
             if (displayedProgress < 0.999) requestAnimationFrame(animateProgress);
@@ -183,16 +183,25 @@
         const canvasFinal = document.getElementById("final-hero-canvas");
         const ctxFinal = canvasFinal.getContext("2d", { alpha: false });
 
+        // ✨ IMPLEMENTAÇÃO: Função corrigida para evitar zoom acumulado
         function renderCanvas(canvas, ctx, imgs, obj) {
             const img = imgs[Math.floor(obj.frame)];
             if (img) {
                 const ratio = window.devicePixelRatio || 1;
+
                 canvas.width = window.innerWidth * ratio;
                 canvas.height = window.innerHeight * ratio;
+
+                canvas.style.width = window.innerWidth + "px";
+                canvas.style.height = window.innerHeight + "px";
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0); // 🔥 reset obrigatório para limpar transformações anteriores
                 ctx.scale(ratio, ratio);
+
                 const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
                 const x = (window.innerWidth / 2) - (img.width / 2) * scale;
                 const y = (window.innerHeight / 2) - (img.height / 2) * scale;
+
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
         }
@@ -201,14 +210,22 @@
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === totalImages) setTimeout(initAll, 500); };
+            img.onload = () => { 
+                loadedImages++; 
+                updateProgress(); 
+                if(loadedImages === totalImages) setTimeout(initAll, 1200); // ⏱ AJUSTE DE PERCEPÇÃO: 1.2s
+            };
             images.push(img);
         }
 
         for (let i = 1; i <= frameCountFinal; i++) {
             const img = new Image();
             img.src = `herofinal/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === totalImages) setTimeout(initAll, 500); };
+            img.onload = () => { 
+                loadedImages++; 
+                updateProgress(); 
+                if(loadedImages === totalImages) setTimeout(initAll, 1200); // ⏱ AJUSTE DE PERCEPÇÃO: 1.2s
+            };
             imagesFinal.push(img);
         }
 
