@@ -138,7 +138,8 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-        
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
         // --- ⚙️ CONTROLE DE PRELOAD SUAVE ESTILO TESLA ---
         const frameCount = 71;
         let loadedImages = 0;
@@ -179,19 +180,7 @@
                 ctx.setTransform(1, 0, 0, 1, 0, 0); 
                 ctx.scale(ratio, ratio);
 
-                // ✨ AJUSTE DE ESCALA RESPONSIVA (Mobile vs Desktop)
-                const isMobile = window.innerWidth < 768;
-
-                const scale = isMobile
-                  ? Math.min(
-                      window.innerWidth / img.width,
-                      window.innerHeight / img.height
-                    )
-                  : Math.max(
-                      window.innerWidth / img.width,
-                      window.innerHeight / img.height
-                    );
-
+                const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
                 const x = (window.innerWidth / 2) - (img.width / 2) * scale;
                 const y = (window.innerHeight / 2) - (img.height / 2) * scale;
 
@@ -227,10 +216,9 @@
             });
 
             // Produtos
-            const isMobileUI = window.matchMedia("(max-width: 768px)").matches;
             gsap.utils.toArray(".product-card").forEach((card, i) => {
                 gsap.from(card, { opacity: 0, y: 80, rotateX: 10, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
-                gsap.to(card, { y: isMobileUI ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
+                gsap.to(card, { y: isMobile ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
             });
             
         }
