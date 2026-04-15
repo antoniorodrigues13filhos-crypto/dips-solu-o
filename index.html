@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | High-End Energy</title>
+    <title>Dips | High-End Energy Solutions</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -23,7 +23,7 @@
             font-family: 'Space Grotesk', sans-serif; 
         }
 
-        /* 🧊 5. SHADER EFFECTS (GLASS/REFRATION) */
+        /* 🧊 5. SHADER EFFECTS & GLASS */
         .glass-navbar {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px) saturate(180%);
@@ -33,6 +33,7 @@
             margin-top: 20px;
             width: 90%; left: 5%;
             transition: transform 0.2s ease-out;
+            will-change: transform;
         }
 
         /* 🌫️ 2. DEPTH OF FIELD + 💡 4. LIGHT BLOOM */
@@ -41,43 +42,44 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(8px);
             transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            perspective: 1000px; /* Para efeito 3D vivo */
+            perspective: 1200px;
             overflow: hidden;
+            will-change: transform;
         }
 
-        /* ✨ 3. MORPHING TRANSITION NO HOVER */
+        /* ✨ 3. MORPHING / LUXURY HOVER */
         .product-card:hover {
             border-color: rgba(0, 194, 168, 0.5);
-            background: rgba(0, 194, 168, 0.02);
-            box-shadow: 0 0 50px rgba(0, 194, 168, 0.15), inset 0 0 20px rgba(0, 194, 168, 0.05);
-            transform: translateY(-20px) rotateX(5deg) rotateY(-5deg);
+            background: rgba(0, 194, 168, 0.03);
+            box-shadow: 0 0 60px rgba(0, 194, 168, 0.15);
+            transform: translateY(-20px) rotateX(5deg) rotateY(-2deg);
         }
 
-        /* 💡 4. LUXURY BRAND HIGHLIGHTS */
         .product-image {
             width: 100%;
             height: 280px;
             object-fit: contain;
             transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.05)) brightness(1);
-            z-index: 2;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.05));
+        }
+
+        .product-card:hover .product-image {
+            transform: translateZ(60px) scale(1.1); /* 🌫️ Dolly In */
+            filter: drop-shadow(0 0 35px rgba(0, 194, 168, 0.4)) brightness(1.2); /* 💡 Bloom */
         }
 
         /* 🌀 6. PARALLAX DEPTH LAYERS */
         .parallax-bg-text {
             position: absolute;
-            font-size: 12rem;
+            font-size: 14rem;
             font-weight: 900;
             color: rgba(255, 255, 255, 0.02);
             z-index: -1;
             white-space: nowrap;
             pointer-events: none;
             text-transform: uppercase;
-        }
-
-        .product-card:hover .product-image {
-            transform: translateZ(50px) scale(1.15); /* Dolly In */
-            filter: drop-shadow(0 0 30px rgba(0, 194, 168, 0.4)) brightness(1.2); /* Light Bloom */
+            font-family: 'Outfit', sans-serif;
+            will-change: transform;
         }
 
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
@@ -86,7 +88,7 @@
 </head>
 <body class="antialiased overflow-hidden">
 
-    <div id="loader" style="position:fixed;inset:0;background:#0D1B2A;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div id="loader" style="position:fixed;inset:0;background:#0D1B2A;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s;">
         <div style="width:16rem;height:2px;background:rgba(255,255,255,0.1);"><div id="progress-bar" style="height:100%;background:#00C2A8;width:0%;"></div></div>
     </div>
 
@@ -121,8 +123,8 @@
     </section>
 
     <section id="products-area" class="relative z-10 px-8 py-40 bg-dips-navy overflow-hidden">
-        <div class="parallax-bg-text" id="bg-text-1" style="top: 10%; left: -10%;">SOLUTIONS</div>
-        <div class="parallax-bg-text" id="bg-text-2" style="bottom: 10%; right: -10%;">TECHNOLOGY</div>
+        <div class="parallax-bg-text" id="bg-text-1" style="top: 5%; left: -5%;">SOLUTIONS</div>
+        <div class="parallax-bg-text" id="bg-text-2" style="bottom: 5%; right: -5%;">TECHNOLOGY</div>
 
         <div class="max-w-7xl mx-auto relative z-10">
             <div class="mb-32 text-center">
@@ -130,19 +132,19 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="product-card p-12 rounded-[2.5rem] group" id="card-1">
+                <div class="product-card p-12 rounded-[2.5rem] group">
                     <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="product-image" alt="Painel">
                     <h3 class="font-display text-3xl uppercase mt-8 text-white">Painel 160W</h3>
                     <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Ultra Efficiency / Mono</p>
                 </div>
 
-                <div class="product-card p-12 rounded-[2.5rem] group" id="card-2">
+                <div class="product-card p-12 rounded-[2.5rem] group">
                     <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="product-image" alt="Controlador">
                     <h3 class="font-display text-3xl uppercase mt-8 text-white">Control PWM</h3>
                     <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Smart Management / 10A</p>
                 </div>
 
-                <div class="product-card p-12 rounded-[2.5rem] group" id="card-3">
+                <div class="product-card p-12 rounded-[2.5rem] group">
                     <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="product-image" alt="Microinversor">
                     <h3 class="font-display text-3xl uppercase mt-8 text-white">Inverter 1.2kW</h3>
                     <p class="text-gray-500 mt-4 leading-relaxed uppercase tracking-widest text-xs font-bold">Pro Conversion / Real-time</p>
@@ -152,7 +154,15 @@
     </section>
 
     <script>
+        // ✅ DEFINIÇÃO CORRETA DA FUNÇÃO LUCIDE
+        function initLucide() { 
+            if (window.lucide) {
+                lucide.createIcons(); 
+            }
+        }
+        
         initLucide();
+
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
         const navbar = document.getElementById('navbar');
@@ -161,23 +171,28 @@
         let loadedImages = 0;
 
         function handleScroll() {
-            const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
+            const scrollHero = document.getElementById('scroll-hero');
+            const totalHeight = scrollHero.offsetHeight - window.innerHeight;
+            const scroll = window.scrollY / totalHeight;
             
-            // 🌀 6. PARALLAX LAYERS (Background Text)
-            document.getElementById('bg-text-1').style.transform = `translateX(${window.scrollY * 0.2}px)`;
-            document.getElementById('bg-text-2').style.transform = `translateX(${-window.scrollY * 0.2}px)`;
+            // 🌀 6. PARALLAX
+            const bg1 = document.getElementById('bg-text-1');
+            const bg2 = document.getElementById('bg-text-2');
+            if(bg1) bg1.style.transform = `translateX(${window.scrollY * 0.2}px)`;
+            if(bg2) bg2.style.transform = `translateX(${-window.scrollY * 0.2}px)`;
 
-            // 🌫️ 2. CINEMATIC NAV MOTION
+            // 🌫️ 2. NAV MOTION
             const navMove = Math.min(25, scroll * 100); 
             navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.03)})`;
 
-            // CANVAS RENDERING
+            // CANVAS RENDERING & ✨ 3. MORPHING
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
             if (images[idx]) {
                 const img = images[idx];
                 const canvasRatio = canvas.width / canvas.height;
                 const imgRatio = img.width / img.height;
                 let nw, nh, nx, ny;
+
                 if (canvasRatio > imgRatio) {
                     nw = canvas.width; nh = img.height * (canvas.width / img.width);
                     nx = 0; ny = (canvas.height - nh) / 2;
@@ -186,7 +201,6 @@
                     nx = (canvas.width - nw) / 2; ny = 0;
                 }
                 
-                // ✨ 3. MORPHING/SMOOTH TRANSITION (Zoom out suave no final)
                 if (scroll > 0.8) {
                     const zoom = 1 + (scroll - 0.8) * 3;
                     context.setTransform(zoom, 0, 0, zoom, canvas.width/2 * (1 - zoom), canvas.height/2 * (1 - zoom));
@@ -199,11 +213,19 @@
             }
 
             // TEXT STAGES
-            document.getElementById('t1').style.opacity = scroll < 0.25 ? 1 : 0;
-            document.getElementById('t1').style.transform = `translateY(${scroll * -80}px)`;
-            document.getElementById('t2').style.opacity = (scroll > 0.4 && scroll < 0.7) ? 1 : 0;
+            const t1 = document.getElementById('t1');
+            const t2 = document.getElementById('t2');
+            if(t1) {
+                t1.style.opacity = scroll < 0.25 ? 1 : 0;
+                t1.style.transform = `translateY(${scroll * -80}px)`;
+            }
+            if(t2) {
+                t2.style.opacity = (scroll > 0.4 && scroll < 0.7) ? 1 : 0;
+                t2.style.transform = `translateY(${(0.5 - scroll) * 50}px)`;
+            }
         }
 
+        // CARREGAMENTO DE IMAGENS
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
@@ -224,7 +246,7 @@
             images.push(img);
         }
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', () => requestAnimationFrame(handleScroll));
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
