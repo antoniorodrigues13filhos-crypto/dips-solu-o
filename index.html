@@ -19,29 +19,15 @@
             --color-intel-black: #0D1B2A;
             --color-intel-white: #FFFFFF;
         }
-        body { 
-            background-color: #0D1B2A; 
-            margin: 0; 
-            overflow-x: hidden; 
-            font-family: 'Space Grotesk', sans-serif; 
-            color: white; 
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior-y: auto;
-        }
+        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
-        /* 💎 NAVBAR FLOATING GLASS MINIMALISTA (ESTILO APPLE/TESLA) */
-        .header-ui {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-           /* 💎 NAVBAR FLOATING GLASS (PRIORIDADE MÁXIMA) */
+        /* 💎 NAVBAR FLOATING GLASS (PILL SHAPE) */
         .header-ui {
             position: fixed !important;
             top: 20px !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
             width: min(92%, 1100px) !important;
-            height: auto !important;
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
@@ -54,88 +40,48 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
             z-index: 1000 !important;
         }
-        }
 
-        #scroll-hero { position: relative; z-index: 10; contain: paint; }
+        #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; }
+        #scroll-hero { position: relative; z-index: 10; }
 
         .wave-container {
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 160px;
-            z-index: 50;
-            pointer-events: none;
+            position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none;
         }
-        .wave-container svg { 
-            width: 100%; 
-            height: 100%; 
-            fill: #FFFFFF;
-            filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08));
-        }
+        .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
 
         .benefits-impact-section {
-            background-color: #FFFFFF;
-            color: #0D1B2A;
-            padding: 120px 5vw;
-            position: relative;
-            z-index: 55;
-            text-align: center;
+            background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center;
         }
-        .benefit-number {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1;
-        }
-        .benefit-context {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: rgba(13, 27, 42, 0.4);
-            margin-top: 8px;
-            display: block;
-        }
+        .benefit-number { font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
+        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 8px; display: block; }
 
         .products-section {
-            position: relative;
-            z-index: 60;
-            background-color: #FFFFFF;
-            color: #0D1B2A;
-            padding: 160px 5vw;
-            overflow: hidden;
-            perspective: 2000px;
+            position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px;
         }
+
+        .parallax-bg-layer {
+            position: absolute; pointer-events: none; border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: -1; will-change: transform;
+        }
+
+        .noise-overlay { position: absolute; inset: 0; background-image: url("https://grainy-gradients.vercel.app/noise.svg"); opacity: 0.03; pointer-events: none; z-index: 100; }
 
         .product-card {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(13, 27, 42, 0.08);
-            border-radius: 40px;
-            padding: 40px;
-            transform-style: preserve-3d;
-            transition: border-color 0.3s ease;
-            will-change: transform, opacity;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease;
         }
-
         .product-card:hover { border-color: rgba(255, 107, 0, 0.3); }
-        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); will-change: transform, opacity, filter; }
-
-        @media (max-width: 768px) {
-            .header-ui { top: 15px; padding: 10px 18px; width: 94%; }
-            .wave-container { height: 100px; }
-            .benefits-impact-section { padding: 80px 6vw; }
-            .products-section { padding: 80px 6vw; }
-            .product-card { padding: 30px 24px; border-radius: 32px; }
-        }
+        .product-card img { transform: translateZ(50px); filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15)); }
+        .card-inner-content { transform: translateZ(30px); }
+        .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
+    <div class="noise-overlay"></div>
+
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[100] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
-            <div id="progress" class="h-full bg-intel-green-light w-0 transition-all duration-300"></div>
+            <div id="progress" class="h-full bg-intel-green-light w-0"></div>
         </div>
     </div>
 
@@ -147,110 +93,61 @@
     </header>
 
     <section id="scroll-hero" style="height:800vh;">
-        <div style="position:sticky;top:0;height:100svh;width:100%;overflow:hidden;">
+        <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas"></canvas>
-            
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:1;"></div>
-            
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:15vh 8vw;">
                 <div id="hero-text-1" class="opacity-0 translate-y-20 will-change-transform">
-                    <h1 class="text-5xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">
-                        O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
-                    </h1>
-                    <p class="mt-6 text-base md:text-2xl max-w-xl text-intel-white/60">Uma arquitetura de hardware revolucionária para eficiência máxima.</p>
+                    <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">O Futuro da <br/> <span class="text-intel-green-light">Energia.</span></h1>
+                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Uma arquitetura de hardware revolucionária para eficiência máxima.</p>
                 </div>
                 <div id="hero-text-2" class="absolute opacity-0 translate-y-20 will-change-transform">
-                    <h2 class="text-4xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">
-                        Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span>
-                    </h2>
-                    <p class="mt-6 text-base md:text-2xl max-w-xl text-intel-white/60">Reduza sua conta todos os meses com tecnologia modular.</p>
+                    <h2 class="text-5xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">Transforme sol em <br/> <span class="text-intel-orange">Economia Real.</span></h2>
+                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza sua conta todos os meses com tecnologia modular.</p>
                 </div>
             </div>
-            
             <div class="wave-container">
-                <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-                    <path id="organic-path" d="M0,160 C320,300 1120,300 1440,160 L1440,320 L0,320 Z"></path>
-                </svg>
+                <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path id="organic-path" d="M0,160 C320,300 1120,300 1440,160 L1440,320 L0,320 Z"></path></svg>
             </div>
         </div>
     </section>
 
     <section class="benefits-impact-section">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] mb-4">
-                Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span>
-            </h2>
-            <p class="uppercase tracking-[0.2em] font-bold text-[10px] md:text-xs opacity-50 text-intel-black">Investimento inteligente com retorno imediato.</p>
+            <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] mb-4">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
+            <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50 text-intel-black">Investimento inteligente com retorno imediato.</p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 max-w-6xl mx-auto mt-16 md:mt-20">
-            <div>
-                <span class="benefit-number text-intel-green-light" data-target="95">-0%</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Economia</p>
-                <span class="benefit-context">na conta de energia</span>
-            </div>
-            <div>
-                <span class="benefit-number text-intel-orange" data-target="25">+0</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Anos</p>
-                <span class="benefit-context">de vida útil média</span>
-            </div>
-            <div>
-                <span class="benefit-number text-intel-black" data-target="24">0h</span>
-                <p class="uppercase tracking-widest font-bold text-xs">Controle</p>
-                <span class="benefit-context">de monitoramento inteligente</span>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto mt-20">
+            <div><span class="benefit-number text-intel-green-light" data-target="95">-0%</span><p class="uppercase tracking-widest font-bold text-xs">Economia</p><span class="benefit-context">na conta de energia</span></div>
+            <div><span class="benefit-number text-intel-orange" data-target="25">+0</span><p class="uppercase tracking-widest font-bold text-xs">Anos</p><span class="benefit-context">de vida útil média</span></div>
+            <div><span class="benefit-number text-intel-black" data-target="24">0h</span><p class="uppercase tracking-widest font-bold text-xs">Controle</p><span class="benefit-context">de monitoramento inteligente</span></div>
         </div>
     </section>
 
     <section class="products-section">
+        <div class="parallax-bg-layer bg-intel-orange w-96 h-96 top-0 -left-20" data-depth="0.1"></div>
+        <div class="parallax-bg-layer bg-intel-green-light w-80 h-80 bottom-0 -right-20" data-depth="0.2"></div>
         <div class="max-w-7xl mx-auto">
-            <div class="mb-16 md:mb-24">
-                <h2 class="text-5xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
-                <h3 class="text-lg md:text-xl font-bold uppercase tracking-tight text-intel-black mb-4 reveal-text">Energia inteligente, sob seu controle.</h3>
-                <p class="text-intel-black/40 uppercase font-bold tracking-widest text-xs md:text-sm max-w-md reveal-text">Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
+            <div class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div>
+                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
+                    <h3 class="text-xl font-bold uppercase tracking-tight text-intel-black mb-4 reveal-text">Energia inteligente, sob seu controle.</h3>
+                    <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
+                </div>
+                <div class="w-32 h-2 bg-intel-orange reveal-text"></div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="product-card flex flex-col">
-                    <div class="aspect-square rounded-3xl mb-8 md:mb-10 overflow-hidden bg-white/50">
-                        <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel">
-                    </div>
-                    <div class="flex flex-col flex-grow">
-                        <h3 class="text-2xl md:text-3xl font-black uppercase mb-2">Painel HP 160W</h3>
-                        <p class="text-gray-400 font-bold text-xs md:text-sm uppercase mb-6 md:mb-8">Captação Pura</p>
-                        <div class="mt-auto flex items-center justify-between">
-                            <span class="text-2xl md:text-3xl font-black text-intel-orange">R$ 1.200</span>
-                            <button class="bg-intel-black text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-[10px] md:text-xs uppercase hover:scale-105 transition-all">Explorar</button>
-                        </div>
-                    </div>
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50"><img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel"></div>
+                    <div class="card-inner-content flex flex-col flex-grow"><h3 class="text-3xl font-black uppercase mb-2">Painel HP 160W</h3><p class="text-gray-400 font-bold text-sm uppercase mb-8">Captação Pura</p><div class="mt-auto flex items-center justify-between"><span class="text-3xl font-black text-intel-orange">R$ 1.200</span><button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase hover:scale-105 transition-all">Explorar</button></div></div>
                 </div>
-
                 <div class="product-card flex flex-col">
-                    <div class="aspect-square rounded-3xl mb-8 md:mb-10 overflow-hidden bg-white/50">
-                        <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full h-full object-cover" alt="PWM">
-                    </div>
-                    <div class="flex flex-col flex-grow">
-                        <h3 class="text-2xl md:text-3xl font-black uppercase mb-2">Controlador PWM</h3>
-                        <p class="text-gray-400 font-bold text-sm uppercase mb-6 md:mb-8">Gestão Inteligente</p>
-                        <div class="mt-auto flex items-center justify-between">
-                            <span class="text-2xl md:text-3xl font-black text-intel-orange">R$ 450</span>
-                            <button class="bg-intel-black text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-[10px] md:text-xs uppercase hover:scale-105 transition-all">Explorar</button>
-                        </div>
-                    </div>
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50"><img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full h-full object-cover" alt="PWM"></div>
+                    <div class="card-inner-content flex flex-col flex-grow"><h3 class="text-3xl font-black uppercase mb-2">Controlador PWM</h3><p class="text-gray-400 font-bold text-sm uppercase mb-8">Gestão Inteligente</p><div class="mt-auto flex items-center justify-between"><span class="text-3xl font-black text-intel-orange">R$ 450</span><button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase hover:scale-105 transition-all">Explorar</button></div></div>
                 </div>
-
                 <div class="product-card flex flex-col">
-                    <div class="aspect-square rounded-3xl mb-8 md:mb-10 overflow-hidden bg-white/50">
-                        <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full h-full object-cover" alt="Microinversor">
-                    </div>
-                    <div class="flex flex-col flex-grow">
-                        <h3 class="text-2xl md:text-3xl font-black uppercase mb-2">Inversor 1200W</h3>
-                        <p class="text-gray-400 font-bold text-xs md:text-sm uppercase mb-6 md:mb-8">Conversão Max</p>
-                        <div class="mt-auto flex items-center justify-between">
-                            <span class="text-2xl md:text-3xl font-black text-intel-orange">R$ 2.800</span>
-                            <button class="bg-intel-black text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-[10px] md:text-xs uppercase hover:scale-105 transition-all">Explorar</button>
-                        </div>
-                    </div>
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50"><img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full h-full object-cover" alt="Microinversor"></div>
+                    <div class="card-inner-content flex flex-col flex-grow"><h3 class="text-3xl font-black uppercase mb-2">Inversor 1200W</h3><p class="text-gray-400 font-bold text-sm uppercase mb-8">Conversão Max</p><div class="mt-auto flex items-center justify-between"><span class="text-3xl font-black text-intel-orange">R$ 2.800</span><button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase hover:scale-105 transition-all">Explorar</button></div></div>
                 </div>
             </div>
         </div>
@@ -258,10 +155,8 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         const canvas = document.getElementById("hero-canvas");
-        const context = canvas.getContext("2d", { alpha: false });
+        const context = canvas.getContext("2d");
         const frameCount = 71;
         const images = [];
         const airVideo = { frame: 0 };
@@ -272,10 +167,7 @@
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
-                if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                }
+                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
                 const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
                 const x = (canvas.width / 2) - (img.width / 2) * scale;
                 const y = (canvas.height / 2) - (img.height / 2) * scale;
@@ -284,91 +176,48 @@
         }
 
         function init() {
-            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
-                document.getElementById("loader").style.display = "none";
-                render();
-            }});
+            gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => { document.getElementById("loader").style.display = "none"; render(); }});
+            const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: render }});
+            tl.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
+            tl.to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1);
+            tl.to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4);
+            tl.to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
 
-            const mainTimeline = gsap.timeline({
-                scrollTrigger: {
-                    trigger: "#scroll-hero",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: isMobile ? 0.3 : 0.6,
-                    onUpdate: render,
-                    invalidateOnRefresh: true
-                }
-            });
-
-            mainTimeline.to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 }, 0);
-            mainTimeline.to("#hero-text-1", { opacity: 1, y: isMobile ? -15 : -40, duration: 2 }, 1);
-            mainTimeline.to("#hero-text-1", { opacity: 0, y: isMobile ? -40 : -100, duration: 2 }, 4);
-            mainTimeline.to("#hero-text-2", { opacity: 1, y: isMobile ? -15 : -40, duration: 2 }, 5.5);
-
-            gsap.to("#organic-path", {
-                attr: { d: isMobile ? "M0,120 C480,240 960,240 1440,120 L1440,320 L0,320 Z" : "M0,60 C480,220 960,220 1440,60 L1440,320 L0,320 Z" },
-                scrollTrigger: {
-                    trigger: "#scroll-hero",
-                    start: "85% top",
-                    end: "bottom top",
-                    scrub: isMobile ? 0.4 : 1
-                }
-            });
+            gsap.to("#organic-path", { attr: { d: "M0,60 C480,220 960,220 1440,60 L1440,320 L0,320 Z" }, scrollTrigger: { trigger: "#scroll-hero", start: "80% top", end: "bottom top", scrub: 1 }});
 
             document.querySelectorAll('[data-target]').forEach(counter => {
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
-                const suffix = counter.innerText.toLowerCase().includes('h') ? 'h' : (counter.innerText.includes('%') ? '%' : '');
-                gsap.to(counter, {
-                    innerText: targetValue,
-                    duration: 2,
-                    ease: "power2.out",
-                    scrollTrigger: { trigger: ".benefits-impact-section", start: "top 90%", toggleActions: "play none none none" },
-                    onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }
+                const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
+                gsap.to(counter, { innerText: targetValue, duration: 2, ease: "power2.out", scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
+            });
+
+            gsap.to(".reveal-text", { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "power4.out", stagger: 0.15, scrollTrigger: { trigger: ".products-section", start: "top 75%" }});
+
+            gsap.from(".product-card", { y: 100, opacity: 0, filter: "blur(20px)", scale: 0.95, duration: 1.5, ease: "power4.out", stagger: 0.2, scrollTrigger: { trigger: ".products-section", start: "top 60%" }});
+
+            gsap.querySelectorAll(".parallax-bg-layer").forEach(layer => {
+                const depth = layer.getAttribute("data-depth");
+                gsap.to(layer, { y: -500 * depth, scrollTrigger: { trigger: ".products-section", start: "top bottom", end: "bottom top", scrub: true }});
+            });
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) - rect.width / 2;
+                    const y = (e.clientY - rect.top) - rect.height / 2;
+                    gsap.to(card, { rotateX: y / -20, rotateY: x / 20, duration: 0.5, ease: "power2.out" });
                 });
+                card.addEventListener('mouseleave', () => { gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: "elastic.out(1, 0.3)" }); });
             });
-
-            gsap.to(".reveal-text", {
-                opacity: 1, y: 0, filter: "blur(0px)", duration: isMobile ? 0.8 : 1.2, ease: "power3.out", stagger: 0.1,
-                scrollTrigger: { trigger: ".products-section", start: isMobile ? "top 92%" : "top 75%" }
-            });
-
-            gsap.from(".product-card", {
-                y: isMobile ? 40 : 100, opacity: 0, filter: isMobile ? "none" : "blur(20px)", scale: isMobile ? 1 : 0.95, duration: isMobile ? 1 : 1.5, ease: "power3.out", stagger: 0.15,
-                scrollTrigger: { trigger: ".products-section", start: isMobile ? "top 88%" : "top 60%" }
-            });
-
-            if (!isMobile) {
-                const cards = document.querySelectorAll('.product-card');
-                cards.forEach(card => {
-                    card.addEventListener('mousemove', e => {
-                        const rect = card.getBoundingClientRect();
-                        const x = (e.clientX - rect.left) - rect.width / 2;
-                        const y = (e.clientY - rect.top) - rect.height / 2;
-                        gsap.to(card, { rotateX: y / -20, rotateY: x / 20, duration: 0.5, ease: "power2.out" });
-                    });
-                    card.addEventListener('mouseleave', () => {
-                        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
-                    });
-                });
-            }
         }
 
         for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = currentFrame(i);
-            img.onload = () => {
-                loadedCount++;
-                document.getElementById("progress").style.width = `${(loadedCount/frameCount)*100}%`;
-                if(loadedCount === frameCount) init();
-            };
+            const img = new Image(); img.src = currentFrame(i);
+            img.onload = () => { loadedCount++; document.getElementById("progress").style.width = `${(loadedCount/frameCount)*100}%`; if(loadedCount === frameCount) init(); };
         }
-
-        let resizeTimer;
-        window.addEventListener("resize", () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(render, 200);
-        });
+        window.addEventListener("resize", render);
     </script>
 </body>
 </html>
