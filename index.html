@@ -24,14 +24,30 @@
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* --- 1. CONFIGURAÇÃO DE CAMADAS (DEPTH) --- */
+        /* --- 1. EFEITO LAYER DEPTH (CAMADAS) --- */
         #scroll-hero { 
             z-index: 20;
             position: relative;
             will-change: transform, clip-path;
-            /* Início com o polígono orgânico */
             clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 85% 98%, 50% 100%, 15% 98%, 0% 100%);
             background-color: #0D1B2A;
+            overflow: visible !important;
+        }
+
+        /* Sombra Dinâmica entre Hero e Produtos */
+        #scroll-hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            pointer-events: none;
+            z-index: 25;
+            opacity: 0;
+            transform: translateY(100%);
+            will-change: opacity;
         }
 
         #hero-canvas { 
@@ -58,28 +74,28 @@
             pointer-events: auto;
         }
 
-        /* --- 2. SEÇÃO DE PRODUTOS COM PROFUNDIDADE --- */
+        /* --- 2. SEÇÃO DE PRODUTOS (PARALLAX SETUP) --- */
         .products-section {
             position: relative;
             z-index: 10;
-            margin-top: -20vh; /* Sobreposição para o efeito de máscara */
+            margin-top: -25vh; 
             background-color: #FFFFFF;
             color: #0D1B2A;
-            padding: 200px 5vw 100px;
-            /* Estado inicial para animação de profundidade */
-            transform: translateY(180px);
-            filter: blur(10px);
-            opacity: 0.8;
+            padding: 250px 5vw 120px;
+            /* Estado inicial para parallax agressivo e foco cinematográfico */
+            transform: translateY(350px);
+            filter: blur(12px) brightness(0.8);
+            opacity: 0.9;
             will-change: transform, filter, opacity;
         }
 
         .product-card {
             background: #f8f9fa;
-            border-radius: 24px;
-            padding: 24px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 28px;
+            padding: 28px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .product-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
+        .product-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -140,13 +156,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 opacity-50 mix-blend-difference">
-                <span class="text-xs uppercase tracking-widest rotate-90 origin-right translate-y-8">Scroll</span>
-                <div class="w-[1px] h-16 bg-intel-white relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-full bg-intel-orange"></div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -157,7 +166,7 @@
                 <div class="w-20 h-1 bg-intel-orange"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="product-card flex flex-col">
                     <div class="aspect-square bg-gray-200 rounded-2xl mb-6 overflow-hidden">
                         <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover" alt="Painel">
@@ -232,7 +241,6 @@
                 requestAnimationFrame(tick);
             }});
 
-            // TIMELINE PRINCIPAL (VÍDEO + TEXTOS)
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#scroll-hero",
@@ -248,37 +256,52 @@
             tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
             tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
 
-            // --- 🎯 LAYER DEPTH INTERACTION (SINCRONIZADO) ---
+            // --- 🎯 PARALLAX REAL E SOMBRAS DINÂMICAS ---
 
-            // 1. Recorte Orgânico do Hero
+            // 1. HERO: Resistência de Movimento e Recuo
             gsap.to("#scroll-hero", {
+                y: -100, // Sobe mais devagar que o scroll
+                scale: 0.96,
                 clipPath: "polygon(0% 0%, 100% 0%, 100% 65%, 85% 82%, 50% 72%, 15% 82%, 0% 65%)",
-                scale: 0.96, // Recuo de profundidade
                 ease: "none",
                 scrollTrigger: {
                     trigger: "#scroll-hero",
-                    start: "85% top", // Começa no final do scroll do vídeo
+                    start: "82% top",
                     end: "bottom top",
                     scrub: 1.2
                 }
             });
 
-            // 2. Subida Sincronizada dos Produtos (Parallax + Focus)
-            gsap.to(".products-section", {
-                y: 0,
-                filter: "blur(0px)",
-                opacity: 1,
+            // 2. SOMBRA: Surge no fundo do Hero conforme os produtos entram
+            gsap.to("#scroll-hero", {
                 ease: "none",
                 scrollTrigger: {
                     trigger: "#scroll-hero",
                     start: "85% top",
+                    end: "bottom top",
+                    scrub: 1.2,
+                    onUpdate: (self) => {
+                        // Aplica opacidade ao ::after dinamicamente
+                        document.styleSheets[0].addRule('#scroll-hero::after', `opacity: ${self.progress};`);
+                    }
+                }
+            });
+
+            // 3. PRODUTOS: Aceleração e Foco Cinematográfico
+            gsap.to(".products-section", {
+                y: 0,
+                filter: "blur(0px) brightness(1)",
+                opacity: 1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#scroll-hero",
+                    start: "82% top",
                     end: "bottom top",
                     scrub: 1.2
                 }
             });
         }
 
-        // CARREGAMENTO DE FRAMES
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
