@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPS | Premium UIX Experience</title>
+    <title>Dips | Tecnologia em Energia</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -26,7 +26,6 @@
             font-family: 'Space Grotesk', sans-serif; 
         }
 
-        /* NAVBAR PREMIUM */
         .glass-navbar {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px) saturate(180%);
@@ -42,15 +41,18 @@
             pointer-events: none;
         }
 
-        #hero-canvas { z-index: 2; object-fit: cover; }
+        /* HERO SEMPRE POR CIMA NO INÍCIO */
+        #hero-canvas { z-index: 10; object-fit: cover; }
         
+        /* PRODUTOS COMEÇAM POR BAIXO E INVISÍVEIS */
         #products-bg {
             position: fixed; inset: 0;
             background: radial-gradient(circle at center, #1B263B 0%, #0D1B2A 100%);
-            z-index: 0; opacity: 0; 
+            z-index: 1; opacity: 0; 
         }
 
-        /* UIX GLASS CARDS */
+        #webgl-canvas { z-index: 5; opacity: 0; }
+
         .uix-card {
             background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(25px);
@@ -93,7 +95,7 @@
 
     <div id="products-bg"></div>
 
-    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 py-3 flex justify-between items-center opacity-0">
+    <nav id="navbar" class="fixed top-0 z-[100] glass-navbar px-8 py-3 flex justify-between items-center opacity-0">
         <div class="hidden md:block w-32"></div> 
         <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
         <div class="w-32 flex justify-end"><i data-lucide="menu" class="text-white cursor-pointer"></i></div>
@@ -103,7 +105,7 @@
         <div class="viewport-container"><canvas id="hero-canvas"></canvas></div>
         <div class="viewport-container"><canvas id="webgl-canvas"></canvas></div>
 
-        <div class="fixed inset-0 flex flex-col justify-center items-center z-10 pointer-events-none">
+        <div class="fixed inset-0 flex flex-col justify-center items-center z-[60] pointer-events-none">
             <div id="hero-txt" class="opacity-0 text-center">
                 <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter font-display">O FUTURO</h1>
                 <h1 class="text-7xl md:text-9xl font-black text-dips-teal tracking-tighter uppercase font-display text-glow">ENERGIA.</h1>
@@ -176,17 +178,20 @@
             const idx = Math.floor(prog * (frameCount - 1));
             if (images[idx]) {
                 heroCanvas.width = window.innerWidth; heroCanvas.height = window.innerHeight;
+                const img = images[idx];
                 const ratio = Math.max(heroCanvas.width / images[idx].width, heroCanvas.height / images[idx].height);
-                const w = images[idx].width * ratio; const h = images[idx].height * ratio;
+                const w = img.width * ratio; const h = img.height * ratio;
                 ctx.clearRect(0,0, heroCanvas.width, heroCanvas.height);
-                ctx.drawImage(images[idx], (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
+                ctx.drawImage(img, (heroCanvas.width-w)/2, (heroCanvas.height-h)/2, w, h);
             }
         }
 
+        // --- MASTER TIMELINE ---
         const masterTl = gsap.timeline({
             scrollTrigger: { trigger: "#main-scroller", start: "top top", end: "bottom bottom", scrub: 1.5 }
         });
 
+        // 1. VÍDEO HERO (Frequência 0-4)
         masterTl.to({}, {
             duration: 4,
             onUpdate: function() {
@@ -195,11 +200,16 @@
             }
         }, 0);
 
+        // 2. TEXTOS PORTUGUÊS HERO
         masterTl.to("#hero-txt", { opacity: 1, y: -20, duration: 1 }, 0.5);
         masterTl.to("#hero-txt", { opacity: 0, scale: 1.3, duration: 1 }, 2);
-        masterTl.to("#hero-canvas", { opacity: 0, duration: 1.5 }, 3.5);
-        masterTl.to("#products-bg", { opacity: 1, duration: 1.5 }, 3.5);
 
+        // 3. TRANSIÇÃO CINEMATOGRÁFICA (AQUI O HERO SAI E OS PRODUTOS ENTRAM)
+        masterTl.to("#hero-canvas", { opacity: 0, scale: 1.1, duration: 1.5, ease: "power2.inOut" }, 3.5);
+        masterTl.to("#products-bg", { opacity: 1, duration: 1.5 }, 3.5);
+        masterTl.to("#webgl-canvas", { opacity: 1, duration: 1.5 }, 3.5);
+
+        // 4. CARDS DE PRODUTOS
         productData.forEach((p, i) => {
             masterTl.to(camera.position, {
                 y: meshes[i].position.y,
@@ -210,7 +220,7 @@
                     document.getElementById('p-title').innerText = p.name;
                     document.getElementById('p-desc').innerText = p.desc;
                 }
-            }, 4 + (i * 3));
+            }, 4.5 + (i * 3));
         });
 
         function animate() {
