@@ -52,8 +52,17 @@
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
         
         .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
-        .benefit-number { font-family: 'Outfit', sans-serif; font-weight: 900; line-height: 0.9; }
-        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 8px; display: block; }
+        
+        /* 🔥 GIGANTIC NUMBERS FORCED */
+        .benefit-number { 
+            font-family: 'Outfit', sans-serif; 
+            font-weight: 900 !important; 
+            line-height: 0.8; 
+            letter-spacing: -0.05em;
+            display: block;
+        }
+        
+        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 15px; display: block; }
         
         .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
         .product-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: border-color 0.3s ease; }
@@ -101,24 +110,25 @@
     </section>
 
     <section class="benefits-impact-section">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto mb-20">
             <h2 class="text-4xl md:text-6xl font-black uppercase mb-4">Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span></h2>
             <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto mt-24">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-[1400px] mx-auto">
             <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span>
-                <p class="font-bold text-sm md:text-base uppercase tracking-widest mt-2">Economia</p>
+                <span class="benefit-number text-8xl md:text-[11rem] text-intel-green-light" data-target="95">-0%</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Economia</p>
                 <span class="benefit-context">na conta de energia</span>
             </div>
             <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span>
-                <p class="font-bold text-sm md:text-base uppercase tracking-widest mt-2">Anos</p>
+                <span class="benefit-number text-8xl md:text-[11rem] text-intel-orange" data-target="25">+0</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Anos</p>
                 <span class="benefit-context">de vida útil média</span>
             </div>
             <div>
-                <span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span>
-                <p class="font-bold text-sm md:text-base uppercase tracking-widest mt-2">Controle</p>
+                <span class="benefit-number text-8xl md:text-[11rem] text-intel-black" data-target="24">0h</span>
+                <p class="font-bold text-lg md:text-xl uppercase tracking-widest mt-4">Controle</p>
                 <span class="benefit-context">de monitoramento inteligente</span>
             </div>
         </div>
