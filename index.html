@@ -24,12 +24,18 @@
             font-family: 'Space Grotesk', sans-serif; 
         }
 
-        /* EFEITO GLASS PREMIUM */
+        /* NAVBAR PREMIUM ARREDONDADA (PILULA) */
         .glass-navbar {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px) saturate(180%);
             -webkit-backdrop-filter: blur(15px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            margin-top: 20px;
+            width: 90%;
+            left: 5%;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
 
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.6); }
@@ -53,18 +59,22 @@
         </div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 glass-navbar px-8 py-3 flex justify-between items-center shadow-2xl">
-        <div class="flex items-center">
-            <img src="logo/LOGO.png" alt="Logo" class="h-12 md:h-16 w-auto object-contain">
+    <nav id="navbar" class="fixed top-0 z-50 glass-navbar px-8 md:px-12 py-3 flex justify-between items-center shadow-2xl">
+        <div class="hidden md:block w-32"></div> 
+
+        <div class="flex items-center justify-center flex-1">
+            <img src="logo/LOGO.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain">
         </div>
         
-        <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.3em] hover:text-dips-teal transition-colors">
-            Menu 
-            <div class="flex flex-col gap-1">
-                <span class="w-6 h-[2px] bg-white"></span>
-                <span class="w-4 h-[2px] bg-dips-teal self-end"></span>
-            </div>
-        </button>
+        <div class="flex items-center justify-end w-32">
+            <button class="flex gap-3 items-center text-xs font-black text-white uppercase tracking-[0.2em] hover:text-dips-teal transition-colors group">
+                <span class="hidden md:inline">Menu</span>
+                <div class="flex flex-col gap-1">
+                    <span class="w-6 h-[2px] bg-white group-hover:bg-dips-teal transition-all"></span>
+                    <span class="w-4 h-[2px] bg-dips-teal self-end"></span>
+                </div>
+            </button>
+        </div>
     </nav>
 
     <section id="scroll-hero" style="height:800vh; position:relative;">
@@ -102,6 +112,7 @@
 
         const canvas = document.getElementById('hero-canvas');
         const context = canvas.getContext('2d');
+        const navbar = document.getElementById('navbar');
         const frameCount = 71; 
         const images = [];
         let loadedImages = 0;
@@ -130,6 +141,10 @@
             canvas.height = window.innerHeight;
             const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
             
+            // Efeito Parallax na Navbar
+            const navMove = Math.min(15, scroll * 60); 
+            navbar.style.transform = `translateY(${-navMove}px) scale(${1 - (scroll * 0.02)})`;
+
             const idx = Math.min(frameCount - 1, Math.floor(scroll * (frameCount - 1)));
             if (images[idx]) drawImage(images[idx]);
 
