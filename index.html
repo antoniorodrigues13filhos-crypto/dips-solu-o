@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dips | Soluções em Distribuição</title>
+    <title>Dips | O Futuro da Energia</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -13,12 +13,14 @@
 
     <style type="text/tailwindcss">
         @theme {
-            --color-dips-navy: #0D1B2A;
-            --color-dips-blue-dark: #1B3A5B;
-            --color-dips-teal: #00C2A8;
-            --color-dips-orange: #FF6B00;
-            --color-dips-white: #FFFFFF;
-            --color-dips-grey: #B0BEC5;
+            /* PALETA ATUALIZADA (NAVY + TEAL + ORANGE) */
+            --color-dips-navy: #0D1B2A;       /* Azul Escuro Profundo */
+            --color-dips-blue-dark: #1B3A5B;  /* Azul Marinho Secundário */
+            --color-dips-teal: #00C2A8;       /* Teal Vibrante (Glow/Destaque) */
+            --color-dips-orange: #FF6B00;     /* Laranja (CTA e Detalhes) */
+            --color-dips-white: #FFFFFF;      /* Texto e Navbar */
+            --color-dips-grey: #B0BEC5;       /* Texto secundário */
+            
             --font-display: 'Outfit', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
         }
@@ -27,59 +29,120 @@
             font-family: var(--font-body);
             background-color: var(--color-dips-navy);
             color: var(--color-dips-white);
-            overflow: hidden; 
+            overflow: hidden; /* Liberado pelo script */
         }
 
+        h1, h2, h3, h4, h5, .font-display { font-family: var(--font-display); }
+
+        .glass-panel {
+            background: rgba(27, 58, 91, 0.4); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 194, 168, 0.1); 
+        }
+
+        /* EFEITO DE BRILHO (GLOW) NO TEXTO CONFORME REFERÊNCIA */
+        .text-glow { 
+            text-shadow: 0 0 25px rgba(0, 194, 168, 0.5); 
+        }
+
+        /* ESTILO DO BOTÃO CTA GRADIENTE (ORANGE TO TEAL) */
         .cta-button {
             background: linear-gradient(90deg, var(--color-dips-orange) 0%, var(--color-dips-teal) 100%);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.2);
         }
         
         .cta-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(0, 194, 168, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 194, 168, 0.3);
         }
 
-        .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.5); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-dips-navy); }
+        ::-webkit-scrollbar-thumb { background: var(--color-dips-blue-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-dips-teal); }
     </style>
 </head>
 <body class="antialiased">
 
     <div id="loader" style="position:fixed;inset:0;background:var(--color-dips-navy);z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease-out,visibility 0.5s;">
         <i data-lucide="sun" class="w-16 h-16 text-dips-teal mb-4 animate-pulse"></i>
-        <div style="width:16rem;height:4px;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
-            <div id="progress-bar" style="height:100%;background:var(--color-dips-teal);width:0%;"></div>
+        <div style="width:16rem;height:0.5rem;background:rgba(255,255,255,0.1);border-radius:9999px;overflow:hidden;">
+            <div id="progress-bar" style="height:100%;background:var(--color-dips-teal);transition:all 100ms ease-out;width:0%;"></div>
         </div>
+        <p id="loading-text" class="text-dips-grey mt-2 text-sm uppercase tracking-widest">Sincronizando Sistema 0%...</p>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm shadow-lg px-8 py-6 md:py-8 flex justify-between items-center pointer-events-auto">
-        <div class="flex items-center gap-2">
-            <img src="logo/LOGO.png" alt="Logo" class="h-14 md:h-20 w-auto object-contain" onerror="this.style.opacity='0'">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm shadow-md px-8 py-5 md:py-6 flex justify-between items-center pointer-events-none">
+        <div class="pointer-events-auto">
+            <img src="logo/LOGO.png" alt="Dips Logo" class="h-14 md:h-18 w-auto object-contain">
         </div>
-        <button class="flex gap-4 items-center text-base uppercase tracking-widest font-black text-dips-navy hover:text-dips-teal transition-colors">
-            MENU <i data-lucide="menu" class="w-8 h-8"></i>
+        <button class="pointer-events-auto flex gap-3 items-center text-sm md:text-base uppercase tracking-widest font-black text-dips-navy hover:text-dips-teal transition-colors">
+            MENU <i data-lucide="menu" class="w-7 h-7"></i>
         </button>
     </nav>
 
-    <section id="scroll-hero" style="height:500vh;position:relative;">
-        <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
-            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+    <section id="scroll-hero" style="height:800vh; position:relative;">
+        <div style="position:sticky; top:0; height:100vh; width:100%; overflow:hidden;">
+            <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;"></canvas>
             
-            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.4) 50%, transparent 100%);z-index:1;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, #0D1B2A 0%, rgba(13, 27, 42, 0.5) 50%, transparent 100%);z-index:1;"></div>
             
-            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:15vh 6vw 0 6vw;">
-                <div id="hero-text-1" class="transition-all duration-300">
-                    <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-black leading-[0.8] uppercase text-white text-glow mb-2">O FUTURO DA</h1>
-                    <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-black leading-[0.8] uppercase text-dips-teal text-glow mb-10">ENERGIA.</h1>
+            <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 6vw;">
+                <div id="hero-text-container" class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center">
                     
-                    <p class="text-dips-grey uppercase tracking-[0.2em] font-bold max-w-3xl text-sm md:text-lg mb-12">
-                        Soluções técnicas e serviços em distribuição de energia.
-                    </p>
-                    
-                    <button class="cta-button px-16 py-6 rounded-full font-black uppercase tracking-widest text-white text-sm md:text-base shadow-xl">
-                        Veja Nossas Soluções
-                    </button>
+                    <div id="hero-text-1" style="will-change: opacity, transform;" class="w-full flex flex-col items-center justify-center transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="w-10 h-[2px] bg-dips-teal block"></span>
+                            <span class="uppercase tracking-[0.2em] text-sm font-bold text-dips-teal">Tecnologia Modular</span>
+                            <span class="w-10 h-[2px] bg-dips-teal block"></span>
+                        </div>
+                        <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-extrabold leading-[0.85] uppercase text-dips-white mb-2">
+                            O Futuro da
+                        </h1>
+                        <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-extrabold leading-[0.85] uppercase text-dips-teal text-glow mb-6">
+                            Energia.
+                        </h1>
+                        <p class="mt-4 text-xl md:text-2xl max-w-2xl text-dips-grey uppercase tracking-wider font-medium">
+                            Soluções técnicas e serviços em distribuição de energia.
+                        </p>
+                    </div>
+
+                    <div id="hero-text-2" style="will-change: opacity, transform;" class="absolute inset-0 w-full flex flex-col items-center justify-center opacity-0 translate-y-20 transition-all duration-300">
+                        <h2 class="font-display text-5xl md:text-7xl font-bold leading-tight uppercase text-dips-white">
+                            Sincronização <br/> <span class="text-dips-orange text-glow">Perfeita.</span>
+                        </h2>
+                        <p class="mt-8 text-xl text-dips-grey uppercase tracking-widest max-w-lg">A RTX 3070 garante zero stutters. Geração, gerenciamento e distribuição operando em harmonia.</p>
+                    </div>
+
+                    <div id="hero-text-3" style="will-change: opacity, transform;" class="absolute inset-0 w-full flex flex-col items-center justify-center opacity-0 translate-y-20 transition-all duration-300">
+                        <h2 class="font-display text-5xl md:text-7xl font-bold uppercase tracking-tight text-dips-white">
+                            Um Ecossistema. <br/> <span class="text-dips-orange text-glow">Poder Absoluto.</span>
+                        </h2>
+                        <div class="mt-12">
+                            <button class="cta-button px-16 py-6 rounded-full font-bold uppercase tracking-widest text-white text-base shadow-xl">
+                                Começar Projeto
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-32 px-6 bg-dips-navy z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-8 glass-panel rounded-2xl">
+                <i data-lucide="sun" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Captação Solar</h3>
+            </div>
+            <div class="p-8 glass-panel rounded-2xl hover:border-dips-orange transition-colors">
+                <i data-lucide="cpu" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Gerenciamento</h3>
+            </div>
+            <div class="p-8 glass-panel rounded-2xl hover:border-dips-teal transition-colors">
+                <i data-lucide="refresh-cw" class="w-10 h-10 text-dips-teal mx-auto mb-6"></i>
+                <h3 class="font-display text-2xl font-bold uppercase text-dips-white">Distribuição</h3>
             </div>
         </div>
     </section>
@@ -88,14 +151,21 @@
         function initLucide() { window.lucide && lucide.createIcons(); }
         initLucide();
 
-        const canvas = document.getElementById('hero-canvas');
-        const context = canvas.getContext('2d');
         const frameCount = 71; 
         const images = [];
         let loadedImages = 0;
-
+        
         const loader = document.getElementById('loader');
         const progressBar = document.getElementById('progress-bar');
+        const canvas = document.getElementById('hero-canvas');
+        const context = canvas.getContext('2d');
+        const heroEl = document.getElementById('scroll-hero');
+        
+        // Novos Elementos de Texto
+        const text1 = document.getElementById('hero-text-1');
+        const text2 = document.getElementById('hero-text-2');
+        const text3 = document.getElementById('hero-text-3');
+
         const baseUrl = "frame/ezgif-frame-"; 
 
         function drawImageProp(img) {
@@ -119,6 +189,42 @@
             const scroll = window.scrollY / (document.getElementById('scroll-hero').offsetHeight - window.innerHeight);
             const index = Math.min(frameCount - 1, Math.floor(Math.max(0, scroll) * (frameCount - 1)));
             if (images[index]) drawImageProp(images[index]);
+
+            // NOVA LÓGICA DE TEXTO DURANTE O SCROLL (DESACELERADO)
+            // Texto 1 (Até 30%)
+            if (scroll < 0.3) {
+                text1.style.opacity = 1 - (scroll * 3.33); // Some gradualmente
+                text1.style.transform = `translateY(${scroll * -100}px)`;
+                text2.style.opacity = 0;
+                text3.style.opacity = 0;
+            } 
+            // Texto 2 (Entra aos 40%, Some aos 70%)
+            else if (scroll >= 0.4 && scroll < 0.7) {
+                text1.style.opacity = 0;
+                const progress2 = (scroll - 0.4) / 0.3; // 0 to 1
+                text2.style.opacity = Math.min(1, progress2 * 1.5);
+                text2.style.transform = `translateY(${(1 - progress2) * 20}px)`;
+                
+                // Fade out final do Texto 2
+                if (scroll > 0.6) {
+                    text2.style.opacity = 1 - ((scroll - 0.6) / 0.1);
+                }
+                text3.style.opacity = 0;
+            } 
+            // Texto 3 (Entra aos 80% até o fim)
+            else if (scroll >= 0.8) {
+                text1.style.opacity = 0;
+                text2.style.opacity = 0;
+                const progress3 = (scroll - 0.8) / 0.2; // 0 to 1
+                text3.style.opacity = progress3 * 1.5;
+                text3.style.transform = `translateY(${(1 - progress3) * 20}px)`;
+            } 
+            // Intervalos vazios
+            else {
+                text1.style.opacity = 0;
+                text2.style.opacity = 0;
+                text3.style.opacity = 0;
+            }
         }
 
         for (let i = 1; i <= frameCount; i++) {
