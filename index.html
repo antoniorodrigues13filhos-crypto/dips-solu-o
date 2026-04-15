@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 
     <style type="text/tailwindcss">
@@ -18,9 +19,15 @@
             --color-dips-orange: #FF6B00;
         }
 
-        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; }
+        body { 
+            background-color: #0D1B2A; 
+            margin: 0; 
+            overflow-x: hidden; 
+            font-family: 'Space Grotesk', sans-serif; 
+            color: white; 
+        }
         
-        #hero-section { height: 1000vh; position: relative; }
+        #hero-section { height: 1200vh; position: relative; }
         
         .canvas-container {
             position: fixed; inset: 0;
@@ -28,9 +35,14 @@
             z-index: 1;
         }
 
-        canvas { width: 100vw; height: 100vh; object-fit: cover; }
+        canvas { 
+            width: 100vw; 
+            height: 100vh; 
+            object-fit: cover;
+            filter: contrast(1.05) brightness(0.95);
+        }
 
-        /* Camadas de Texto Interativo */
+        /* Camadas de Interface UIX */
         .text-layer {
             position: fixed; inset: 0;
             z-index: 10;
@@ -43,9 +55,11 @@
 
         .premium-headline {
             font-family: 'Outfit', sans-serif;
-            @apply text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none;
+            @apply text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none;
             filter: blur(20px);
             opacity: 0;
+            transform: translateY(20px);
+            will-change: filter, opacity, transform;
         }
 
         .cta-button {
@@ -56,22 +70,38 @@
             transform: translateY(30px);
         }
 
-        .cta-button:hover { @apply scale-105; box-shadow: 0 15px 40px rgba(255, 107, 0, 0.5); }
+        .cta-button:hover { 
+            @apply scale-105; 
+            box-shadow: 0 15px 40px rgba(255, 107, 0, 0.5); 
+            background-color: #ff7b1a;
+        }
 
         #loader {
             position: fixed; inset: 0; background: #0D1B2A; z-index: 100;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
+
+        /* Textura de Grão Cinematográfico */
+        .overlay-texture {
+            position: fixed; inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Static_Noise_Texture.png');
+        }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
     <div id="loader">
-        <div class="mb-4 text-[10px] tracking-[0.5em] text-white/40 uppercase">Hardware Syncing</div>
-        <div class="w-48 h-[1px] bg-dips-blue overflow-hidden">
+        <div class="mb-4 text-[10px] tracking-[0.5em] text-dips-teal uppercase font-bold">Hardware Syncing</div>
+        <div class="w-48 h-[2px] bg-dips-blue overflow-hidden rounded-full">
             <div id="progress" class="h-full bg-dips-teal w-0 shadow-[0_0_15px_#00C2A8]"></div>
         </div>
     </div>
+
+    <div class="overlay-texture"></div>
+    <div class="fixed inset-0 z-5 pointer-events-none bg-[radial-gradient(circle,transparent_40%,rgba(13,27,42,0.7)_120%)]"></div>
 
     <div class="text-layer">
         <div id="block-1" class="absolute">
@@ -79,12 +109,12 @@
         </div>
 
         <div id="block-2" class="absolute">
-            <h1 class="premium-headline">Performance <br> <span class="text-white">Modular</span></h1>
-            <p class="mt-6 text-dips-blue font-bold uppercase tracking-[0.4em] opacity-0" id="sub-2">Hardware de Alta Fidelidade</p>
+            <h1 class="premium-headline text-white">Tecnologia <br> <span class="text-dips-teal">Modular</span></h1>
+            <p class="mt-8 text-dips-blue font-bold uppercase tracking-[0.6em] opacity-0 text-sm" id="sub-2">Hardware de Alta Fidelidade</p>
         </div>
 
         <div id="block-3" class="absolute">
-            <h1 class="premium-headline mb-10">Dips <span class="text-dips-teal">Solution</span></h1>
+            <h1 class="premium-headline mb-12">Dips <span class="text-dips-teal">Solution</span></h1>
             <button class="cta-button">Explorar Hardware</button>
         </div>
     </div>
@@ -99,7 +129,7 @@
         gsap.registerPlugin(ScrollTrigger);
 
         const canvas = document.getElementById("video-canvas");
-        const context = canvas.getContext("2d");
+        const context = canvas.getContext("2d", { alpha: false });
         const progress = document.getElementById("progress");
         const loader = document.getElementById("loader");
 
@@ -110,7 +140,7 @@
         const airVideo = { frame: 0 };
         let loadedImagesCount = 0;
 
-        // 1. Pré-carregamento
+        // 1. Pré-carregamento Otimizado
         const preloadImages = () => {
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image();
@@ -127,20 +157,25 @@
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (!img) return;
+
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            
+            context.imageSmoothingEnabled = true;
+            context.imageSmoothingQuality = 'high';
+
             const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
             const x = (canvas.width / 2) - (img.width / 2) * scale;
             const y = (canvas.height / 2) - (img.height / 2) * scale;
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            
             context.drawImage(img, x, y, img.width * scale, img.height * scale);
         }
 
         function initAnimation() {
-            gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => loader.style.display = "none" });
+            // Fade out do loader
+            gsap.to(loader, { opacity: 0, duration: 1.2, ease: "power2.inOut", onComplete: () => loader.style.display = "none" });
 
-            // Timeline para o Vídeo
-            const videoTimeline = gsap.timeline({
+            const masterTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#hero-section",
                     start: "top top",
@@ -149,26 +184,32 @@
                 }
             });
 
-            videoTimeline.to(airVideo, {
+            // 1. Sincronia dos Frames (Duration 10 como base de tempo)
+            masterTl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
                 ease: "none",
+                duration: 10,
                 onUpdate: render
             }, 0);
 
-            // Timeline para os Textos Interativos
-            // BLOCO 1
-            videoTimeline.to("#block-1 .premium-headline", { opacity: 1, filter: "blur(0px)", duration: 1 }, 0.2);
-            videoTimeline.to("#block-1", { opacity: 0, y: -100, duration: 1 }, 1.5);
+            // 2. Ato 1: Abertura (Frames iniciais)
+            masterTl.to("#block-1 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 0.5);
+            masterTl.to("#block-1", { opacity: 0, y: -80, filter: "blur(20px)", duration: 2 }, 2.5);
 
-            // BLOCO 2
-            videoTimeline.to("#block-2 .premium-headline", { opacity: 1, filter: "blur(0px)", duration: 1 }, 2.5);
-            videoTimeline.to("#sub-2", { opacity: 1, duration: 0.5 }, 3);
-            videoTimeline.to("#block-2", { opacity: 0, scale: 0.8, duration: 1 }, 4.5);
+            // 3. Ato 2: Meio do Vídeo (Detalhes técnicos)
+            masterTl.to("#block-2 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 4.5);
+            masterTl.to("#sub-2", { opacity: 1, y: -10, duration: 1 }, 5);
+            masterTl.to("#block-2", { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 2 }, 7.5);
 
-            // BLOCO 3 (FINAL)
-            videoTimeline.to("#block-3 .premium-headline", { opacity: 1, filter: "blur(0px)", duration: 1 }, 5.5);
-            videoTimeline.to("#block-3 .cta-button", { opacity: 1, y: 0, duration: 1 }, 6);
+            // 4. Ato 3: Snap Final (Destaque e CTA)
+            masterTl.to("#block-3 .premium-headline", { opacity: 1, filter: "blur(0px)", y: 0, duration: 2 }, 8.8);
+            masterTl.to("#block-3 .cta-button", { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1.5, 
+                ease: "back.out(1.7)" 
+            }, 9.2);
 
             render();
         }
