@@ -23,12 +23,20 @@
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* 🚀 OTIMIZAÇÃO DE CAMADA PARA MOBILE */
         #hero-canvas { 
             will-change: transform; 
-            transform: translateZ(0); /* Força aceleração por hardware */
+            transform: translateZ(0);
             image-rendering: -webkit-optimize-contrast;
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
+        }
+
+        /* 📱 LOGO ADAPTÁVEL (CLAMP: Min 40px, Ideal 8vw, Max 80px) */
+        .logo-adaptive {
+            height: clamp(40px, 8vw, 80px);
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
+            transition: transform 0.3s ease;
         }
 
         @keyframes scale-y {
@@ -47,8 +55,8 @@
         </div>
     </div>
 
-    <header class="fixed top-0 left-0 w-full z-[100] p-8 flex justify-between items-center pointer-events-none">
-        <img src="logo/LOGO.png" alt="Dips" class="h-12 md:h-16 pointer-events-auto filter drop-shadow-2xl logo-premium" style="filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); transform: translateY(-10px);">
+    <header class="fixed top-0 left-0 w-full z-[100] p-[5vw] md:p-8 flex justify-between items-start pointer-events-none">
+        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive pointer-events-auto">
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
@@ -112,11 +120,7 @@
         lucide.createIcons();
 
         const canvas = document.getElementById("hero-canvas");
-        const context = canvas.getContext("2d", { 
-            alpha: false, 
-            desynchronized: true // ⚡ LATÊNCIA ZERO: Desenha direto no buffer da tela
-        });
-
+        const context = canvas.getContext("2d", { alpha: false, desynchronized: true });
         const frameCount = 71;
         const images = [];
         const airVideo = { frame: 0 };
@@ -124,7 +128,6 @@
 
         const currentFrame = index => `frame/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
 
-        // 🎨 RENDERIZADOR OTIMIZADO
         function render() {
             const img = images[Math.floor(airVideo.frame)];
             if (img) {
@@ -139,7 +142,6 @@
             }
         }
 
-        // 🔄 TICKER: Mantém a fluidez independente do processamento do scroll
         function tick() {
             render();
             requestAnimationFrame(tick);
@@ -148,7 +150,7 @@
         function init() {
             gsap.to("#loader", { opacity: 0, duration: 0.5, onComplete: () => {
                 document.getElementById("loader").style.display = "none";
-                requestAnimationFrame(tick); // Inicia o loop de renderização ultra-fluido
+                requestAnimationFrame(tick);
             }});
 
             const tl = gsap.timeline({
@@ -156,7 +158,7 @@
                     trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.5, // 🚀 RESPOSTA IMEDIATA: Metade do tempo de atraso anterior
+                    scrub: 0.5, 
                     invalidateOnRefresh: true
                 }
             });
