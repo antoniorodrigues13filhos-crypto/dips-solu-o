@@ -41,18 +41,30 @@
             filter: saturate(1.1) contrast(1.1) brightness(0.85);
         }
 
+        /* 🖼️ TEXTURA E BORDAS DO HERO (Vignette) */
+        .hero-edges {
+            position: fixed; inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            /* Gradiente que cria bordas texturizadas e profundidade */
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.9) 100%);
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+        }
+
         .header-ui {
             position: fixed; top: 0; left: 0; width: 100%;
             z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 2.5rem 4rem;
+            /* 📐 SUBI A LOGO: Reduzi o padding superior e aumentei o lateral */
+            padding: 1.5rem 3rem; 
             pointer-events: none;
         }
 
-        /* EFEITO DE LEGIBILIDADE NA LOGO */
         .logo-premium {
-            @apply h-16 md:h-24 object-contain; /* Aumentado significativamente */
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); /* Sombra para legibilidade */
+            @apply h-16 md:h-24 object-contain;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
+            /* Ajuste fino para "colar" mais no canto superior */
+            transform: translateY(-10px); 
         }
 
         .headline-container {
@@ -63,6 +75,11 @@
             z-index: 50;
             pointer-events: none;
             width: 80%;
+        }
+
+        /* ✨ EFEITO PARALLAX NOS TEXTOS (GSAP vai controlar o movimento) */
+        .parallax-wrapper {
+            will-change: transform;
         }
 
         .premium-headline {
@@ -97,21 +114,22 @@
         </div>
     </div>
 
+    <div class="hero-edges"></div>
+
     <header class="header-ui">
         <img src="logo/LOGO.png" alt="Dips" class="logo-premium">
-        
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
     </header>
 
     <div class="headline-container">
-        <div id="block-1" class="absolute">
+        <div id="block-1" class="absolute parallax-wrapper">
             <h1 class="premium-headline text-glow">O FUTURO DA</h1>
             <h1 class="premium-headline text-dips-teal text-glow">ENERGIA.</h1>
         </div>
 
-        <div id="block-2" class="absolute">
+        <div id="block-2" class="absolute parallax-wrapper">
             <h1 class="premium-headline text-glow">TRANSFORME SOL EM</h1>
             <h1 class="premium-headline text-dips-teal text-glow">ECONOMIA REAL.</h1>
             <p class="sub-headline" id="sub-2">E reduza sua conta de energia todos os meses.</p>
@@ -167,6 +185,7 @@
                 }
             });
 
+            // 🎞️ MOTION VIDEO
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
@@ -174,14 +193,20 @@
                 duration: 15 
             }, 0);
 
+            // ✨ 🎯 PARALLAX NOS TEXTOS (Efeito de profundidade no scroll)
+            // Enquanto o vídeo rola, o texto se move em uma velocidade diferente (Y)
+            tl.to(".parallax-wrapper", { y: -100, ease: "none", duration: 15 }, 0);
+
+            // ATO 1
             tl.to("#block-1 .premium-headline", { 
                 opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
             }, 0.5);
             
             tl.to("#block-1", { 
-                opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
+                opacity: 0, y: -120, filter: "blur(20px)", duration: 2.5 
             }, 4.5);
 
+            // ATO 2
             tl.to("#block-2 .premium-headline", { 
                 opacity: 1, y: 0, filter: "blur(0px)", duration: 2, stagger: 0.15 
             }, 6);
@@ -191,7 +216,7 @@
             }, 7);
 
             tl.to("#block-2", { 
-                opacity: 0, y: -60, filter: "blur(20px)", duration: 2.5 
+                opacity: 0, y: -120, filter: "blur(20px)", duration: 2.5 
             }, 12.5);
         }
 
