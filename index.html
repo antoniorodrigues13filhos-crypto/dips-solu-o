@@ -20,6 +20,13 @@
             --color-intel-white: #FFFFFF;
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
+        
+        /* 💡 O SEGREDO DO AFTER EFFECTS: MÁSCARAS DE REVELAÇÃO */
+        .reveal-mask {
+            overflow: hidden;
+            display: block;
+        }
+
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
@@ -30,19 +37,10 @@
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
         }
 
-        /* 🎯 CORREÇÃO DEFINITIVA DA LOGO NO MOBILE */
         .header-ui {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            /* Padding fixo em pixels para mobile, escala em desktop */
-            padding: 20px 24px; 
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 24px; pointer-events: none;
         }
 
         @media (min-width: 768px) {
@@ -50,7 +48,7 @@
         }
 
         .logo-adaptive {
-            height: clamp(32px, 6vw, 64px); /* Tamanho otimizado para não "comer" a tela */
+            height: clamp(32px, 6vw, 64px);
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
@@ -80,26 +78,29 @@
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:1;"></div>
             
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
-                <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
+                <div id="hero-text-container" class="relative w-full max-w-7xl mx-auto">
                     
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="w-8 h-[2px] bg-intel-orange block"></span>
-                            <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full opacity-0">
+                        <div class="reveal-mask">
+                            <div class="flex items-center gap-3 mb-4 layer-item">
+                                <span class="w-8 h-[2px] bg-intel-orange block"></span>
+                                <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Status: Conectado</span>
+                            </div>
                         </div>
-                        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight uppercase text-intel-white text-glow">
-                            O Futuro da <br/> <span class="text-intel-green-light">Energia.</span>
-                        </h1>
-                        <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/70">
-                            Uma arquitetura de hardware revolucionária que transforma cada raio de luz em eficiência máxima.
-                        </p>
+                        <div class="reveal-mask">
+                            <h1 class="font-display text-6xl md:text-8xl lg:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase text-intel-white text-glow layer-item">
+                                O FUTURO DA <br/> <span class="text-intel-green-light">ENERGIA™</span>
+                            </h1>
+                        </div>
                     </div>
 
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform">
-                        <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
-                            Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
-                        </h2>
-                        <div class="mt-8 flex flex-col md:flex-row gap-6">
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0">
+                        <div class="reveal-mask">
+                             <h2 class="font-display text-4xl md:text-7xl font-bold leading-none tracking-tighter uppercase layer-item">
+                                Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
+                            </h2>
+                        </div>
+                        <div class="mt-8 flex flex-col md:flex-row gap-6 layer-item">
                             <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
                                 <div class="bg-intel-green-light p-3 rounded-full"><i data-lucide="sun" class="w-6 h-6 text-intel-black"></i></div>
                                 <div><p class="text-xs text-intel-white/50 uppercase">Módulo 01</p><p class="font-bold">Captação</p></div>
@@ -108,12 +109,9 @@
                                 <div class="bg-intel-orange p-3 rounded-full"><i data-lucide="cpu" class="w-6 h-6 text-intel-black"></i></div>
                                 <div><p class="text-xs text-intel-white/50 uppercase">Módulo 02</p><p class="font-bold">Controle PWM</p></div>
                             </div>
-                            <div class="flex items-center gap-4 glass-panel p-4 rounded-xl">
-                                <div class="bg-intel-white p-3 rounded-full"><i data-lucide="zap" class="w-6 h-6 text-intel-black"></i></div>
-                                <div><p class="text-xs text-intel-white/50 uppercase">Módulo 03</p><p class="font-bold">Inversão 1200W</p></div>
-                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             
@@ -169,11 +167,12 @@
                     trigger: "#scroll-hero",
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 0.5, 
+                    scrub: 0.8, // ⚡ Deixei levemente mais lento para sentir a transição de layers
                     invalidateOnRefresh: true
                 }
             });
 
+            // 1. ANIMAÇÃO DO VÍDEO
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
@@ -181,9 +180,33 @@
                 duration: 10
             }, 0);
 
-            tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
-            tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
-            tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
+            // 2. TRANSIÇÃO AFTER EFFECTS - BLOCO 1
+            // Os itens sobem de dentro da "reveal-mask"
+            tl.to("#hero-text-1", { opacity: 1, duration: 0.1 }, 0.5);
+            tl.from("#hero-text-1 .layer-item", {
+                yPercent: 100,
+                rotateX: -20,
+                stagger: 0.2,
+                duration: 2,
+                ease: "power4.out"
+            }, 0.5);
+
+            // Saída do Bloco 1 (Fade + Slide pra cima)
+            tl.to("#hero-text-1", { 
+                opacity: 0, 
+                y: -100, 
+                filter: "blur(20px)", 
+                duration: 2 
+            }, 4);
+
+            // 3. TRANSIÇÃO AFTER EFFECTS - BLOCO 2
+            tl.to("#hero-text-2", { opacity: 1, duration: 0.1 }, 5.5);
+            tl.from("#hero-text-2 .layer-item", {
+                yPercent: 100,
+                stagger: 0.2,
+                duration: 2,
+                ease: "power4.out"
+            }, 5.5);
         }
 
         for (let i = 1; i <= frameCount; i++) {
