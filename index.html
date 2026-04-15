@@ -30,20 +30,31 @@
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
         }
 
-        /* 📱 LOGO ADAPTÁVEL (CLAMP: Min 40px, Ideal 8vw, Max 80px) */
+        /* 🎯 CORREÇÃO DEFINITIVA DA LOGO NO MOBILE */
+        .header-ui {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Padding fixo em pixels para mobile, escala em desktop */
+            padding: 20px 24px; 
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .header-ui { padding: 40px 60px; }
+        }
+
         .logo-adaptive {
-            height: clamp(40px, 8vw, 80px);
+            height: clamp(32px, 6vw, 64px); /* Tamanho otimizado para não "comer" a tela */
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
-            transition: transform 0.3s ease;
-        }
-
-        @keyframes scale-y {
-            0%, 100% { transform: scaleY(0); transform-origin: top; }
-            50% { transform: scaleY(1); transform-origin: top; }
-            51% { transform: scaleY(1); transform-origin: bottom; }
-            100% { transform: scaleY(0); transform-origin: bottom; }
+            pointer-events: auto;
         }
     </style>
 </head>
@@ -55,8 +66,8 @@
         </div>
     </div>
 
-    <header class="fixed top-0 left-0 w-full z-[100] p-[5vw] md:p-8 flex justify-between items-start pointer-events-none">
-        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive pointer-events-auto">
+    <header class="header-ui">
+        <img src="logo/LOGO.png" alt="Dips" class="logo-adaptive">
         <div class="flex items-center gap-2 text-white font-bold text-[10px] tracking-[0.3em] uppercase opacity-70">
             Menu <span class="block w-6 h-[1px] bg-white"></span>
         </div>
@@ -71,7 +82,7 @@
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
                 <div id="hero-text-container" class="relative w-full max-w-5xl mx-auto">
                     
-                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform will-change-opacity">
+                    <div id="hero-text-1" class="absolute bottom-0 left-0 w-full will-change-transform">
                         <div class="flex items-center gap-3 mb-4">
                             <span class="w-8 h-[2px] bg-intel-orange block"></span>
                             <span class="uppercase tracking-widest text-sm font-bold text-intel-orange">Alta Performance</span>
@@ -84,7 +95,7 @@
                         </p>
                     </div>
 
-                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform will-change-opacity">
+                    <div id="hero-text-2" class="absolute bottom-0 left-0 w-full opacity-0 translate-y-12 will-change-transform">
                         <h2 class="font-display text-4xl md:text-6xl font-bold leading-tight tracking-tight uppercase">
                             Três Tecnologias. <br/> <span class="text-intel-orange">Um Ecossistema.</span>
                         </h2>
