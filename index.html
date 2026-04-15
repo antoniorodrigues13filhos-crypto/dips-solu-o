@@ -23,11 +23,29 @@
         .text-glow { text-shadow: 0 0 30px rgba(0, 194, 168, 0.4); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
+        /* 1. OTIMIZAÇÃO DE CANVAS E TEXTURA DE BORDAS */
         #hero-canvas { 
-            will-change: transform; 
+            will-change: transform, clip-path; 
             transform: translateZ(0);
             image-rendering: -webkit-optimize-contrast;
             filter: saturate(1.1) contrast(1.1) brightness(0.9);
+        }
+
+        /* Camada de vinheta/textura superior para profundidade */
+        .hero-texture-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle, transparent 40%, rgba(13,27,42,0.4) 70%, rgba(13,27,42,0.8) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 2. CONFIGURAÇÃO PARA O LAYER REVEAL (MÁSCARA) */
+        #scroll-hero {
+            z-index: 20;
+            position: relative;
+            /* Inicia sem recorte */
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            background-color: #0D1B2A;
         }
 
         .header-ui {
@@ -64,10 +82,11 @@
         </div>
     </header>
 
-    <section id="scroll-hero" style="height:800vh;position:relative;">
+    <section id="scroll-hero" style="height:800vh;">
         <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
             <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></canvas>
             
+            <div class="hero-texture-overlay"></div>
             <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:1;"></div>
             
             <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:10vh 5vw;">
@@ -107,13 +126,14 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 opacity-50 mix-blend-difference">
-                <span class="text-xs uppercase tracking-widest rotate-90 origin-right translate-y-8">Scroll</span>
-                <div class="w-[1px] h-16 bg-intel-white relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-full bg-intel-orange"></div>
-                </div>
-            </div>
+        </div>
+    </section>
+
+    <section class="relative py-32 px-6 bg-[#000] z-10">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="font-display text-4xl md:text-6xl font-bold uppercase text-intel-white">
+                Sistemas <span class="text-intel-orange">Sincronizados</span>
+            </h2>
         </div>
     </section>
 
@@ -165,6 +185,7 @@
                 }
             });
 
+            // VÍDEO ROLANDO
             tl.to(airVideo, {
                 frame: frameCount - 1,
                 snap: "frame",
@@ -172,11 +193,25 @@
                 duration: 10
             }, 0);
 
+            // TIMING DOS TEXTOS
             tl.to("#hero-text-1", { opacity: 1, y: 0, duration: 2 }, 0.5);
             tl.to("#hero-text-1", { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, 4);
             tl.to("#hero-text-2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 }, 5.5);
+
+            // 🎯 EFEITO LAYER REVEAL (TRANSICAO FINAL)
+            gsap.to("#scroll-hero", {
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 75%, 0% 95%)",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#scroll-hero",
+                    start: "85% top", // Começa o corte nos últimos 15% do scroll
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
         }
 
+        // PRELOAD OTIMIZADO
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             img.src = currentFrame(i);
