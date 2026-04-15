@@ -52,7 +52,6 @@
             padding: 20px 24px;
         }
 
-        /* --- 💎 ESTILOS BENEFÍCIOS --- */
         .benefits-impact-section {
             background-color: #FFFFFF;
             color: #0D1B2A;
@@ -76,16 +75,66 @@
             display: block;
         }
 
+        /* 🌌 PREMIUM PRODUCTS SECTION ENHANCEMENTS */
         .products-section {
             position: relative;
             z-index: 60;
             background-color: #FFFFFF;
             color: #0D1B2A;
-            padding: 100px 5vw;
+            padding: 160px 5vw;
+            overflow: hidden;
+            perspective: 2000px;
+        }
+
+        .parallax-bg-layer {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: -1;
+            will-change: transform;
+        }
+
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(13, 27, 42, 0.08);
+            border-radius: 40px;
+            padding: 40px;
+            transform-style: preserve-3d;
+            will-change: transform, opacity, filter;
+            transition: border-color 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+
+        .product-card img {
+            transform: translateZ(50px);
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+            pointer-events: none;
+        }
+
+        .card-inner-content {
+            transform: translateZ(30px);
         }
     </style>
 </head>
 <body class="antialiased">
+
+    <div class="noise-overlay"></div>
 
     <div id="loader" class="fixed inset-0 bg-intel-black z-[100] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
@@ -153,12 +202,60 @@
     </section>
 
     <section class="products-section">
+        <div class="parallax-bg-layer bg-intel-orange w-96 h-96 top-0 -left-20" data-depth="0.1"></div>
+        <div class="parallax-bg-layer bg-intel-green-light w-80 h-80 bottom-0 -right-20" data-depth="0.2"></div>
+        
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl font-black uppercase mb-10 text-intel-black">Hardware de Elite</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-gray-100 aspect-square rounded-3xl"></div>
-                <div class="bg-gray-100 aspect-square rounded-3xl"></div>
-                <div class="bg-gray-100 aspect-square rounded-3xl"></div>
+            <div class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div>
+                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter">Hardware <br/> de Elite</h2>
+                    <div class="w-32 h-2 bg-intel-orange"></div>
+                </div>
+                <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-xs">Tecnologia modular de alta precisão para sistemas sustentáveis.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="product-card flex flex-col">
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50">
+                        <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full h-full object-cover transition-transform duration-700" alt="Painel">
+                    </div>
+                    <div class="card-inner-content flex flex-col flex-grow">
+                        <h3 class="text-3xl font-black uppercase mb-2 tracking-tight">Painel HP 160W</h3>
+                        <p class="text-gray-400 font-bold text-sm uppercase tracking-widest mb-8">Captação Pura</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-3xl font-black text-intel-orange">R$ 1.200</span>
+                            <button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card flex flex-col">
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50">
+                        <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full h-full object-cover transition-transform duration-700" alt="PWM">
+                    </div>
+                    <div class="card-inner-content flex flex-col flex-grow">
+                        <h3 class="text-3xl font-black uppercase mb-2 tracking-tight">Controlador PWM</h3>
+                        <p class="text-gray-400 font-bold text-sm uppercase tracking-widest mb-8">Gestão Inteligente</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-3xl font-black text-intel-orange">R$ 450</span>
+                            <button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card flex flex-col">
+                    <div class="aspect-square rounded-3xl mb-10 overflow-hidden bg-white/50">
+                        <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full h-full object-cover transition-transform duration-700" alt="Microinversor">
+                    </div>
+                    <div class="card-inner-content flex flex-col flex-grow">
+                        <h3 class="text-3xl font-black uppercase mb-2 tracking-tight">Inversor 1200W</h3>
+                        <p class="text-gray-400 font-bold text-sm uppercase tracking-widest mb-8">Conversão Max</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-3xl font-black text-intel-orange">R$ 2.800</span>
+                            <button class="bg-intel-black text-white px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all">Explorar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -226,7 +323,6 @@
                 yoyo: true
             });
 
-            // 🎯 SCRIPT DO CONTADOR ANIMADO
             document.querySelectorAll('[data-target]').forEach(counter => {
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
@@ -244,6 +340,64 @@
                     onUpdate: function() {
                         counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix;
                     }
+                });
+            });
+
+            // ⚡ APPLE STORE ENTRANCE & PARALLAX
+            gsap.from(".product-card", {
+                y: 150,
+                opacity: 0,
+                filter: "blur(20px)",
+                scale: 0.9,
+                duration: 1.5,
+                ease: "power4.out",
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: ".products-section",
+                    start: "top 70%",
+                }
+            });
+
+            gsap.querySelectorAll(".parallax-bg-layer").forEach(layer => {
+                const depth = layer.getAttribute("data-depth");
+                gsap.to(layer, {
+                    y: -500 * depth,
+                    scrollTrigger: {
+                        trigger: ".products-section",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // 🧊 3D HOVER INTERACTION
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+                    
+                    gsap.to(card, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        duration: 1,
+                        ease: "elastic.out(1, 0.3)"
+                    });
                 });
             });
         }
