@@ -21,27 +21,18 @@
         }
         body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
         
-        /* 🍎 NAV APPLE PRECISE ADJUSTMENTS */
+        /* 🍎 APPLE GLOBAL NAV STANDARDS */
         .apple-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 44px; /* Altura padrão Apple */
+            height: 48px;
             z-index: 1000;
-            
-            /* 1. Vidro Colorido Suave */
-            background: rgba(22, 33, 49, 0.75); 
+            background: rgba(13, 27, 42, 0.8);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            
-            /* 2. Highlight e Borda Premium */
-            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            
-            /* 3. Micro Textura Noise */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-            
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -50,23 +41,15 @@
         .nav-content {
             width: 100%;
             max-width: 1024px;
-            padding: 0 20px;
+            padding: 0 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* 📏 LOGO SIZE CORRIGIDA */
-        .nav-logo-img {
-            height: 18px; /* Proporção exata Apple */
-            width: auto;
-            opacity: 0.95;
-            transition: opacity 0.3s ease;
-        }
-
         .nav-link {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             font-weight: 400;
             transition: color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -79,14 +62,18 @@
             .nav-link:not(.mobile-visible) { display: none; }
         }
 
-        /* HARDWARE ENGINE ELEMENTS */
         #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; }
         #scroll-hero { position: relative; z-index: 10; }
-        .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
+
+        .wave-container {
+            position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none;
+        }
         .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
-        .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 100px 5vw; position: relative; z-index: 55; text-align: center; }
+
+        .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
         .benefit-number { font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; line-height: 1; }
-        .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; overflow: hidden; }
+        .benefit-context { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(13, 27, 42, 0.4); margin-top: 8px; display: block; }
+        .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
         .reveal-text { opacity: 0; transform: translateY(30px); filter: blur(10px); }
     </style>
 </head>
@@ -94,10 +81,7 @@
 
     <nav class="apple-nav">
         <div class="nav-content">
-            <a href="#" class="mobile-visible">
-                <img src="logo/LOGO.png" alt="Dips" class="nav-logo-img">
-            </a>
-            
+            <a href="#" class="mobile-visible"><img src="logo/LOGO.png" alt="Dips" class="h-4"></a>
             <a href="#" class="nav-link">Quem Somos</a>
             <a href="#" class="nav-link">Produtos</a>
             <a href="#" class="nav-link">Inovação e Tecnologia</a>
@@ -105,15 +89,14 @@
             <a href="#" class="nav-link">Catálogo</a>
             <a href="#" class="nav-link">Dúvidas</a>
             <a href="#" class="nav-link">Contato</a>
-            
             <div class="flex items-center gap-6">
-                <i data-lucide="search" class="w-4 h-4 text-white/80 cursor-pointer hover:text-white transition-colors"></i>
-                <i data-lucide="shopping-bag" class="w-4 h-4 text-white/80 cursor-pointer hover:text-white transition-colors mobile-visible"></i>
+                <i data-lucide="search" class="w-4 h-4 text-white/70 cursor-pointer hover:text-white transition-colors"></i>
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-white/70 cursor-pointer hover:text-white transition-colors mobile-visible"></i>
             </div>
         </div>
     </nav>
 
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
+    <div id="loader" class="fixed inset-0 bg-intel-black z-[1100] flex flex-col justify-center items-center">
         <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
             <div id="progress" class="h-full bg-intel-green-light w-0"></div>
         </div>
@@ -147,16 +130,41 @@
     </section>
 
     <section class="benefits-impact-section">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <div><span class="benefit-number text-intel-green-light" data-target="95">-0%</span><p class="uppercase tracking-widest font-bold text-xs">Economia</p><span class="text-xs text-black/40 font-bold uppercase mt-2 block">na conta de energia</span></div>
-            <div><span class="benefit-number text-intel-orange" data-target="25">+0</span><p class="uppercase tracking-widest font-bold text-xs">Anos</p><span class="text-xs text-black/40 font-bold uppercase mt-2 block">de vida útil média</span></div>
-            <div><span class="benefit-number text-intel-black" data-target="24">0h</span><p class="uppercase tracking-widest font-bold text-xs">Controle</p><span class="text-xs text-black/40 font-bold uppercase mt-2 block">monitoramento inteligente</span></div>
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] mb-4">
+                Liberdade Energética <br/> <span class="text-gray-400">ao seu alcance.</span>
+            </h2>
+            <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Investimento inteligente com retorno imediato.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto mt-20">
+            <div>
+                <span class="benefit-number text-intel-green-light" data-target="95">-0%</span>
+                <p class="uppercase tracking-widest font-bold text-xs">Economia</p>
+                <span class="benefit-context">na conta de energia</span>
+            </div>
+            <div>
+                <span class="benefit-number text-intel-orange" data-target="25">+0</span>
+                <p class="uppercase tracking-widest font-bold text-xs">Anos</p>
+                <span class="benefit-context">de vida útil média</span>
+            </div>
+            <div>
+                <span class="benefit-number text-intel-black" data-target="24">0h</span>
+                <p class="uppercase tracking-widest font-bold text-xs">Controle</p>
+                <span class="benefit-context">de monitoramento inteligente</span>
+            </div>
         </div>
     </section>
 
     <section class="products-section">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 text-intel-black tracking-tighter reveal-text">Produtos <span class="text-intel-orange">Elite.</span></h2>
+            <div class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div>
+                    <h2 class="text-6xl md:text-8xl font-black uppercase mb-4 text-intel-black tracking-tighter reveal-text">Liberdade energética <br/> <span class="text-intel-orange">ao seu alcance.</span></h2>
+                    <p class="text-intel-black/40 uppercase font-bold tracking-widest text-sm max-w-md reveal-text">Energia inteligente, sob seu controle. Arquitetura modular de alta precisão para performance sustentável e máxima eficiência.</p>
+                </div>
+            </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="bg-gray-50 p-10 rounded-[40px] border border-black/5">
                     <div class="aspect-square bg-white rounded-3xl mb-8"></div>
