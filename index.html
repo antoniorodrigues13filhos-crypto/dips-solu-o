@@ -48,7 +48,6 @@
             border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Glass Input Style */
         .glass-input {
             background: rgba(13, 27, 42, 0.05); border: 1px solid rgba(13, 27, 42, 0.1);
             border-radius: 15px; padding: 15px 20px; width: 100%; outline: none; transition: all 0.3s ease;
@@ -160,9 +159,12 @@
                 <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
                     <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=500" class="w-full h-full object-cover">
                 </div>
-                <div class="product-card flex flex-col justify-center items-center text-center p-6 bg-intel-black! text-white!">
-                    <p class="text-4xl font-black text-intel-orange">+150</p>
-                    <p class="text-xs font-bold uppercase tracking-widest mt-2">Famílias Economizando em Anápolis</p>
+                <div class="h-64 relative rounded-3xl overflow-hidden shadow-lg group">
+                    <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?q=80&w=500" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="absolute inset-0 bg-intel-black/80 flex flex-col justify-center items-center text-center p-6 text-white">
+                        <p class="text-4xl font-black text-intel-orange" data-target="150">+0</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest mt-2">Famílias Economizando em Anápolis</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +204,6 @@
         gsap.registerPlugin(ScrollTrigger);
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-        // --- ⚙️ CONTROLE DE PRELOAD SUAVE ---
         const frameCount = 71;
         let loadedImages = 0;
         let realProgress = 0;
@@ -266,7 +267,18 @@
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
                 const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
-                gsap.to(counter, { innerText: targetValue, duration: 2, scrollTrigger: { trigger: ".benefits-impact-section", start: "top 80%" }, onUpdate: function() { counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; }});
+                
+                gsap.to(counter, { 
+                    innerText: targetValue, 
+                    duration: 2, 
+                    scrollTrigger: { 
+                        trigger: counter, // Gatilho individual para cada número
+                        start: "top 90%" 
+                    }, 
+                    onUpdate: function() { 
+                        counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; 
+                    }
+                });
             });
 
             gsap.utils.toArray(".product-card").forEach((card, i) => {
