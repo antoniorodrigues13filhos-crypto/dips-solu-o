@@ -143,7 +143,7 @@
                     <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=500" class="w-full h-full object-cover">
                 </div>
                 <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1509391366360-fe5bb65830bb?q=80&w=500" class="w-full h-full object-cover">
+                    <img src="engineer-electric-woman-checking-maintenance-solar-cells.jpg" class="w-full h-full object-cover">
                 </div>
                 <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
                     <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=500" class="w-full h-full object-cover">
@@ -230,6 +230,7 @@
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
                 const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
+                
                 gsap.to(counter, { 
                     innerText: targetValue, 
                     duration: 2, 
