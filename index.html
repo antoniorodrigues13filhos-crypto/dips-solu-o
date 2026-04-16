@@ -1,256 +1,432 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dips | Hardware Experience</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Net Informática | Performance Elite</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 
     <style type="text/tailwindcss">
         @theme {
-            --color-intel-orange: #FF6B00;
-            --color-intel-green-light: #00C2A8;
-            --color-intel-black: #0D1B2A;
-            --color-intel-white: #FFFFFF;
-        }
-        body { background-color: #0D1B2A; margin: 0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; color: white; -webkit-overflow-scrolling: touch; }
-        
-        .header-ui {
-            position: fixed !important; top: 20px !important; left: 50% !important; transform: translateX(-50%) !important;
-            width: min(95%, 1100px) !important; display: flex !important; justify-content: space-between !important;
-            align-items: center !important; padding: 12px 28px !important; background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(15px) saturate(180%) !important; -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; border-radius: 999px !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important; z-index: 1000 !important;
+            --color-tech-bg: #0D0D0D; 
+            --color-tech-primary: #FF7A00; 
+            --color-tech-primary-light: #FFA726;
+            --color-tech-accent: #FFC107;
+            --font-sans: 'Space Grotesk', sans-serif;
         }
 
-        .nav-links-container { display: flex; gap: 20px; align-items: center; }
-        .nav-item { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #000000 !important; text-decoration: none; transition: opacity 0.3s ease; }
-        .nav-item:hover { opacity: 0.6; }
-
-        @media (max-width: 1024px) { .nav-links-container { display: none; } }
-
-        #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; }
-        #scroll-hero { position: relative; z-index: 10; }
-        
-        .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
-        .benefit-number { font-family: 'Outfit', sans-serif; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; display: block; }
-        
-        .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
-        .product-card { 
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); 
-            border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        @layer base {
+            body { 
+                @apply bg-tech-bg text-white antialiased overflow-x-hidden; 
+                font-family: var(--font-sans);
+            }
         }
 
-        #progress {
-            transition: width 0.2s ease-out;
-            box-shadow: 0 0 15px rgba(0, 194, 168, 0.8), 0 0 5px rgba(0, 194, 168, 0.4);
-            will-change: width;
+        @layer utilities {
+            .hero-grid {
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 2rem;
+                width: 100%;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 2rem;
+            }
+
+            .btn-glow {
+                box-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+                transition: all 0.3s ease;
+            }
+            .btn-glow:hover {
+                box-shadow: 0 0 35px rgba(255, 167, 38, 0.6);
+                transform: translateY(-2px);
+            }
+
+            .headline-main {
+                @apply text-4xl md:text-7xl font-black uppercase tracking-tighter mb-6 leading-[0.95];
+                background: linear-gradient(135deg, #FFF 30%, rgba(255,255,255,0.5) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            }
+
+            .text-highlight {
+                -webkit-text-fill-color: var(--color-tech-primary) !important;
+                @apply text-tech-primary;
+            }
+
+            .subheadline-main {
+                @apply text-lg md:text-xl text-white/80 font-medium mb-10 max-w-2xl leading-relaxed;
+            }
+
+            .text-group {
+                grid-column: 1 / span 10;
+                text-align: left;
+                opacity: 0;
+                transform: translateY(40px);
+                filter: blur(15px);
+                transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                pointer-events: none;
+            }
+
+            .text-group.active {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+                pointer-events: auto;
+            }
+
+            .product-card {
+                @apply relative overflow-hidden transition-all duration-500;
+                background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+                border: 1px solid rgba(255,255,255,0.08);
+                box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+                will-change: transform;
+            }
+
+            .product-card::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,122,0,0.15) 0%, transparent 50%);
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+
+            .product-card:hover::before {
+                opacity: 1;
+            }
+
+            .card-reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            .card-reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .delay-1 { transition-delay: 0.1s; }
+            .delay-2 { transition-delay: 0.2s; }
+            .delay-3 { transition-delay: 0.3s; }
+
+            #preloader {
+                @apply fixed inset-0 z-[100] bg-tech-bg flex flex-col items-center justify-center transition-opacity duration-700;
+            }
+            .load-bar-container {
+                @apply w-48 h-[2px] bg-white/10 overflow-hidden relative;
+            }
+            .load-bar-fill {
+                @apply absolute top-0 left-0 h-full bg-tech-primary w-0 transition-all duration-500 ease-out;
+                box-shadow: 0 0 15px var(--color-tech-primary);
+            }
+
+            @keyframes scan {
+                0% { left: -100%; }
+                100% { left: 150%; }
+            }
         }
-        
-        .wave-container { position: absolute; bottom: -2px; left: 0; width: 100%; height: 160px; z-index: 50; pointer-events: none; }
-        .wave-container svg { width: 100%; height: 100%; fill: #FFFFFF; filter: drop-shadow(0px -15px 25px rgba(0,0,0,0.08)); }
+
+        .hero-sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background: transparent;
+        }
+
+        @media (min-width: 768px) {
+            .hero-overlay {
+                background: radial-gradient(circle at 20% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="h-6 md:h-7">
-        <nav class="nav-links-container">
-            <a href="#" class="nav-item">Produtos</a>
-            <a href="#" class="nav-item">Inovação e Tecnologia</a>
-            <a href="#" class="nav-item">Fornecedores</a>
-            <a href="#" class="nav-item">Catálogo</a>
-            <a href="#" class="nav-item">Dúvidas</a>
-        </nav>
-        <div class="nav-item cursor-pointer font-bold text-intel-orange hidden md:block">Anápolis - GO</div>
-    </header>
-
-    <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
-        <div class="w-48 h-[2px] bg-white/10 overflow-hidden">
-            <div id="progress" class="h-full bg-intel-green-light w-0"></div>
+    <div id="preloader">
+        <div class="mb-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Iniciando Sistemas</div>
+        <div class="load-bar-container">
+            <div id="load-fill" class="load-bar-fill"></div>
         </div>
-        <p class="text-[10px] uppercase tracking-[0.4em] mt-4 opacity-40">Carregando Experiência</p>
     </div>
 
-    <section id="scroll-hero" style="height:800vh;">
-        <div style="position:sticky;top:0;height:100vh;width:100%;overflow:hidden;">
+    <nav class="fixed top-0 left-0 w-full z-50 bg-tech-bg/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <span class="font-black text-xl tracking-tighter uppercase">Center<span class="text-tech-primary">Net</span></span>
+            <a href="#contato" class="bg-tech-primary text-tech-bg px-6 py-2 text-[10px] font-black uppercase tracking-widest btn-glow">WhatsApp Elite</a>
+        </div>
+    </nav>
+
+    <section id="scroll-hero" class="relative" style="height: 600vh;">
+        <div class="hero-sticky-container">
             <canvas id="hero-canvas"></canvas>
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.95) 0%,rgba(13,27,42,0.4) 40%, transparent 100%);z-index:5;"></div>
-            <div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;padding:15vh 8vw;pointer-events:none;">
-                <div id="hero-text-1" class="opacity-0 translate-y-20">
-                    <h1 class="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">Pague Menos <br/> <span class="text-intel-green-light">Energia.</span></h1>
-                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Reduza até 95% da sua conta mensal com tecnologia alemã modular.</p>
+            <div class="hero-overlay"></div>
+            
+            <div class="hero-grid relative z-10">
+                <div id="step-1" class="text-group">
+                    <h2 class="headline-main">O seu fluxo de trabalho <span class="text-highlight">não pode parar</span> por limitações técnicas.</h2>
                 </div>
-                <div id="hero-text-2" class="absolute opacity-0 translate-y-20">
-                    <h2 class="text-5xl md:text-8xl font-black uppercase leading-[0.8] tracking-tighter">Investimento com <br/> <span class="text-intel-orange">Retorno Real.</span></h2>
-                    <p class="mt-6 text-lg md:text-2xl max-w-xl text-intel-white/60">Sua casa produzindo lucro. Tecnologia que se paga em tempo recorde.</p>
-                </div>
-            </div>
-            <div class="wave-container">
-                <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,160 C320,300 1120,300 1440,160 L1440,320 L0,320 Z" fill="#FFFFFF"></path></svg>
-            </div>
-        </div>
-    </section>
 
-    <section class="benefits-impact-section">
-        <div class="max-w-4xl mx-auto mb-20">
-            <h2 class="text-4xl md:text-6xl font-black uppercase mb-4 tracking-tighter">Sua Liberdade <br/> <span class="text-gray-400">começa aqui.</span></h2>
-            <p class="uppercase tracking-[0.3em] font-bold text-xs opacity-50">Tecnologia de ponta para quem busca inteligência financeira.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-7xl mx-auto">
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-green-light" data-target="95">-0%</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Economia na Conta</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-orange" data-target="25">+0</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Anos de Vida Útil</p></div>
-            <div><span class="benefit-number text-7xl md:text-9xl text-intel-black" data-target="24">0h</span><p class="font-bold text-lg uppercase tracking-widest mt-4">Monitoramento AI</p></div>
-        </div>
-    </section>
+                <div id="step-2" class="text-group absolute">
+                    <h2 class="headline-main">Esqueça a lentidão e os <span class="text-highlight">travamentos</span> que interrompem sua produtividade.</h2>
+                </div>
 
-    <section class="products-section">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 tracking-tighter">Hardware <span class="text-intel-orange">Premium.</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="product-card">
-                    <img src="produtos/produto-8942-placa-solar-policristalino-160w.jpg" class="w-full aspect-square object-cover rounded-2xl mb-8 shadow-xl">
-                    <h3 class="text-3xl font-black uppercase">Painel HP Max</h3>
-                    <p class="text-gray-500 mt-2">Captação ultra-eficiente mesmo em dias nublados.</p>
-                    <p class="text-intel-green-light font-bold text-xl mt-4">Máxima Performance</p>
-                </div>
-                <div class="product-card">
-                    <img src="produtos/CONTROLADOR DE CARGA PWM ECP 1024 1224V 10A.png" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                    <h3 class="text-3xl font-black uppercase">Smart Guard</h3>
-                    <p class="text-gray-500 mt-2">Tecnologia que protege e faz o sistema durar 2x mais.</p>
-                    <p class="text-intel-green-light font-bold text-xl mt-4">Segurança Total</p>
-                </div>
-                <div class="product-card">
-                    <img src="produtos/MICROINVERSOR 1200W EGT 1200.png" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                    <h3 class="text-3xl font-black uppercase">Ultra Inversor</h3>
-                    <p class="text-gray-500 mt-2">Converte cada raio de sol em dinheiro no seu bolso.</p>
-                    <p class="text-intel-green-light font-bold text-xl mt-4">Eficiência Alemã</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-40 max-w-7xl mx-auto">
-            <h2 class="text-4xl font-black uppercase mb-12 tracking-tighter border-l-4 border-intel-orange pl-6 text-intel-black">Instalações em <span class="text-intel-orange">Destaque.</span></h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=500" class="w-full h-full object-cover">
-                </div>
-                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
-                    <img src="img/mulher.jpg.jpg" class="w-full h-full object-cover">
-                </div>
-                <div class="h-64 bg-gray-200 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=500" class="w-full h-full object-cover">
-                </div>
-                <div class="h-64 relative rounded-3xl overflow-hidden shadow-lg group">
-                    <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?q=80&w=500" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
-                    <div class="absolute inset-0 bg-intel-black/80 flex flex-col justify-center items-center text-center p-6 text-white">
-                        <p class="text-4xl font-black text-intel-orange" data-target="150">+0</p>
-                        <p class="text-[9px] font-bold uppercase tracking-widest mt-2">Famílias Economizando em Anápolis</p>
+                <div id="step-3" class="text-group absolute">
+                    <h2 class="headline-main">Na Center Net, unimos <span class="text-highlight">Hardware de Elite</span> e manutenção.</h2>
+                    <p class="subheadline-main text-white">Performance máxima. Estabilidade absoluta. Soluções sob medida para o seu resultado.</p>
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <a href="#produtos" class="inline-flex items-center justify-center border border-white/40 px-10 py-5 text-sm font-black uppercase tracking-widest bg-black/20 backdrop-blur-sm hover:bg-black/40 transition-all">
+                            Conheça nossos produtos
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-intel-black py-10 text-center text-[10px] uppercase tracking-[0.5em] text-white/20">
-        Dips Hardware © 2026 - Anápolis, Goiás
-    </footer>
+    <section id="produtos" class="py-32 bg-tech-bg relative z-20 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter card-reveal">
+                    Vitrine <span class="text-tech-primary">Elite Performance</span>
+                </h2>
+                <p class="text-white/40 uppercase tracking-[0.3em] text-[10px] font-bold card-reveal delay-1">
+                    // Hardware selecionado por especialistas
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="product-card card-reveal delay-1 group p-8 bg-black/40 backdrop-blur-md border border-white/5 hover:border-tech-primary/50 transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-tech-primary/10 to-transparent skew-x-[-25deg] group-hover:animate-[scan_1.5s_ease-in-out_infinite]"></div>
+                    
+                    <div class="mb-2 flex justify-between items-start">
+                        <span class="text-[9px] font-black bg-tech-primary text-black px-2 py-1 uppercase tracking-tighter">Gamer Pro</span>
+                        <span class="text-[9px] font-bold text-white/30 uppercase tracking-widest">ID: CN-5600</span>
+                    </div>
+
+                    <div class="mb-8 h-56 flex items-center justify-center relative z-10">
+                        <img src="produtos/amdryzen5.png" alt="AMD Ryzen 5 5600GT" class="w-full h-full object-contain group-hover:scale-110 group-hover:rotate-2 transition-transform duration-700 drop-shadow-[0_20px_50px_rgba(255,122,0,0.15)]">
+                    </div>
+
+                    <h3 class="text-2xl font-black uppercase mb-4 leading-tight group-hover:text-tech-primary transition-colors">AMD Ryzen 5 <br> 5600GT Performance</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8 pt-4 border-t border-white/5">
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">Processador</p>
+                            <p class="text-xs font-bold text-white/80">6 Cores / 12 Threads</p>
+                        </div>
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">Gráficos</p>
+                            <p class="text-xs font-bold text-white/80">Radeon™ 7-Core</p>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/seunumeroprofissional?text=Olá,+tenho+interesse+no+PC+Ryzen+5600GT" target="_blank" class="w-full bg-white/5 border border-white/10 hover:bg-tech-primary hover:text-black py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2">
+                        Orçamento Instantâneo
+                    </a>
+                </div>
+
+                <div class="product-card card-reveal delay-2 group p-8 bg-black/40 backdrop-blur-md border border-white/5 hover:border-tech-primary/50 transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-tech-primary/10 to-transparent skew-x-[-25deg] group-hover:animate-[scan_1.5s_ease-in-out_infinite]"></div>
+                    
+                    <div class="mb-2 flex justify-between items-start">
+                        <span class="text-[9px] font-black bg-white text-black px-2 py-1 uppercase tracking-tighter">High-End Laptop</span>
+                        <span class="text-[9px] font-bold text-white/30 uppercase tracking-widest">ID: CN-NITRO-V</span>
+                    </div>
+
+                    <div class="mb-8 h-56 flex items-center justify-center relative z-10">
+                        <img src="produtos/nitrov5.png" alt="Nitro V Intel Core" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_20px_50px_rgba(255,122,0,0.1)]">
+                    </div>
+
+                    <h3 class="text-2xl font-black uppercase mb-4 leading-tight group-hover:text-tech-primary transition-colors">Acer Nitro V <br> Intel Core RTX</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8 pt-4 border-t border-white/5">
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">Tela</p>
+                            <p class="text-xs font-bold text-white/80">144Hz IPS FHD</p>
+                        </div>
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">GPU</p>
+                            <p class="text-xs font-bold text-white/80">NVIDIA RTX Series</p>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/seunumeroprofissional?text=Olá,+gostaria+de+consultar+o+estoque+do+Acer+Nitro+V" target="_blank" class="w-full bg-white/5 border border-white/10 hover:bg-tech-primary hover:text-black py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2">
+                        Consultar Estoque
+                    </a>
+                </div>
+
+                <div class="product-card card-reveal delay-3 group p-8 bg-black/40 backdrop-blur-md border border-white/5 hover:border-tech-primary/50 transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-tech-primary/10 to-transparent skew-x-[-25deg] group-hover:animate-[scan_1.5s_ease-in-out_infinite]"></div>
+                    
+                    <div class="mb-2 flex justify-between items-start">
+                        <span class="text-[9px] font-black bg-tech-primary text-black px-2 py-1 uppercase tracking-tighter">Peças Elite</span>
+                        <span class="text-[9px] font-bold text-white/30 uppercase tracking-widest">ID: CN-RTX-3060</span>
+                    </div>
+
+                    <div class="mb-8 h-56 flex items-center justify-center relative z-10">
+                        <img src="produtos/rtx3090.png" alt="Placa de Video RTX 3060" class="w-full h-full object-contain group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-700 drop-shadow-[0_20px_50px_rgba(255,122,0,0.15)]">
+                    </div>
+
+                    <h3 class="text-2xl font-black uppercase mb-4 leading-tight group-hover:text-tech-primary transition-colors">Placa de Vídeo <br> RTX 3060 OC</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8 pt-4 border-t border-white/5">
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">Memória VRAM</p>
+                            <p class="text-xs font-bold text-white/80">12GB GDDR6</p>
+                        </div>
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">Arquitetura</p>
+                            <p class="text-xs font-bold text-white/80">Ampere Architecture</p>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/seunumeroprofissional?text=Olá,+tenho+interesse+na+RTX+3060" target="_blank" class="w-full bg-white/5 border border-white/10 hover:bg-tech-primary hover:text-black py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2">
+                        Ver Preços
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        lucide.createIcons();
 
-        const frameCount = 71;
-        let loadedImages = 0;
-        let realProgress = 0;
-        let displayedProgress = 0;
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 700);
+            }, 800);
+        });
 
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / card.clientWidth) * 100;
+                const y = ((e.clientY - rect.top) / card.clientHeight) * 100;
+                card.style.setProperty('--x', `${x}%`);
+                card.style.setProperty('--y', `${y}%`);
+            });
+        });
+
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        const frameCount = 100;
         const images = [];
-        const airVideo = { frame: 0 };
+        let loadedCount = 0;
+        const baseUrl = "./hardline/ezgif-frame-";
 
-        function updateProgress() {
-            realProgress = loadedImages / frameCount;
-        }
+        let currentFrame = 0;
+        let targetFrame = 0;
+        let lastTime = 0;
+        const speed = 0.012; 
 
-        function animateProgress() {
-            displayedProgress += (realProgress - displayedProgress) * 0.04;
-            const progressBar = document.getElementById("progress");
-            if (progressBar) progressBar.style.width = `${displayedProgress * 100}%`;
-            if (displayedProgress < 0.999) requestAnimationFrame(animateProgress);
-        }
-
-        animateProgress();
-
-        const canvas1 = document.getElementById("hero-canvas");
-        const ctx1 = canvas1.getContext("2d");
-
-        function renderCanvas(canvas, ctx, imgs, obj) {
-            const img = imgs[Math.floor(obj.frame)];
-            if (img) {
-                const ratio = window.devicePixelRatio || 1;
-                canvas.width = window.innerWidth * ratio;
-                canvas.height = window.innerHeight * ratio;
-                canvas.style.width = window.innerWidth + "px";
-                canvas.style.height = window.innerHeight + "px";
-                ctx.setTransform(1, 0, 0, 1, 0, 0); 
-                ctx.scale(ratio, ratio);
-
-                const scale = Math.max(window.innerWidth / img.width, window.innerHeight / img.height);
-                const x = (window.innerWidth / 2) - (img.width / 2) * scale;
-                const y = (window.innerHeight / 2) - (img.height / 2) * scale;
-                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+        function preloadImages() {
+            for (let i = 1; i <= frameCount; i++) {
+                const img = new Image();
+                img.src = `${baseUrl}${i.toString().padStart(3, '0')}.jpg`;
+                if (i <= 15) img.loading = "eager";
+                img.onload = () => {
+                    loadedCount++;
+                    document.getElementById('load-fill').style.width = `${(loadedCount / frameCount) * 100}%`;
+                    if (loadedCount === 1) renderFrame(0);
+                    if (loadedCount === frameCount) requestAnimationFrame(mainLoop);
+                };
+                images.push(img);
             }
         }
 
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = `frame/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.onload = () => { loadedImages++; updateProgress(); if(loadedImages === frameCount) setTimeout(initAll, 1200); };
-            images.push(img);
+        function mainLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+
+            const diff = targetFrame - currentFrame;
+            currentFrame += diff * Math.min(1, speed * deltaTime);
+
+            if (Math.abs(diff) > 0.01) {
+                renderFrame(Math.round(currentFrame));
+            }
+            requestAnimationFrame(mainLoop);
         }
 
-        function initAll() {
-            gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => document.getElementById("loader").style.display = "none" });
-            renderCanvas(canvas1, ctx1, images, airVideo);
+        function renderFrame(index) {
+            const safeIndex = Math.max(0, Math.min(frameCount - 1, index));
+            const img = images[safeIndex];
+            if (!img || !img.complete) return;
 
-            gsap.timeline({ scrollTrigger: { trigger: "#scroll-hero", start: "top top", end: "bottom bottom", scrub: 0.6, onUpdate: () => renderCanvas(canvas1, ctx1, images, airVideo) }})
-                .to(airVideo, { frame: frameCount - 1, snap: "frame", ease: "none", duration: 10 })
-                .to("#hero-text-1", { opacity: 1, y: -40, duration: 2 }, 1)
-                .to("#hero-text-1", { opacity: 0, y: -100, duration: 2 }, 4)
-                .to("#hero-text-2", { opacity: 1, y: -40, duration: 2 }, 5.5);
+            const canvasRatio = canvas.width / canvas.height;
+            const imgRatio = img.width / img.height;
+            let rw, rh, ox = 0, oy = 0;
 
-            document.querySelectorAll('[data-target]').forEach(counter => {
-                const targetValue = parseInt(counter.getAttribute('data-target'));
-                const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
-                const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
-                
-                gsap.to(counter, { 
-                    innerText: targetValue, 
-                    duration: 2, 
-                    scrollTrigger: { 
-                        trigger: counter,
-                        start: "top 90%" 
-                    }, 
-                    onUpdate: function() { 
-                        counter.innerText = prefix + Math.floor(this.targets()[0].innerText) + suffix; 
-                    }
-                });
-            });
-
-            gsap.utils.toArray(".product-card").forEach((card, i) => {
-                gsap.from(card, { opacity: 0, y: 80, rotateX: 10, scale: 0.95, scrollTrigger: { trigger: card, start: "top 85%" }, duration: 1.2, delay: i * 0.15 });
-                gsap.to(card, { y: isMobile ? -20 : -50, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true }});
-            });
+            if (canvasRatio > imgRatio) {
+                rw = canvas.width; rh = img.height * (canvas.width / img.width);
+                oy = (canvas.height - rh) / 2;
+            } else {
+                rh = canvas.height; rw = img.width * (canvas.height / img.height);
+                ox = (canvas.width - rw) / 2;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, ox, oy, rw, rh);
         }
 
-        window.addEventListener("resize", () => { renderCanvas(canvas1, ctx1, images, airVideo); });
+        window.addEventListener('scroll', () => {
+            const scrollArea = document.getElementById('scroll-hero');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = scrollArea.scrollHeight - window.innerHeight;
+            const scrollFraction = Math.max(0, Math.min(1, scrollTop / scrollHeight));
+            
+            targetFrame = scrollFraction * (frameCount - 1);
+
+            const s1 = document.getElementById('step-1');
+            const s2 = document.getElementById('step-2');
+            const s3 = document.getElementById('step-3');
+            s1.classList.remove('active'); s2.classList.remove('active'); s3.classList.remove('active');
+
+            if (scrollFraction > 0.05 && scrollFraction < 0.3) s1.classList.add('active');
+            else if (scrollFraction >= 0.35 && scrollFraction < 0.6) s2.classList.add('active');
+            else if (scrollFraction >= 0.65) s3.classList.add('active');
+
+            if (scrollFraction >= 0.93) {
+                document.querySelectorAll('.card-reveal').forEach(el => el.classList.add('active'));
+            }
+        });
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            renderFrame(Math.round(currentFrame));
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        preloadImages();
     </script>
 </body>
 </html>
