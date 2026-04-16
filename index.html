@@ -24,28 +24,29 @@
         .header-ui {
             position: fixed !important; top: 20px !important; left: 50% !important; transform: translateX(-50%) !important;
             width: min(95%, 1100px) !important; display: flex !important; justify-content: space-between !important;
-            align-items: center !important; padding: 12px 24px !important; background: rgba(255, 255, 255, 0.85) !important;
+            align-items: center !important; padding: 12px 28px !important; background: rgba(255, 255, 255, 0.85) !important;
             backdrop-filter: blur(15px) saturate(180%) !important; -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important; border-radius: 999px !important;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important; z-index: 1000 !important;
         }
 
-        .nav-links-container { display: flex; gap: 15px; align-items: center; }
-        .nav-item { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #000000 !important; text-decoration: none; transition: opacity 0.3s ease; white-space: nowrap; }
+        .nav-links-container { display: flex; gap: 20px; align-items: center; }
+        .nav-item { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #000000 !important; text-decoration: none; transition: opacity 0.3s ease; }
         .nav-item:hover { opacity: 0.6; }
 
-        @media (max-width: 768px) { 
-            .nav-links-container { gap: 10px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
-            .nav-links-container::-webkit-scrollbar { display: none; }
-            .nav-item { font-size: 8px; }
-            .location-tag { font-size: 8px !important; }
-        }
+        @media (max-width: 1024px) { .nav-links-container { display: none; } }
 
-        .glass-input {
-            background: rgba(13, 27, 42, 0.05); border: 1px solid rgba(13, 27, 42, 0.1);
-            border-radius: 15px; padding: 15px 20px; width: 100%; outline: none; transition: all 0.3s ease;
+        #hero-canvas { display: block; width: 100vw; height: 100vh; object-fit: cover; position: relative; z-index: 1; }
+        #scroll-hero { position: relative; z-index: 10; }
+        
+        .benefits-impact-section { background-color: #FFFFFF; color: #0D1B2A; padding: 120px 5vw; position: relative; z-index: 55; text-align: center; }
+        .benefit-number { font-family: 'Outfit', sans-serif; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; display: block; }
+        
+        .products-section { position: relative; z-index: 60; background-color: #FFFFFF; color: #0D1B2A; padding: 160px 5vw; overflow: hidden; perspective: 2000px; }
+        .product-card { 
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(13, 27, 42, 0.08); 
+            border-radius: 40px; padding: 40px; transform-style: preserve-3d; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .glass-input:focus { border-color: #FF6B00; background: rgba(13, 27, 42, 0.08); }
 
         #progress {
             transition: width 0.2s ease-out;
@@ -60,14 +61,15 @@
 <body class="antialiased">
 
     <header class="header-ui">
-        <img src="logo/LOGO.png" alt="Dips" class="h-5 md:h-7 mr-4">
+        <img src="logo/LOGO.png" alt="Dips" class="h-6 md:h-7">
         <nav class="nav-links-container">
-            <a href="#orcamento" class="nav-item">Solicitar Orçamento</a>
-            <a href="#" class="nav-item">Inovação</a>
+            <a href="#" class="nav-item">Produtos</a>
+            <a href="#" class="nav-item">Inovação e Tecnologia</a>
             <a href="#" class="nav-item">Fornecedores</a>
+            <a href="#" class="nav-item">Catálogo</a>
             <a href="#" class="nav-item">Dúvidas</a>
         </nav>
-        <div class="nav-item location-tag font-bold text-intel-orange ml-4">Anápolis - GO</div>
+        <div class="nav-item cursor-pointer font-bold text-intel-orange hidden md:block">Anápolis - GO</div>
     </header>
 
     <div id="loader" class="fixed inset-0 bg-intel-black z-[2000] flex flex-col justify-center items-center">
@@ -75,12 +77,6 @@
             <div id="progress" class="h-full bg-intel-green-light w-0"></div>
         </div>
         <p class="text-[10px] uppercase tracking-[0.4em] mt-4 opacity-40">Carregando Experiência</p>
-    </div>
-
-    <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[900] w-max">
-        <div class="bg-intel-orange text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest animate-pulse">
-            ⚡ Condições especiais para as próximas 10 instalações em Goiás
-        </div>
     </div>
 
     <section id="scroll-hero" style="height:800vh;">
@@ -163,32 +159,6 @@
         </div>
     </section>
 
-    <section id="orcamento" class="relative z-70 bg-white py-32 px-5">
-        <div class="max-w-xl mx-auto bg-white border border-gray-100 p-10 md:p-16 rounded-[50px] shadow-2xl">
-            <div class="text-center mb-10">
-                <h2 class="text-4xl font-black uppercase text-intel-black leading-tight tracking-tighter">Solicite seu <br/> <span class="text-intel-orange">Orçamento Grátis.</span></h2>
-                <p class="text-gray-400 text-sm mt-4 font-bold uppercase tracking-widest">Resposta em menos de 24 horas</p>
-            </div>
-            <form class="space-y-6">
-                <div>
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">Nome Completo</label>
-                    <input type="text" placeholder="Ex: João Silva" class="glass-input text-intel-black">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">WhatsApp</label>
-                    <input type="tel" placeholder="(62) 9 9999-9999" class="glass-input text-intel-black">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-4 mb-2 block">Valor Médio da Conta (R$)</label>
-                    <input type="number" placeholder="Ex: 450" class="glass-input text-intel-black">
-                </div>
-                <button type="submit" class="w-full bg-intel-black text-white font-black uppercase tracking-widest py-5 rounded-2xl hover:bg-intel-orange transition-colors duration-300 shadow-xl">
-                    Gerar Minha Economia ⚡
-                </button>
-            </form>
-        </div>
-    </section>
-
     <footer class="bg-intel-black py-10 text-center text-[10px] uppercase tracking-[0.5em] text-white/20">
         Dips Hardware © 2026 - Anápolis, Goiás
     </footer>
@@ -260,7 +230,6 @@
                 const targetValue = parseInt(counter.getAttribute('data-target'));
                 const prefix = counter.innerText.includes('-') ? '-' : (counter.innerText.includes('+') ? '+' : '');
                 const suffix = counter.innerText.includes('%') ? '%' : (counter.innerText.includes('h') ? 'h' : '');
-                
                 gsap.to(counter, { 
                     innerText: targetValue, 
                     duration: 2, 
